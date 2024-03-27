@@ -38,7 +38,7 @@ public class VentanaTotem extends JFrame {
 	 */
 	public VentanaTotem() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 337, 254);
+		setBounds(100, 100, 337, 277);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -87,7 +87,11 @@ public class VentanaTotem extends JFrame {
 		panel.add(btn9);
 		
 		JButton btnConfirmarDni = new JButton("Confirmar");
-		btnConfirmarDni.setBounds(89, 165, 140, 23);
+		btnConfirmarDni.setBounds(89, 187, 140, 23);
 		contentPane.add(btnConfirmarDni);
+		
+		JButton btn0 = new JButton("0");
+		btn0.setBounds(89, 165, 140, 23);
+		contentPane.add(btn0);
 	}
 }
