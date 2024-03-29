@@ -54,7 +54,7 @@ public class VentanaSupervisor extends JFrame {
 		panel.setBounds(10, 11, 302, 61);
 		contentPane.add(panel);
 		
-		JLabel lblCantiadDePersonas = new JLabel("Cantiad de personas atendidas:");
+		JLabel lblCantiadDePersonas = new JLabel("Cantidad de personas atendidas:");
 		panel.add(lblCantiadDePersonas);
 		lblCantiadDePersonas.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		

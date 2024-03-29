@@ -51,7 +51,7 @@ public class VentanaTotem extends JFrame {
 		textField.setColumns(10);
 		
 		JLabel lblDni = new JLabel("Ingrese DNI:");
-		lblDni.setBounds(128, 33, 62, 14);
+		lblDni.setBounds(128, 33, 80, 14);
 		contentPane.add(lblDni);
 		
 		JPanel panel = new JPanel();
