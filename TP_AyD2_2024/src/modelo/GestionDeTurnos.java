@@ -24,6 +24,12 @@ public class GestionDeTurnos {
 		else
 			System.out.println("turno no encontrado");
 	}
+	
+	public void llevarTurnoAPantalla() {
+		Turno turno = colaDeTurnos.get(0);
+		
+		//LO QUE VAYA A PASAR DE MEDIO PARA CONECTAR ESTO CON EL TELEVISOR
+	}
 	 
 	 
 }
