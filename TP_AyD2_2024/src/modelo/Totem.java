@@ -7,6 +7,14 @@ public class Totem {
 		super();
 		this.dni = dni;
 	}
+
+	public int getDni() {
+		return dni;
+	}
+
+	public void setDni(int dni) {
+		this.dni = dni;
+	}
 	
 	
 }
