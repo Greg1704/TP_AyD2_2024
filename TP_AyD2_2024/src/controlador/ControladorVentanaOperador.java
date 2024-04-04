@@ -10,20 +10,18 @@ public class ControladorVentanaOperador implements ActionListener{
 
 	private VentanaOperador ventanaOperador; 
 	
-
+	
 	public ControladorVentanaOperador() {
 		super();
 		this.ventanaOperador = new VentanaOperador();
-		//this.ventanaOperador.setActionListener();
+		this.ventanaOperador.setControlador(this);
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		if (e.getActionCommand().equalsIgnoreCase("Llamar siguiente")) { 
+			System.out.println("hola");
+		}
 	}
-	
-	
 	
 }
 

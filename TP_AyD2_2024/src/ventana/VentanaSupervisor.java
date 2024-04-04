@@ -10,36 +10,24 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+
 import javax.swing.JTable;
 import javax.swing.border.LineBorder;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.MatteBorder;
+
+import controlador.ControladorVentanaOperador;
+import controlador.ControladorVentanaSupervisor;
+
 import javax.swing.border.CompoundBorder;
 
 public class VentanaSupervisor extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaSupervisor frame = new VentanaSupervisor();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
+	private ControladorVentanaSupervisor controladorVentanaSupervisor;
+	
 	public VentanaSupervisor() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 588, 307);
@@ -105,4 +93,16 @@ public class VentanaSupervisor extends JFrame {
 		panel_5_2.setBounds(315, 201, 250, 61);
 		contentPane.add(panel_5_2);
 	}
+	
+	public void setControlador(ControladorVentanaSupervisor controladorVentanaSupervisor) {
+		this.controladorVentanaSupervisor = controladorVentanaSupervisor;
+		this.inicializa(controladorVentanaSupervisor); 
+	}
+
+	private void inicializa(ControladorVentanaSupervisor controladorVentanaSupervisor2) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 }
