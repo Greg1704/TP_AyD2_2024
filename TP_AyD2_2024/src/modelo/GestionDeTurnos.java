@@ -21,6 +21,8 @@ public class GestionDeTurnos {
 			i++;
 		if(i<colaDeTurnos.size())
 			colaDeTurnos.remove(i);
+		else
+			System.out.println("turno no encontrado");
 	}
 	 
 	 
