@@ -8,6 +8,9 @@ import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
+
+import controlador.ControladorVentanaPantallaTV;
+
 import java.awt.Color;
 import java.awt.Font;
 
@@ -15,6 +18,7 @@ public class VentanaPantallaTV extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private ControladorVentanaPantallaTV controladorVentanaPantallaTV;
 
 	/**
 	 * Launch the application.
@@ -123,6 +127,10 @@ public class VentanaPantallaTV extends JFrame {
 		JLabel lblPantallaBox4 = new JLabel("4");
 		lblPantallaBox4.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		panel_9.add(lblPantallaBox4);
+	}
+	
+	public void setControlador (ControladorVentanaPantallaTV controladorVentanaPantallaTV) {
+		this.controladorVentanaPantallaTV  = controladorVentanaPantallaTV;
 	}
 
 }
