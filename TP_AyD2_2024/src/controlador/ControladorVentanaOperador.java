@@ -3,7 +3,7 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import Ventana.VentanaOperador;
+import ventana.VentanaOperador;
 
 
 public class ControladorVentanaOperador implements ActionListener{
