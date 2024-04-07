@@ -9,14 +9,5 @@ public class Operador {
 	}
 
 
-	public int getNroBox() {
-		return nroBox;
-	}
-
-
-	public void setNroBox(int nroBox) {
-		this.nroBox = nroBox;
-	}
-	
 	
 }

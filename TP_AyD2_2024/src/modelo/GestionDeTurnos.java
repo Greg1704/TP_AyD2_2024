@@ -6,6 +6,8 @@ import java.util.List;
 public class GestionDeTurnos {
 	 List<Turno> colaDeTurnos;
 
+	 
+	 
 	public GestionDeTurnos() {
 		this.colaDeTurnos = new ArrayList<Turno>();
 	}
