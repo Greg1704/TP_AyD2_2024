@@ -4,6 +4,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -15,36 +17,33 @@ public class Servidor {
 	public static void main(String[] args) { 
 		ServerSocket servidor = null; 
 		Socket sc = null;
-		DataInputStream in;
-		DataOutputStream out;
-		final int Port = 10000; 
+	
+		final int port = 10000; 
+		byte[] buffer = new byte[1024];
+		
 		ArrayList<Integer> conexiones = new ArrayList<>(); 
 		
 		
 		 
 		try {
-			servidor = new ServerSocket();
+			DatagramSocket socketUDP = new DatagramSocket(port); 
 			System.out.println("Servidor inciado");
 			
-			while(true) { //espera a que alguien se una
-				sc = servidor.accept();
+			while(true) {
+				DatagramPacket entrada = new DatagramPacket(buffer, buffer.length);
+				socketUDP.receive(entrada);
 				
-				in = new DataInputStream(sc.getInputStream());
-				out = new DataOutputStream(sc.getOutputStream());
+				String dni = new String(entrada.getData());
+				int puertoEntrada = entrada.getPort();
+				InetAddress direccion = entrada.getAddress();
 				
-				String mensaje = in.readUTF(); 
-				System.out.println(mensaje);
+				conexiones.add(puertoEntrada);
+				System.out.println("se establecio la conexion con: " + puertoEntrada);
 				
-				out.writeUTF("Turno recibido");
+				System.out.println(dni);
+				System.out.println(conexiones);
 				
-				sc.close();
-				System.out.println("Cliente desconectado");
-				
-			}
-			
-			
-			
-			
+				}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
