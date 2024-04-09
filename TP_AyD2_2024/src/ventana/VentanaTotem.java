@@ -201,19 +201,18 @@ public class VentanaTotem extends JFrame {
 		textField.getDocument().addDocumentListener(new DocumentListener() {
 			
 			@Override
-			public void removeUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
 			public void insertUpdate(DocumentEvent e) {
-				// TODO Auto-generated method stub
-				
+				textField.setForeground(Color.BLACK);
 			}
 			
 			@Override
 			public void changedUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
 				// TODO Auto-generated method stub
 				
 			}
