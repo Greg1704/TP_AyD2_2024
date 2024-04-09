@@ -92,6 +92,9 @@ public class VentanaSupervisor extends JFrame {
 		panel_5_2.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_5_2.setBounds(315, 201, 250, 61);
 		contentPane.add(panel_5_2);
+		
+		
+		this.setVisible(true);
 	}
 	
 	public void setControlador(ControladorVentanaSupervisor controladorVentanaSupervisor) {

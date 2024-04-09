@@ -56,6 +56,7 @@ public class VentanaTotem extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaTotem() { //falta boton de borrar
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 337, 277);
 		contentPane = new JPanel();
@@ -181,6 +182,8 @@ public class VentanaTotem extends JFrame {
 				textField.setText(""); //habria que desplegar alguna ventana que diga "gracias, espere su turno o algo asi"
 			}
 		});
+		
+		this.setVisible(true);
 	}
 		
 	public void setControlador(ControladorVentanaTotem controladorVentanaTotem) {

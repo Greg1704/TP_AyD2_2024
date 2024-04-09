@@ -127,6 +127,9 @@ public class VentanaPantallaTV extends JFrame {
 		JLabel lblPantallaBox4 = new JLabel("4");
 		lblPantallaBox4.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		panel_9.add(lblPantallaBox4);
+		
+		
+		this.setVisible(true);
 	}
 	
 	public void setControlador (ControladorVentanaPantallaTV controladorVentanaPantallaTV) {
