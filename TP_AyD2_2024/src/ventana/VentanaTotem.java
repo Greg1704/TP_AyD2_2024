@@ -34,6 +34,7 @@ public class VentanaTotem extends JFrame {
 	private JButton btn9;
 	private JButton btn0;
 	private JButton btnConfirmarDni;
+	private JButton btnBorrar;
 	private ControladorVentanaTotem controladorVentanaTotem;
 
 	/**
@@ -109,6 +110,10 @@ public class VentanaTotem extends JFrame {
 		btnConfirmarDni = new JButton("Confirmar");
 		btnConfirmarDni.setBounds(89, 187, 140, 23);
 		contentPane.add(btnConfirmarDni);
+		
+		btnBorrar = new JButton("<-");
+		btnConfirmarDni.setBounds(89, 187, 140, 23);
+		contentPane.add(btnBorrar);
 		
 		btn0 = new JButton("0");
 		btn0.setBounds(89, 165, 140, 23);
@@ -192,8 +197,9 @@ public class VentanaTotem extends JFrame {
 	}
 	public void setActionListener(ActionListener actionListener) {
 		this.btnConfirmarDni.addActionListener(actionListener);
-		
+		this.btnBorrar.addActionListener(actionListener);
 	}
+	
 	
 	public String getDni() { 
 		return this.textField.getSelectedText();
