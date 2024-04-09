@@ -1,8 +1,9 @@
 package ejecutables;
 
+import controlador.ControladorVentanaOperador;
+
 public class EjecutableOperador {
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		//HAY QUE VER COMO APLICAR ESO :D
+		ControladorVentanaOperador.getInstancia();
 	}
 }

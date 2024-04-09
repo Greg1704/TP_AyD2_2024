@@ -19,6 +19,7 @@ public class ControladorVentanaOperador implements ActionListener{
 	private InetAddress direccion; 
 	private DatagramSocket socketUPD; 
 	final int portServidor = 10000;
+	private static ControladorVentanaOperador instancia = null;
 	
 	public void iniciaConexion() { 
 		try {
@@ -34,10 +35,16 @@ public class ControladorVentanaOperador implements ActionListener{
 	 
 	}
 	
-	public ControladorVentanaOperador() {
+	private ControladorVentanaOperador() {
 		super();
 		this.ventanaOperador = new VentanaOperador();
 		this.ventanaOperador.setControlador(this);
+	}
+	
+	public static ControladorVentanaOperador getInstancia() {
+		if (instancia == null)
+			instancia = new ControladorVentanaOperador();
+		return instancia;
 	}
 
 	public void actionPerformed(ActionEvent e) { //deberia conectarse con el servidor y enviar un "true" (hay que ver como sacar el string y poner un boolean o algo) diciendo que hay siguiente.

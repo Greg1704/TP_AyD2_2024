@@ -52,6 +52,9 @@ public class VentanaOperador extends JFrame implements ActionListener{
 		lblNroBox.setEnabled(false);
 		lblNroBox.setBounds(124, 21, 93, 35);
 		panel.add(lblNroBox);
+		
+		
+		this.setVisible(true);
 	}
 
 	

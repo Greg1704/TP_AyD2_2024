@@ -1,5 +1,5 @@
+package controlador;
 
-<<<<<<< Updated upstream
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -64,8 +64,4 @@ public class ControladorVentanaPantallaTV{
 		} //recibe dni
 	}
 	
-
-=======
-	
->>>>>>> Stashed changes
 }
