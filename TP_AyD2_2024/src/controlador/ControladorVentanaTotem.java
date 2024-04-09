@@ -67,13 +67,11 @@ public class ControladorVentanaTotem implements ActionListener{
 	
 	public static boolean puertoDisponible(int puerto) {
         try {
-            // Intentar abrir un DatagramSocket en el puerto especificado
             DatagramSocket socket = new DatagramSocket(puerto);
-            socket.close(); // Cerrar el socket
-            return true; // El puerto está disponible
+            socket.close(); 
+            return true; 
         } catch (SocketException e) {
-            // Si ocurre una excepción, significa que el puerto está en uso
-            return false; // El puerto no está disponible
+            return false; 
         }
     }
 	
