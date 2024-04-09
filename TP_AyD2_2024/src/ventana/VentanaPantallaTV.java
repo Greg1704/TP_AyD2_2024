@@ -68,7 +68,7 @@ public class VentanaPantallaTV extends JFrame {
 		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
 		contentPane.add(panel_2);
 		
-		JLabel lblPantallaDni1 = new JLabel("43317387");
+		JLabel lblPantallaDni1 = new JLabel("");
 		lblPantallaDni1.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		panel_2.add(lblPantallaDni1);
 		
@@ -76,7 +76,7 @@ public class VentanaPantallaTV extends JFrame {
 		panel_3.setBorder(new LineBorder(new Color(0, 0, 0)));
 		contentPane.add(panel_3);
 		
-		JLabel lblPantallaBox1 = new JLabel("1");
+		JLabel lblPantallaBox1 = new JLabel("");
 		lblPantallaBox1.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		panel_3.add(lblPantallaBox1);
 		
@@ -84,7 +84,7 @@ public class VentanaPantallaTV extends JFrame {
 		panel_4.setBorder(new LineBorder(new Color(0, 0, 0)));
 		contentPane.add(panel_4);
 		
-		JLabel lblPantallaDni2 = new JLabel("41234567");
+		JLabel lblPantallaDni2 = new JLabel("");
 		lblPantallaDni2.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		panel_4.add(lblPantallaDni2);
 		
@@ -92,7 +92,7 @@ public class VentanaPantallaTV extends JFrame {
 		panel_5.setBorder(new LineBorder(new Color(0, 0, 0)));
 		contentPane.add(panel_5);
 		
-		JLabel lblPantallaBox2 = new JLabel("2");
+		JLabel lblPantallaBox2 = new JLabel("");
 		lblPantallaBox2.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		panel_5.add(lblPantallaBox2);
 		
@@ -100,7 +100,7 @@ public class VentanaPantallaTV extends JFrame {
 		panel_6.setBorder(new LineBorder(new Color(0, 0, 0)));
 		contentPane.add(panel_6);
 		
-		JLabel lblPantallaDni3 = new JLabel("42345678");
+		JLabel lblPantallaDni3 = new JLabel("");
 		lblPantallaDni3.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		panel_6.add(lblPantallaDni3);
 		
@@ -108,7 +108,7 @@ public class VentanaPantallaTV extends JFrame {
 		panel_7.setBorder(new LineBorder(new Color(0, 0, 0)));
 		contentPane.add(panel_7);
 		
-		JLabel lblPantallaBox3 = new JLabel("3");
+		JLabel lblPantallaBox3 = new JLabel("");
 		lblPantallaBox3.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		panel_7.add(lblPantallaBox3);
 		
@@ -116,7 +116,7 @@ public class VentanaPantallaTV extends JFrame {
 		panel_8.setBorder(new LineBorder(new Color(0, 0, 0)));
 		contentPane.add(panel_8);
 		
-		JLabel lblPantallaDni3_1 = new JLabel("31234567");
+		JLabel lblPantallaDni3_1 = new JLabel("");
 		lblPantallaDni3_1.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		panel_8.add(lblPantallaDni3_1);
 		
@@ -124,13 +124,15 @@ public class VentanaPantallaTV extends JFrame {
 		panel_9.setBorder(new LineBorder(new Color(0, 0, 0)));
 		contentPane.add(panel_9);
 		
-		JLabel lblPantallaBox4 = new JLabel("4");
+		JLabel lblPantallaBox4 = new JLabel("");
 		lblPantallaBox4.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		panel_9.add(lblPantallaBox4);
+		
+		
+		this.setVisible(true);
 	}
 	
 	public void setControlador (ControladorVentanaPantallaTV controladorVentanaPantallaTV) {
 		this.controladorVentanaPantallaTV  = controladorVentanaPantallaTV;
 	}
-
 }

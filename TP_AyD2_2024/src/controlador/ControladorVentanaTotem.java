@@ -22,7 +22,8 @@ import ventana.VentanaTotem;
 public class ControladorVentanaTotem implements ActionListener{
 	public VentanaTotem ventanaTotem;
 	final static int portServidor = 10000;
-	static byte[] buffer = new byte[1024];  		
+	static byte[] buffer = new byte[1024];
+	private static ControladorVentanaTotem instancia = null;
 	
 	//hay que poner un action listener para que cuando se apriere el solicitar turno se mande esto al servidor
 	//tambien habria que ver para que el servidor no se cierre y abra cada vez que se apriete el boton
@@ -52,11 +53,17 @@ public class ControladorVentanaTotem implements ActionListener{
 	
 	}
 	
-	public void Controlador() { 
+	private ControladorVentanaTotem() { 
 		this.ventanaTotem = new VentanaTotem();
 		this.ventanaTotem.setControlador(this);
 		this.ventanaTotem.setActionListener(this);
 		
+	}
+	
+	public static ControladorVentanaTotem getInstancia() {
+		if (instancia == null)
+			instancia = new ControladorVentanaTotem();
+		return instancia;
 	}
 
 	@Override

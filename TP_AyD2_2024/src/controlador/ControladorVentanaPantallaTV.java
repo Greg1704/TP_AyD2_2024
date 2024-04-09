@@ -1,5 +1,5 @@
-package controlador;
 
+<<<<<<< Updated upstream
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -12,18 +12,25 @@ import ventana.VentanaPantallaTV;
 
 public class ControladorVentanaPantallaTV{
 
-private VentanaPantallaTV ventanaPantallaTV; 
+	private VentanaPantallaTV ventanaPantallaTV; 
 	private String dni; 
 	final static int portServidor = 10000;
 	static byte[] buffer = new byte[1024]; 
 	private DatagramSocket socketUPD;
 	private InetAddress direccion;
+	private static ControladorVentanaPantallaTV instancia = null;
 
-	public ControladorVentanaPantallaTV() {
+	private ControladorVentanaPantallaTV() {
 		super();
 		this.ventanaPantallaTV = new VentanaPantallaTV();
 		this.ventanaPantallaTV.setControlador(this);
 		this.dni = "";
+	}
+	
+	public static ControladorVentanaPantallaTV getInstancia() {
+		if (instancia == null)
+			instancia = new ControladorVentanaPantallaTV();
+		return instancia;
 	}
 	
 	public void iniciaConexion() { 
@@ -58,4 +65,7 @@ private VentanaPantallaTV ventanaPantallaTV;
 	}
 	
 
+=======
+	
+>>>>>>> Stashed changes
 }
