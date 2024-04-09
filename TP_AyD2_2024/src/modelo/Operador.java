@@ -7,7 +7,8 @@ public class Operador {
 		super();
 		this.nroBox = nroBox;
 	}
-
+	
+	
 
 	
 }

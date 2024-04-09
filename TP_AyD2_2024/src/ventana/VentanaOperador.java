@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JLabel;
 
 public class VentanaOperador extends JFrame implements ActionListener{
 
@@ -19,6 +20,7 @@ public class VentanaOperador extends JFrame implements ActionListener{
 	private JButton btnOperador;
 	private JPanel contentPane;
 	private ControladorVentanaOperador ControladorVentanaOperador;
+	private JLabel lblTextNroBox;
 
 	
 	public VentanaOperador() {
@@ -38,6 +40,18 @@ public class VentanaOperador extends JFrame implements ActionListener{
 		JPanel panel = new JPanel();
 		panel.setBounds(10, 11, 494, 312);
 		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		lblTextNroBox = new JLabel("Nro de Box: ");
+		lblTextNroBox.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblTextNroBox.setBounds(10, 11, 111, 49);
+		panel.add(lblTextNroBox);
+		
+		JLabel lblNroBox = new JLabel("");
+		lblNroBox.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblNroBox.setEnabled(false);
+		lblNroBox.setBounds(124, 21, 93, 35);
+		panel.add(lblNroBox);
 	}
 
 	
