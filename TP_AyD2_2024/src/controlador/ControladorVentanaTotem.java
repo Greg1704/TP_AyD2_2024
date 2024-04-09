@@ -32,9 +32,15 @@ public class ControladorVentanaTotem implements ActionListener{
 	private ControladorVentanaTotem() { 
 		
 		try {
+			
+			int puerto = 10000;
+			
 			InetAddress direccion = InetAddress.getByName("localHost");
 			
-			socketUPD = new DatagramSocket(50000); 
+			
+			while(!puertoDisponible(puerto))
+				puerto++;
+			socketUPD = new DatagramSocket(puerto); 
 			String reg = "RT " + "1234";
 			
 			buffer = reg.getBytes();
@@ -58,6 +64,18 @@ public class ControladorVentanaTotem implements ActionListener{
 		this.ventanaTotem.setActionListener(this);
 		
 	}
+	
+	public static boolean puertoDisponible(int puerto) {
+        try {
+            // Intentar abrir un DatagramSocket en el puerto especificado
+            DatagramSocket socket = new DatagramSocket(puerto);
+            socket.close(); // Cerrar el socket
+            return true; // El puerto está disponible
+        } catch (SocketException e) {
+            // Si ocurre una excepción, significa que el puerto está en uso
+            return false; // El puerto no está disponible
+        }
+    }
 	
 	public static ControladorVentanaTotem getInstancia() {
 		if (instancia == null)
