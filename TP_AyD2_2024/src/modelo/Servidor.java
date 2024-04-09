@@ -24,6 +24,7 @@ public class Servidor {
 		
 		//ArrayList<Integer> conexiones = new ArrayList<>(); 
 		HashMap<Integer, String> conexiones = new HashMap<>();
+		GestionDeTurnos gdt = new GestionDeTurnos();
 		
 		 
 		try {
@@ -44,10 +45,15 @@ public class Servidor {
 				String referencia = partes[0];
 				String relevante = partes[1];
 				
+				System.out.println(mensaje);
+				System.out.println(relevante);
+				
 				if(referencia.equals("RT")) {
 					conexiones.put(puertoEntrada,"T");   //Asumo que relevante seria el puerto del totem
 				}else if(referencia.equals("DNIT")) {
-					System.out.println("LLEGO EL DNI PAPA");
+					System.out.println("Entraste donde querias");
+					gdt.añadirTurno(relevante);
+					gdt.mostrarCola();
 				}else if(referencia.equals("RBOXO")) {
 					conexiones.put(puertoEntrada,"O");   //Asumo que relevante seria el puerto del box
 				}else if(referencia.equals("LOGBOXO")) {
@@ -62,13 +68,13 @@ public class Servidor {
 					conexiones.put(puertoEntrada,"P");   //Asumo que relevante seria el puerto de la pantallaTV
 				}
 					
+				System.out.println("----------------------------------------");
+				//System.out.println(referencia);
 				
-				System.out.println(referencia);
+				//System.out.println("se establecio la conexion con: " + puertoEntrada);
 				
-				System.out.println("se establecio la conexion con: " + puertoEntrada);
-				
-				System.out.println(mensaje);
-				System.out.println(conexiones);
+				//System.out.println(mensaje);
+				//System.out.println(conexiones);
 				
 				}
 		} catch (IOException e) {
