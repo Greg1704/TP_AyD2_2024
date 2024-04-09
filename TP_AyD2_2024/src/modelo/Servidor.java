@@ -50,12 +50,14 @@ public class Servidor {
 				
 				if(referencia.equals("RT")) {
 					conexiones.put(puertoEntrada,"T");   //Asumo que relevante seria el puerto del totem
+					System.out.println("se establecio la conexion con: " + puertoEntrada);
 				}else if(referencia.equals("DNIT")) {
-					System.out.println("Entraste donde querias");
+					//System.out.println("Entraste donde querias");
 					gdt.añadirTurno(relevante);
-					gdt.mostrarCola();
+					//gdt.mostrarCola();
 				}else if(referencia.equals("RBOXO")) {
 					conexiones.put(puertoEntrada,"O");   //Asumo que relevante seria el puerto del box
+					System.out.println("se establecio la conexion con: " + puertoEntrada);
 				}else if(referencia.equals("LOGBOXO")) {
 					
 				}else if(referencia.equals("SOLIBOXO")) {
@@ -66,16 +68,18 @@ public class Servidor {
 					
 				}else if(referencia.equals("RPP")) {
 					conexiones.put(puertoEntrada,"P");   //Asumo que relevante seria el puerto de la pantallaTV
+					System.out.println("se establecio la conexion con: " + puertoEntrada);
 				}
 					
-				System.out.println("----------------------------------------");
+				
 				//System.out.println(referencia);
 				
-				//System.out.println("se establecio la conexion con: " + puertoEntrada);
+				
 				
 				//System.out.println(mensaje);
 				//System.out.println(conexiones);
 				
+				System.out.println("----------------------------------------");
 				}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
