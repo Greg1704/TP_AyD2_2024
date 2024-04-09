@@ -9,6 +9,8 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+import javax.swing.JOptionPane;
+
 import ventana.VentanaOperador;
 
 
@@ -51,13 +53,21 @@ public class ControladorVentanaOperador implements ActionListener{
 		if (e.getActionCommand().equalsIgnoreCase("Llamar siguiente")) { 
 			byte[] buffer = new byte[1024]; 
 			siguiente = "true";
-			
 			try {
 				buffer = siguiente.getBytes();
 				DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 				
 				socketUPD.send(salida);
+										
+				this.ventanaOperador.setVisible(false);
 				
+				int siOno = JOptionPane.showConfirmDialog(null,"Se presento el cliente?",null, JOptionPane.YES_NO_OPTION);
+				
+				if (siOno == JOptionPane.YES_OPTION) {
+		            //Almacenar en algun lado dato de se presento el cliente para contar clientes atendidos
+		        }
+				
+				this.ventanaOperador.setVisible(true);
 			
 			} catch (UnknownHostException e1) {
 				// TODO Auto-generated catch block
@@ -66,6 +76,7 @@ public class ControladorVentanaOperador implements ActionListener{
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			
 		}
 	}
 	
