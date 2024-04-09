@@ -69,20 +69,24 @@ public class ControladorVentanaTotem implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equalsIgnoreCase("Confirmar")) {
 			String dni = this.ventanaTotem.getDni();
-			JOptionPane.showMessageDialog(null, "DNI recibido"); //Se podria poner "Su dni ha sido enviado a la cola de espera" por formalizarlo un poco idk
-			InetAddress direccion;
-			try {
-				direccion = InetAddress.getByName("localHost");
-				DatagramSocket socketUPD = new DatagramSocket(); 
-				dni = "DNIT " + dni;
-				buffer = dni.getBytes();
-				DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
-				socketUPD.send(salida);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			if (dni.length() == 8) {
+				this.ventanaTotem.setDni("");
+				JOptionPane.showMessageDialog(null, "DNI recibido"); //Se podria poner "Su dni ha sido enviado a la cola de espera" por formalizarlo un poco idk
+				InetAddress direccion;
+				try {
+					direccion = InetAddress.getByName("localHost");
+					DatagramSocket socketUPD = new DatagramSocket(); 
+					dni = "DNIT " + dni;
+					buffer = dni.getBytes();
+					DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
+					socketUPD.send(salida);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			} else { 
+				this.ventanaTotem.errorLargo();
 			}
-			
 		}
 	}
 

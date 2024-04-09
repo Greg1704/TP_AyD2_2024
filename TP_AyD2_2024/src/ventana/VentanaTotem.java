@@ -1,11 +1,14 @@
 package ventana;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import controlador.ControladorVentanaOperador;
 import controlador.ControladorVentanaTotem;
@@ -107,13 +110,15 @@ public class VentanaTotem extends JFrame {
 		btn9 = new JButton("9");
 		panel.add(btn9);
 		
+		btnBorrar = new JButton("←");
+		btnBorrar.setBounds(89, 187, 45, 23);
+		contentPane.add(btnBorrar);
+		
 		btnConfirmarDni = new JButton("Confirmar");
-		btnConfirmarDni.setBounds(89, 187, 140, 23);
+		btnConfirmarDni.setBounds(134, 187, 95, 23);
 		contentPane.add(btnConfirmarDni);
 		
-		btnBorrar = new JButton("<-");
-		btnConfirmarDni.setBounds(89, 187, 140, 23);
-		contentPane.add(btnBorrar);
+		
 		
 		btn0 = new JButton("0");
 		btn0.setBounds(89, 165, 140, 23);
@@ -181,12 +186,39 @@ public class VentanaTotem extends JFrame {
 			}
 		});
 		
-		btnConfirmarDni.addActionListener(new ActionListener() { //boton confirmar
+		
+		btnBorrar.addActionListener(new ActionListener() {
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				textField.setText(""); //habria que desplegar alguna ventana que diga "gracias, espere su turno o algo asi"
+				 if (textField.getText().length() > 0) {
+					 String text = textField.getText().substring(0, textField.getText().length() - 1); 
+					 textField.setText(text);
+				 }
 			}
 		});
+		
+		textField.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		
 		this.setVisible(true);
 	}
@@ -198,11 +230,19 @@ public class VentanaTotem extends JFrame {
 	public void setActionListener(ActionListener actionListener) {
 		this.btnConfirmarDni.addActionListener(actionListener);
 		this.btnBorrar.addActionListener(actionListener);
+		this.textField.addActionListener(actionListener);
 	}
 	
 	
 	public String getDni() { 
-		return this.textField.getSelectedText();
+		return this.textField.getText();
 	}
 	
+	public void setDni(String dniNuevo) { 
+		this.textField.setText(dniNuevo);
+	}
+	
+	public void errorLargo () { 
+		this.textField.setForeground(Color.RED);
+	}
 	}
