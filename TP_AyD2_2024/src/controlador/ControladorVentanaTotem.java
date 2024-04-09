@@ -27,16 +27,17 @@ public class ControladorVentanaTotem implements ActionListener{
 	
 	//hay que poner un action listener para que cuando se apriere el solicitar turno se mande esto al servidor
 	//tambien habria que ver para que el servidor no se cierre y abra cada vez que se apriete el boton
-	public static void main(String[] args) {
-		
-		String dni = "43184902";
+	
+	private ControladorVentanaTotem() { 
 		
 		try {
 			InetAddress direccion = InetAddress.getByName("localHost");
 			
 			DatagramSocket socketUPD = new DatagramSocket(); 
 			
-			buffer = dni.getBytes();
+			String reg = "RT " + "1234";
+			
+			buffer = reg.getBytes();
 			DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 			
 			socketUPD.send(salida);
@@ -50,10 +51,8 @@ public class ControladorVentanaTotem implements ActionListener{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
-	}
-	
-	private ControladorVentanaTotem() { 
+		
+		
 		this.ventanaTotem = new VentanaTotem();
 		this.ventanaTotem.setControlador(this);
 		this.ventanaTotem.setActionListener(this);
@@ -75,6 +74,7 @@ public class ControladorVentanaTotem implements ActionListener{
 			try {
 				direccion = InetAddress.getByName("localHost");
 				DatagramSocket socketUPD = new DatagramSocket(); 
+				dni = "DNIT " + dni;
 				buffer = dni.getBytes();
 				DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 				socketUPD.send(salida);

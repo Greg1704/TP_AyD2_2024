@@ -10,6 +10,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.Executors;
 
 public class Servidor {
@@ -21,26 +22,52 @@ public class Servidor {
 		final int port = 10000; 
 		byte[] buffer = new byte[1024];
 		
-		ArrayList<Integer> conexiones = new ArrayList<>(); 
-		
+		//ArrayList<Integer> conexiones = new ArrayList<>(); 
+		HashMap<Integer, String> conexiones = new HashMap<>();
 		
 		 
 		try {
 			DatagramSocket socketUDP = new DatagramSocket(port); 
-			System.out.println("Servidor inciado");
+			System.out.println("Servidor iniciado");
 			
 			while(true) {
 				DatagramPacket entrada = new DatagramPacket(buffer, buffer.length);
 				socketUDP.receive(entrada);
 				
-				String dni = new String(entrada.getData());
+				String mensaje = new String(entrada.getData());
 				int puertoEntrada = entrada.getPort();
 				InetAddress direccion = entrada.getAddress();
 				
-				conexiones.add(puertoEntrada);
+				//conexiones.add(puertoEntrada);
+				
+				String[] partes = mensaje.split(" ");
+				String referencia = partes[0];
+				String relevante = partes[1];
+				
+				if(referencia.equals("RT")) {
+					conexiones.put(puertoEntrada,"T");   //Asumo que relevante seria el puerto del totem
+				}else if(referencia.equals("DNIT")) {
+					System.out.println("LLEGO EL DNI PAPA");
+				}else if(referencia.equals("RBOXO")) {
+					conexiones.put(puertoEntrada,"O");   //Asumo que relevante seria el puerto del box
+				}else if(referencia.equals("LOGBOXO")) {
+					
+				}else if(referencia.equals("SOLIBOXO")) {
+					
+				}else if(referencia.equals("SOLICLO")) {
+					
+				}else if(referencia.equals("OKCLO")) {
+					
+				}else if(referencia.equals("RPP")) {
+					conexiones.put(puertoEntrada,"P");   //Asumo que relevante seria el puerto de la pantallaTV
+				}
+					
+				
+				System.out.println(referencia);
+				
 				System.out.println("se establecio la conexion con: " + puertoEntrada);
 				
-				System.out.println(dni);
+				System.out.println(mensaje);
 				System.out.println(conexiones);
 				
 				}
