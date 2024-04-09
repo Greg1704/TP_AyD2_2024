@@ -41,36 +41,30 @@ public class Servidor {
 				
 				//conexiones.add(puertoEntrada);
 				
-				String[] partes = mensaje.split(" ");
-				String referencia = partes[0];
-				String relevante = partes[1];
-				
 				System.out.println(mensaje);
-				System.out.println(relevante);
 				
-				if(referencia.equals("RT")) {
-					conexiones.put(puertoEntrada,"T");   //Asumo que relevante seria el puerto del totem
-					System.out.println("se establecio la conexion con: " + puertoEntrada);
-				}else if(referencia.equals("DNIT")) {
-					//System.out.println("Entraste donde querias");
-					gdt.añadirTurno(relevante);
-					//gdt.mostrarCola();
-				}else if(referencia.equals("RBOXO")) {
-					conexiones.put(puertoEntrada,"O");   //Asumo que relevante seria el puerto del box
-					System.out.println("se establecio la conexion con: " + puertoEntrada);
-				}else if(referencia.equals("LOGBOXO")) {
-					
-				}else if(referencia.equals("SOLIBOXO")) {
-					
-				}else if(referencia.equals("SOLICLO")) {
-					
-				}else if(referencia.equals("OKCLO")) {
-					
-				}else if(referencia.equals("RPP")) {
-					conexiones.put(puertoEntrada,"P");   //Asumo que relevante seria el puerto de la pantallaTV
-					System.out.println("se establecio la conexion con: " + puertoEntrada);
+				//Totem: 10100 - 10200
+				//Operadores: 10300 - 10400 
+				//TV: 10500 - 10600 
+				
+				
+				if(puertoEntrada >= 10100 && puertoEntrada <=10200) {
+					if (!conexiones.containsKey(puertoEntrada)) {
+						System.out.println("se establecio la conexion con: " + puertoEntrada);
+						conexiones.put(puertoEntrada,"Totem");   
+					}
+				}else if(puertoEntrada >= 10300 && puertoEntrada <=10400) {
+					if (!conexiones.containsKey(puertoEntrada)) {
+						System.out.println("se establecio la conexion con: " + puertoEntrada);
+						conexiones.put(puertoEntrada,"Operador");
+					}
+				}else if(puertoEntrada >= 10500 && puertoEntrada <=10600) {
+					if (!conexiones.containsKey(puertoEntrada)) {
+						System.out.println("se establecio la conexion con: " + puertoEntrada);
+						conexiones.put(puertoEntrada,"TV"); 
+					}
 				}
-					
+		
 				
 				//System.out.println(referencia);
 				
