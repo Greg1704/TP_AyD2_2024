@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GestionDeTurnos {
-	 List<Turno> colaDeTurnos;
+	 private List<Turno> colaDeTurnos;
 
 	 
 	 
@@ -12,14 +12,14 @@ public class GestionDeTurnos {
 		this.colaDeTurnos = new ArrayList<Turno>();
 	}
 	
-	public void añadirTurno(int dni) {
+	public void añadirTurno(String dni) {
 		Turno t = new Turno(dni);
 		colaDeTurnos.add(t);
 	}
 	
-	public void removerTurno(int dni) {
+	public void removerTurno(String dni) {
 		int i = 0;
-		while(i<colaDeTurnos.size() && colaDeTurnos.get(i).getDni() != dni)
+		while(i<colaDeTurnos.size() && !colaDeTurnos.get(i).getDni().equals(dni))
 			i++;
 		if(i<colaDeTurnos.size())
 			colaDeTurnos.remove(i);
@@ -31,6 +31,12 @@ public class GestionDeTurnos {
 		Turno turno = colaDeTurnos.get(0);
 		
 		//LO QUE VAYA A PASAR DE MEDIO PARA CONECTAR ESTO CON EL TELEVISOR
+	}
+	
+	public void mostrarCola() {
+		for (Turno elemento : colaDeTurnos) {
+            System.out.println(elemento.getDni() + "  " + elemento.getNumeroDeBox());
+        }
 	}
 	 
 	 
