@@ -15,6 +15,8 @@ import java.net.UnknownHostException;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.JOptionPane;
+
 import ventana.VentanaTotem;
 
 public class ControladorVentanaTotem implements ActionListener{
@@ -61,7 +63,7 @@ public class ControladorVentanaTotem implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equalsIgnoreCase("Confirmar")) {
 			String dni = this.ventanaTotem.getDni();
-			System.out.println("DNI recibido");
+			JOptionPane.showMessageDialog(null, "DNI recibido"); //Se podria poner "Su dni ha sido enviado a la cola de espera" por formalizarlo un poco idk
 			InetAddress direccion;
 			try {
 				direccion = InetAddress.getByName("localHost");
