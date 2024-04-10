@@ -41,7 +41,7 @@ public class ControladorVentanaTotem implements ActionListener{
 			while(!puertoDisponible(puerto))
 				puerto++;
 			socketUPD = new DatagramSocket(puerto); 
-			String reg = "1234";
+			String reg = "Soy un totem y me quiero conectar con el servidor";
 			
 			buffer = reg.getBytes();
 			DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
