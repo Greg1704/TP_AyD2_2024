@@ -33,7 +33,7 @@ public class ControladorVentanaTotem implements ActionListener{
 		
 		try {
 			
-			int puerto = 10000;
+			int puerto = 10100;
 			
 			InetAddress direccion = InetAddress.getByName("localHost");
 			
@@ -92,7 +92,7 @@ public class ControladorVentanaTotem implements ActionListener{
 				try {
 					direccion = InetAddress.getByName("localHost");
 					//DatagramSocket socketUPD = new DatagramSocket(); 
-					dni = "DNIT " + dni;
+					//dni = "DNIT " + dni;
 					buffer = dni.getBytes();
 					DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 					socketUPD.send(salida);

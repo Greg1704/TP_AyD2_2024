@@ -33,9 +33,10 @@ public class GestionDeTurnos {
 		//LO QUE VAYA A PASAR DE MEDIO PARA CONECTAR ESTO CON EL TELEVISOR
 	}
 	
-	public void mostrarCola() {
+	public void mostrarCola() {  //No funciona el for, solo muestra el primer dni
+		System.out.println("Tamanio de la cola =  " +colaDeTurnos.size());
 		for (Turno elemento : colaDeTurnos) {
-            System.out.println(elemento.getDni() + "  " + elemento.getNumeroDeBox());
+            System.out.print(elemento.getDni() + "  " + elemento.getNumeroDeBox() + "---");
         }
 	}
 	 

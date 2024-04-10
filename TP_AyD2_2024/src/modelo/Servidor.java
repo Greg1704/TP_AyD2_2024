@@ -48,18 +48,22 @@ public class Servidor {
 				//TV: 10500 - 10600 
 				
 				
-				if(puertoEntrada >= 10100 && puertoEntrada <=10200) {
-					if (!conexiones.containsKey(puertoEntrada)) {
+				if(puertoEntrada >= 10100 && puertoEntrada <=10200) { //Entrada de Totems
+					if (!conexiones.containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
 						System.out.println("se establecio la conexion con: " + puertoEntrada);
 						conexiones.put(puertoEntrada,"Totem");   
+					}else { //Caso en el que se este enviando un turno para el subsistema de gestion de turnos
+						System.out.println("Entro al lugar indicado");
+						gdt.añadirTurno(mensaje);
+						gdt.mostrarCola();  //No funciona el metodo :(
 					}
-				}else if(puertoEntrada >= 10300 && puertoEntrada <=10400) {
-					if (!conexiones.containsKey(puertoEntrada)) {
+				}else if(puertoEntrada >= 10300 && puertoEntrada <=10400) { //Entrada de Operadores/Boxs
+					if (!conexiones.containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
 						System.out.println("se establecio la conexion con: " + puertoEntrada);
 						conexiones.put(puertoEntrada,"Operador");
 					}
-				}else if(puertoEntrada >= 10500 && puertoEntrada <=10600) {
-					if (!conexiones.containsKey(puertoEntrada)) {
+				}else if(puertoEntrada >= 10500 && puertoEntrada <=10600) { //Entrada de las Pantallas TV
+					if (!conexiones.containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
 						System.out.println("se establecio la conexion con: " + puertoEntrada);
 						conexiones.put(puertoEntrada,"TV"); 
 					}
