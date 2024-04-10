@@ -10,6 +10,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.Executors;
 
@@ -36,12 +37,14 @@ public class Servidor {
 				socketUDP.receive(entrada);
 				
 				String mensaje = new String(entrada.getData());
+				mensaje = mensaje.trim();
 				int puertoEntrada = entrada.getPort();
 				InetAddress direccion = entrada.getAddress();
 				
 				//conexiones.add(puertoEntrada);
 				
 				System.out.println(mensaje);
+				System.out.println("Largo del mensaje  " + mensaje.length());
 				
 				//Totem: 10100 - 10200
 				//Operadores: 10300 - 10400 
@@ -55,13 +58,15 @@ public class Servidor {
 					}else { //Caso en el que se este enviando un turno para el subsistema de gestion de turnos
 						System.out.println("Entro al lugar indicado");
 						gdt.añadirTurno(mensaje);
-						gdt.mostrarCola();  //No funciona el metodo :(
+						gdt.mostrarCola(); //No funciona el metodo :(
 					}
 				}else if(puertoEntrada >= 10300 && puertoEntrada <=10400) { //Entrada de Operadores/Boxs
 					if (!conexiones.containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
 						System.out.println("se establecio la conexion con: " + puertoEntrada);
 						conexiones.put(puertoEntrada,"Operador");
-					}else { //Caso en el que el operador solicita un nuevo cliente para que vaya al box
+					}else if(mensaje.equals("acepto")){ //Caso confirmacion de llegada del cliente al box
+						System.out.println("El cliente vino al box papa");
+					}else if(mensaje.equals("true")){ //Caso en el que el operador solicita un nuevo cliente para que vaya al box
 						Turno t = gdt.extraerPrimerTurno();
 						//esperando a nahue :D
 					}
@@ -79,7 +84,7 @@ public class Servidor {
 				
 				//System.out.println(mensaje);
 				//System.out.println(conexiones);
-				
+				Arrays.fill(buffer, (byte) 0);
 				System.out.println("----------------------------------------");
 				}
 		} catch (IOException e) {
