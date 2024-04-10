@@ -1,98 +1,99 @@
 package ventana;
+import modelo.Estadisticas;
 
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.Color;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import java.awt.Font;
-import java.awt.event.ActionListener;
 
-import javax.swing.JTable;
-import javax.swing.border.LineBorder;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.MatteBorder;
-
-import controlador.ControladorVentanaOperador;
 import controlador.ControladorVentanaSupervisor;
 
-import javax.swing.border.CompoundBorder;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.SwingConstants;
 
 public class VentanaSupervisor extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private ControladorVentanaSupervisor controladorVentanaSupervisor;
+
+	private JLabel lblCantClientesAtendidos;
+	private JLabel lblTiempoPromedioEspera;
+	private JLabel lblTiempoMaxEspera;
+	private JLabel lblTiempoMinEspera;
+	private Estadisticas estadisticas; 
 	
+	
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					VentanaSupervisor frame = new VentanaSupervisor();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
 	public VentanaSupervisor() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 588, 307);
+		setBounds(100, 100, 637, 375);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel.setBounds(10, 11, 302, 61);
-		contentPane.add(panel);
+		JLabel lblTextoCantClientesAtendidos = new JLabel("Cantidad de clientes atendidos:");
+		lblTextoCantClientesAtendidos.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblTextoCantClientesAtendidos.setBounds(10, 25, 359, 56);
+		contentPane.add(lblTextoCantClientesAtendidos);
 		
-		JLabel lblCantiadDePersonas = new JLabel("Cantidad de personas atendidas:");
-		panel.add(lblCantiadDePersonas);
-		lblCantiadDePersonas.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		JLabel lblCantClientesAtendidos = new JLabel("");
+		lblCantClientesAtendidos.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblCantClientesAtendidos.setBounds(379, 38, 146, 43);
+		contentPane.add(lblCantClientesAtendidos);
 		
-		JPanel panelCantPersonasAtendidas = new JPanel();
-		panelCantPersonasAtendidas.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelCantPersonasAtendidas.setBounds(315, 11, 250, 61);
-		contentPane.add(panelCantPersonasAtendidas);
+		JLabel lblTextoTiempoMaxEspera = new JLabel("Tiempo maximo de espera:");
+		lblTextoTiempoMaxEspera.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblTextoTiempoMaxEspera.setBounds(10, 188, 326, 56);
+		contentPane.add(lblTextoTiempoMaxEspera);
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_2.setBounds(10, 74, 302, 61);
-		contentPane.add(panel_2);
+		JLabel lblTiempoMaxEspera = new JLabel("");
+		lblTiempoMaxEspera.setBounds(381, 201, 135, 43);
+		contentPane.add(lblTiempoMaxEspera);
 		
-		JLabel lblTiempoEsperaProm = new JLabel("Tiempo de espera promedio:");
-		panel_2.add(lblTiempoEsperaProm);
-		lblTiempoEsperaProm.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		JLabel lblTextoTiempoMinEspera = new JLabel("Tiempo minimo de espera:");
+		lblTextoTiempoMinEspera.setHorizontalAlignment(SwingConstants.LEFT);
+		lblTextoTiempoMinEspera.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblTextoTiempoMinEspera.setBounds(10, 255, 326, 56);
+		contentPane.add(lblTextoTiempoMinEspera);
 		
-		JPanel panelTiempoEsperaProm = new JPanel();
-		panelTiempoEsperaProm.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelTiempoEsperaProm.setBounds(315, 74, 250, 61);
-		contentPane.add(panelTiempoEsperaProm);
+		JLabel lblTiempoPromedioEspera = new JLabel("Tiempo promedio de espera:");
+		lblTiempoPromedioEspera.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblTiempoPromedioEspera.setBounds(10, 107, 326, 56);
+		contentPane.add(lblTiempoPromedioEspera);
 		
-		JPanel panel_4 = new JPanel();
-		panel_4.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_4.setBounds(10, 138, 302, 61);
-		contentPane.add(panel_4);
+		JLabel lblTiempoMinEspera = new JLabel("");
+		lblTiempoMinEspera.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblTiempoMinEspera.setBounds(370, 257, 146, 43);
+		contentPane.add(lblTiempoMinEspera);
 		
-		JLabel lblTtiempoMinEspera = new JLabel("Tiempo minimo de espera:");
-		panel_4.add(lblTtiempoMinEspera);
-		lblTtiempoMinEspera.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		
-		JPanel panelTiempoMinEspera = new JPanel();
-		panelTiempoMinEspera.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelTiempoMinEspera.setBounds(315, 138, 250, 61);
-		contentPane.add(panelTiempoMinEspera);
-		
-		JPanel panel_5_1 = new JPanel();
-		panel_5_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_5_1.setBounds(10, 201, 302, 61);
-		contentPane.add(panel_5_1);
-		
-		JLabel lblTiempoMaxEspera = new JLabel("Tiempo maximo de espera:");
-		panel_5_1.add(lblTiempoMaxEspera);
-		lblTiempoMaxEspera.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		
-		JPanel panel_5_2 = new JPanel();
-		panel_5_2.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_5_2.setBounds(315, 201, 250, 61);
-		contentPane.add(panel_5_2);
-		
+		JLabel lblTiempoPromEspera = new JLabel("");
+		lblTiempoPromEspera.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblTiempoPromEspera.setBounds(385, 120, 131, 43);
+		contentPane.add(lblTiempoPromEspera);
+
 		
 		this.setVisible(true);
 	}
@@ -102,10 +103,12 @@ public class VentanaSupervisor extends JFrame {
 		this.inicializa(controladorVentanaSupervisor); 
 	}
 
-	private void inicializa(ControladorVentanaSupervisor controladorVentanaSupervisor2) {
-		// TODO Auto-generated method stub
-		
-	}
 	
+	private void CargaEstadistica() {
+		this.lblCantClientesAtendidos.setText(estadisticas.getCantCliAtentidos());
+		this.lblTiempoPromedioEspera.setText(estadisticas.getTiempoEsperaProm());
+		this.lblTiempoMaxEspera.setText(estadisticas.getTiempoEsperaMax());
+		this.lblTiempoMinEspera.setText(estadisticas.getTiempoEsperaMin());
+	}
 	
 }
