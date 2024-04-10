@@ -2,12 +2,12 @@ package modelo;
 
 public class Turno {
 	public String dni;
-	public int numeroDeBox;
+	public String numeroDeBox;
 	
 	
 	public Turno(String dni) {
 		this.dni = dni;
-		this.numeroDeBox = 0;
+		this.numeroDeBox = "0";
 	}
 
 
@@ -21,12 +21,12 @@ public class Turno {
 	}
 
 
-	public int getNumeroDeBox() {
+	public String getNumeroDeBox() {
 		return numeroDeBox;
 	}
 
 
-	public void setNumeroDeBox(int numeroDeBox) {
+	public void setNumeroDeBox(String numeroDeBox) {
 		this.numeroDeBox = numeroDeBox;
 	}
 	

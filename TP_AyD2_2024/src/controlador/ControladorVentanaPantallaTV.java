@@ -10,6 +10,7 @@ import java.net.UnknownHostException;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import modelo.Turno;
 import ventana.VentanaPantallaTV;
 
 public class ControladorVentanaPantallaTV{
@@ -57,9 +58,9 @@ public class ControladorVentanaPantallaTV{
 			DatagramPacket entrada = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 			socketUPD.receive(entrada);
 			
-			dni = new String(entrada.getData());
-			System.out.println(dni);
-			muestraTurno(dni);
+			//Turno turno = entrada.getClass(); 
+			
+			//muestraTurno(entrada);
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -67,8 +68,8 @@ public class ControladorVentanaPantallaTV{
 		} //recibe dni
 	}
 	
-	public void muestraTurno(String dni) {
-		this.ventanaPantallaTV.
+	public void muestraTurno(Turno turno) {
+		this.ventanaPantallaTV.agregaTurno(turno);
 
 	}
 	

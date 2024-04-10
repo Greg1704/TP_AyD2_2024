@@ -138,33 +138,27 @@ public class VentanaPantallaTV extends JFrame {
 	}*/
 	
 	public void agregaTurno(Turno turno)  { 
-		String dni = turno.getDni(); 
-		int box = turno.getNumeroDeBox(); 
 		
 		turnosMuestra.remove(4);
 		
-		 for (Map.Entry<Integer, Integer> entry : hashMap.entrySet()) {
+		 for (Map.Entry<Integer, Turno> entry : turnosMuestra.entrySet()) { //ver si funciona, no se
 	            int key = entry.getKey();
-	            int value = entry.getValue();
-	            if (key >= posicion) {
-	                hashMap.put(key, value + incremento);
-	            }
+	            Turno value = entry.getValue();
+	            turnosMuestra.put(key + 1, value);
 	        }
 
-		
-        turnosMuestra.put(dni, turno);
+        turnosMuestra.put(1, turno);
         actualizaPantalla(); 
 	}
 	
 	public void actualizaPantalla() { 
-		this.lblPantallaBox1.setText(turnosMuestra.);
-		this.lblPantallaDni1
-		this.lblPantallaBox2
-		this.lblPantallaDni2
-		this.lblPantallaBox3
-		this.lblPantallaDni3
-		this.lblPantallaBox4
-		this.lblPantallaBox4
+		this.lblPantallaBox1.setText(turnosMuestra.get(1).getNumeroDeBox());
+		this.lblPantallaDni1.setText(turnosMuestra.get(1).getDni());
+		this.lblPantallaBox2.setText(turnosMuestra.get(2).getNumeroDeBox());
+		this.lblPantallaDni2.setText(turnosMuestra.get(1).getDni());
+		this.lblPantallaBox3.setText(turnosMuestra.get(3).getNumeroDeBox());
+		this.lblPantallaDni3.setText(turnosMuestra.get(1).getDni());
+		this.lblPantallaBox4.setText(turnosMuestra.get(4).getNumeroDeBox());
 	}
 	
 	public void setControlador (ControladorVentanaPantallaTV controladorVentanaPantallaTV) {
