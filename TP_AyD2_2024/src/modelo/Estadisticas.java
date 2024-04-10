@@ -2,6 +2,16 @@ package modelo;
 
 public class Estadisticas {
 	public int cantCliAtentidos;
+	public float tiempoEsperaProm;
+	
+	public float getTiempoEsperaProm() {
+		return tiempoEsperaProm;
+	}
+
+	public void setTiempoEsperaProm(float tiempoEsperaProm) {
+		this.tiempoEsperaProm = tiempoEsperaProm;
+	}
+
 	public float tiempoEsperaMin;
 	public float tiempoEsperaMax;
 	

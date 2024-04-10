@@ -1,4 +1,5 @@
 package ventana;
+import modelo.Estadisticas;
 
 import java.awt.EventQueue;
 
@@ -18,6 +19,13 @@ public class VentanaSupervisor extends JFrame {
 	private JPanel contentPane;
 	private ControladorVentanaSupervisor controladorVentanaSupervisor;
 
+	private JLabel lblCantClientesAtendidos;
+	private JLabel lblTiempoPromedioEspera;
+	private JLabel lblTiempoMaxEspera;
+	private JLabel lblTiempoMinEspera;
+	private Estadisticas estadisticas; 
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -95,9 +103,12 @@ public class VentanaSupervisor extends JFrame {
 		this.inicializa(controladorVentanaSupervisor); 
 	}
 
-	private void inicializa(ControladorVentanaSupervisor controladorVentanaSupervisor) {
-		
-	}
 	
+	private void CargaEstadistica() {
+		this.lblCantClientesAtendidos.setText(estadisticas.getCantCliAtentidos());
+		this.lblTiempoPromedioEspera.setText(estadisticas.getTiempoEsperaProm());
+		this.lblTiempoMaxEspera.setText(estadisticas.getTiempoEsperaMax());
+		this.lblTiempoMinEspera.setText(estadisticas.getTiempoEsperaMin());
+	}
 	
 }
