@@ -31,7 +31,7 @@ public class ControladorVentanaPantallaTV{
 	}
 	
 	public static ControladorVentanaPantallaTV getInstancia() {
-		if (instancia == null)
+		if (instancia == null) 
 			instancia = new ControladorVentanaPantallaTV();
 		return instancia;
 	}
