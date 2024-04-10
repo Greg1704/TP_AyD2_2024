@@ -65,7 +65,7 @@ public class VentanaOperador extends JFrame implements ActionListener{
 	
 	public void inicializa(ActionListener actionListener) { 
 		this.btnOperador.addActionListener(actionListener);
-		System.out.println("hola");
+		//System.out.println("hola");
 	}
 
 	@Override

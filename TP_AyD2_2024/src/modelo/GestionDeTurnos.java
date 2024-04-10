@@ -27,6 +27,12 @@ public class GestionDeTurnos {
 			System.out.println("turno no encontrado");
 	}
 	
+	public Turno extraerPrimerTurno() {
+		Turno t = colaDeTurnos.get(0);
+		colaDeTurnos.remove(0);
+		return t;
+	}
+	
 	public void llevarTurnoAPantalla() {
 		Turno turno = colaDeTurnos.get(0);
 		

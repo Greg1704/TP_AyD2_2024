@@ -19,29 +19,54 @@ public class ControladorVentanaOperador implements ActionListener{
 	private VentanaOperador ventanaOperador; 
 	private String siguiente = "false";
 	private InetAddress direccion; 
-	private DatagramSocket socketUPD; 
+	private DatagramSocket socketUPD;
+	static byte[] buffer = new byte[1024];
 	final int portServidor = 10000;
 	private static ControladorVentanaOperador instancia = null;
 	
-	public void iniciaConexion() { 
+	
+	private ControladorVentanaOperador() {
+		
 		try {
-			direccion = InetAddress.getByName("localHost");
-			socketUPD = new DatagramSocket();
+			int puerto = 10300;
+			
+			InetAddress direccion = InetAddress.getByName("localHost");
+			
+			
+			while(!puertoDisponible(puerto))
+				puerto++;
+			socketUPD = new DatagramSocket(puerto); 
+			String reg = "Soy un operador y me quiero conectar con el servidor";
+			
+			buffer = reg.getBytes();
+			DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
+			
+			socketUPD.send(salida);
+			
+		
+			
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (SocketException e) {
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	 
-	}
-	
-	private ControladorVentanaOperador() {
-		super();
+		
 		this.ventanaOperador = new VentanaOperador();
 		this.ventanaOperador.setControlador(this);
 	}
+	
+	public static boolean puertoDisponible(int puerto) {
+        try {
+            DatagramSocket socket = new DatagramSocket(puerto);
+            socket.close(); 
+            return true; 
+        } catch (SocketException e) {
+            return false; 
+        }
+    }
+	
 	
 	public static ControladorVentanaOperador getInstancia() {
 		if (instancia == null)
