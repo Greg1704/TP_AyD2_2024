@@ -12,6 +12,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -43,6 +44,7 @@ public class ControladorVentanaTotem implements ActionListener{
 			socketUPD = new DatagramSocket(puerto); 
 			String reg = "Soy un totem y me quiero conectar con el servidor";
 			
+			Arrays.fill(buffer, (byte) 0);
 			buffer = reg.getBytes();
 			DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 			
@@ -93,6 +95,7 @@ public class ControladorVentanaTotem implements ActionListener{
 					direccion = InetAddress.getByName("localHost");
 					//DatagramSocket socketUPD = new DatagramSocket(); 
 					//dni = "DNIT " + dni;
+					Arrays.fill(buffer, (byte) 0);
 					buffer = dni.getBytes();
 					DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 					socketUPD.send(salida);

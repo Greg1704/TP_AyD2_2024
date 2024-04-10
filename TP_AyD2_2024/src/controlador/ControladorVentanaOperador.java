@@ -8,6 +8,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 
 import javax.swing.JOptionPane;
 
@@ -30,7 +31,7 @@ public class ControladorVentanaOperador implements ActionListener{
 		try {
 			int puerto = 10300;
 			
-			InetAddress direccion = InetAddress.getByName("localHost");
+			direccion = InetAddress.getByName("localHost");
 			
 			
 			while(!puertoDisponible(puerto))
@@ -38,6 +39,7 @@ public class ControladorVentanaOperador implements ActionListener{
 			socketUPD = new DatagramSocket(puerto); 
 			String reg = "Soy un operador y me quiero conectar con el servidor";
 			
+			Arrays.fill(buffer, (byte) 0);
 			buffer = reg.getBytes();
 			DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 			
@@ -75,10 +77,13 @@ public class ControladorVentanaOperador implements ActionListener{
 	}
 
 	public void actionPerformed(ActionEvent e) { //deberia conectarse con el servidor y enviar un "true" (hay que ver como sacar el string y poner un boolean o algo) diciendo que hay siguiente.
+		Arrays.fill(buffer, (byte) 0);
 		if (e.getActionCommand().equalsIgnoreCase("Llamar siguiente")) { 
-			byte[] buffer = new byte[1024]; 
+			//byte[] buffer = new byte[1024]; 
 			siguiente = "true";
 			try {
+				
+				Arrays.fill(buffer, (byte) 0);
 				buffer = siguiente.getBytes();
 				DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 				
@@ -89,7 +94,11 @@ public class ControladorVentanaOperador implements ActionListener{
 				int siOno = JOptionPane.showConfirmDialog(null,"Se presento el cliente?",null, JOptionPane.YES_NO_OPTION);
 				
 				if (siOno == JOptionPane.YES_OPTION) {
-		            //Almacenar en algun lado dato de se presento el cliente para contar clientes atendidos
+					String acepto = "acepto";
+					Arrays.fill(buffer, (byte) 0);
+					buffer = acepto.getBytes();
+					DatagramPacket salidaSi = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
+					socketUPD.send(salidaSi);
 		        }
 				
 				this.ventanaOperador.setVisible(true);
