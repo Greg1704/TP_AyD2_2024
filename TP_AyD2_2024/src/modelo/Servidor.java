@@ -66,7 +66,7 @@ public class Servidor {
 						conexiones.put(puertoEntrada,"Operador");
 					}else if(mensaje.equals("acepto")){ //Caso confirmacion de llegada del cliente al box
 						System.out.println("El cliente vino al box papa");
-					}else if(mensaje.equals("true")){ //Caso en el que el operador solicita un nuevo cliente para que vaya al box
+					}else{ //Caso en el que el operador solicita un nuevo cliente para que vaya al box
 						Turno t = gdt.extraerPrimerTurno();
 						//esperando a nahue :D
 					}
