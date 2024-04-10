@@ -9,6 +9,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ public class Servidor {
 		//ArrayList<Integer> conexiones = new ArrayList<>(); 
 		HashMap<Integer, String> conexiones = new HashMap<>();
 		GestionDeTurnos gdt = new GestionDeTurnos();
+		ArrayList<Integer> boxesOcupados = new ArrayList<Integer>();
 		
 		 
 		try {
@@ -64,6 +66,19 @@ public class Servidor {
 					if (!conexiones.containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
 						System.out.println("se establecio la conexion con: " + puertoEntrada);
 						conexiones.put(puertoEntrada,"Operador");
+						int box = Integer.parseInt(mensaje);
+						if(boxesOcupados.contains(box)) {
+							box = 1;
+							while(boxesOcupados.contains(box))
+								box++;
+						}
+						boxesOcupados.add(box);
+						Arrays.fill(buffer, (byte) 0);
+						String reg = Integer.toString(box);
+						buffer = reg.getBytes();
+						DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
+						socketUDP.send(salida);
+						
 					}else if(mensaje.equals("acepto")){ //Caso confirmacion de llegada del cliente al box
 						System.out.println("El cliente vino al box papa");
 					}else{ //Caso en el que el operador solicita un nuevo cliente para que vaya al box

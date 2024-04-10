@@ -12,6 +12,7 @@ import java.util.Arrays;
 
 import javax.swing.JOptionPane;
 
+import modelo.Operador;
 import ventana.VentanaOperador;
 
 
@@ -24,12 +25,14 @@ public class ControladorVentanaOperador implements ActionListener{
 	static byte[] buffer = new byte[1024];
 	final int portServidor = 10000;
 	private static ControladorVentanaOperador instancia = null;
+	int puerto;
+	Operador op;
 	
 	
 	private ControladorVentanaOperador() {
 		
 		try {
-			int puerto = 10300;
+			puerto = 10300;
 			
 			direccion = InetAddress.getByName("localHost");
 			
@@ -37,15 +40,14 @@ public class ControladorVentanaOperador implements ActionListener{
 			while(!puertoDisponible(puerto))
 				puerto++;
 			socketUPD = new DatagramSocket(puerto); 
-			String reg = "Soy un operador y me quiero conectar con el servidor";
+			
+			String reg = ingresarNumeroDeBox();
 			
 			Arrays.fill(buffer, (byte) 0);
 			buffer = reg.getBytes();
 			DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 			
 			socketUPD.send(salida);
-			
-		
 			
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
@@ -57,6 +59,8 @@ public class ControladorVentanaOperador implements ActionListener{
 		
 		this.ventanaOperador = new VentanaOperador();
 		this.ventanaOperador.setControlador(this);
+		op = new Operador(1);
+		op.esperandoNotificaciones(socketUPD);
 	}
 	
 	public static boolean puertoDisponible(int puerto) {
@@ -67,6 +71,29 @@ public class ControladorVentanaOperador implements ActionListener{
         } catch (SocketException e) {
             return false; 
         }
+    }
+	
+	public String ingresarNumeroDeBox() {
+        String input = "";
+        boolean esNumero = false;
+        
+        // Ciclo para asegurarnos de que el usuario ingrese solo números
+        while (!esNumero) {
+            // Mostramos la ventana emergente para que el usuario ingrese el texto
+            input = JOptionPane.showInputDialog("Ingrese el numero de box que desea:");
+            
+            // Verificamos si el input es un número
+            try {
+                Integer.parseInt(input);
+                // Si no se genera ninguna excepción, significa que es un número
+                esNumero = true;
+            } catch (NumberFormatException e) {
+                // Si se genera una excepción, significa que no es un número
+                JOptionPane.showMessageDialog(null, "Por favor, ingresa solo números.");
+            }
+        }
+        
+        return input;
     }
 	
 	
