@@ -141,9 +141,18 @@ public class VentanaPantallaTV extends JFrame {
 		String dni = turno.getDni(); 
 		int box = turno.getNumeroDeBox(); 
 		
-		String turnoViejo = this.lblPantallaDni4.getText();
-		turnosMuestra.remove(turnoViejo);
-        turnosMuestra.put(dni, box);
+		turnosMuestra.remove(4);
+		
+		 for (Map.Entry<Integer, Integer> entry : hashMap.entrySet()) {
+	            int key = entry.getKey();
+	            int value = entry.getValue();
+	            if (key >= posicion) {
+	                hashMap.put(key, value + incremento);
+	            }
+	        }
+
+		
+        turnosMuestra.put(dni, turno);
         actualizaPantalla(); 
 	}
 	
