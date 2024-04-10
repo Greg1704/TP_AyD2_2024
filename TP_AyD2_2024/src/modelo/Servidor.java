@@ -63,6 +63,7 @@ public class Servidor {
 						conexiones.put(puertoEntrada,"Operador");
 					}else { //Caso en el que el operador solicita un nuevo cliente para que vaya al box
 						Turno t = gdt.extraerPrimerTurno();
+						//esperando a nahue :D
 					}
 				}else if(puertoEntrada >= 10500 && puertoEntrada <=10600) { //Entrada de las Pantallas TV
 					if (!conexiones.containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
