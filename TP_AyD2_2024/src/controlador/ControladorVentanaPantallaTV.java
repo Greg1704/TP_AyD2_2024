@@ -7,6 +7,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import ventana.VentanaPantallaTV;
 
@@ -57,11 +59,23 @@ public class ControladorVentanaPantallaTV{
 			
 			dni = new String(entrada.getData());
 			System.out.println(dni);
+			muestraTurno(dni);
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} //recibe dni
 	}
+	
+	public void muestraTurno(String dni) {
+		this.ventanaPantallaTV.
+
+	}
+	
+	
+	
+	
+	
+	
 	
 }
