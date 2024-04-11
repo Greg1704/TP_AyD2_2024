@@ -44,6 +44,7 @@ public class VentanaPantallaTV extends JFrame {
 		contentPane.setLayout(new GridLayout(5, 2, 0, 0));
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(new Color(0, 128, 192));
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		contentPane.add(panel);
 		
@@ -52,6 +53,7 @@ public class VentanaPantallaTV extends JFrame {
 		panel.add(lblPantallaDniTexto);
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(0, 128, 192));
 		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		contentPane.add(panel_1);
 		
@@ -60,24 +62,27 @@ public class VentanaPantallaTV extends JFrame {
 		panel_1.add(lblPantallaBoxTexto);
 		
 		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(new Color(192, 192, 192));
 		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
 		contentPane.add(panel_2);
 		
 		//de aca abajo estan los casilleros
 		
 		lblPantallaDni1 = new JLabel("");
-		lblPantallaDni1.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblPantallaDni1.setFont(new Font("Tahoma", Font.BOLD, 24));
 		panel_2.add(lblPantallaDni1);
 		
 		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(new Color(192, 192, 192));
 		panel_3.setBorder(new LineBorder(new Color(0, 0, 0)));
 		contentPane.add(panel_3);
 		
 		lblPantallaBox1 = new JLabel("");
-		lblPantallaBox1.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblPantallaBox1.setFont(new Font("Tahoma", Font.BOLD, 24));
 		panel_3.add(lblPantallaBox1);
 		
 		JPanel panel_4 = new JPanel();
+		panel_4.setBackground(new Color(192, 192, 192));
 		panel_4.setBorder(new LineBorder(new Color(0, 0, 0)));
 		contentPane.add(panel_4);
 		
@@ -86,6 +91,7 @@ public class VentanaPantallaTV extends JFrame {
 		panel_4.add(lblPantallaDni2);
 		
 		JPanel panel_5 = new JPanel();
+		panel_5.setBackground(new Color(192, 192, 192));
 		panel_5.setBorder(new LineBorder(new Color(0, 0, 0)));
 		contentPane.add(panel_5);
 		
@@ -94,6 +100,7 @@ public class VentanaPantallaTV extends JFrame {
 		panel_5.add(lblPantallaBox2);
 		
 		JPanel panel_6 = new JPanel();
+		panel_6.setBackground(new Color(192, 192, 192));
 		panel_6.setBorder(new LineBorder(new Color(0, 0, 0)));
 		contentPane.add(panel_6);
 		
@@ -102,6 +109,7 @@ public class VentanaPantallaTV extends JFrame {
 		panel_6.add(lblPantallaDni3);
 		
 		JPanel panel_7 = new JPanel();
+		panel_7.setBackground(new Color(192, 192, 192));
 		panel_7.setBorder(new LineBorder(new Color(0, 0, 0)));
 		contentPane.add(panel_7);
 		
@@ -110,6 +118,7 @@ public class VentanaPantallaTV extends JFrame {
 		panel_7.add(lblPantallaBox3);
 		
 		JPanel panel_8 = new JPanel();
+		panel_8.setBackground(new Color(192, 192, 192));
 		panel_8.setBorder(new LineBorder(new Color(0, 0, 0)));
 		contentPane.add(panel_8);
 		
@@ -118,6 +127,7 @@ public class VentanaPantallaTV extends JFrame {
 		panel_8.add(lblPantallaDni4);
 		
 		JPanel panel_9 = new JPanel();
+		panel_9.setBackground(new Color(192, 192, 192));
 		panel_9.setBorder(new LineBorder(new Color(0, 0, 0)));
 		contentPane.add(panel_9);
 		
