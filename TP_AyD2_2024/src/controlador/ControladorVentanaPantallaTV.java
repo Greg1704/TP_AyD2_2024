@@ -6,10 +6,13 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import modelo.PantallaTV;
 import modelo.Turno;
 import ventana.VentanaPantallaTV;
 
@@ -22,12 +25,43 @@ public class ControladorVentanaPantallaTV{
 	private DatagramSocket socketUPD;
 	private InetAddress direccion;
 	private static ControladorVentanaPantallaTV instancia = null;
+	private PantallaTV tv;
 
 	private ControladorVentanaPantallaTV() {
-		super();
+		
+		try {
+			
+			int puerto = 10500;
+			
+			InetAddress direccion = InetAddress.getByName("localHost");
+			
+			
+			while(!puertoDisponible(puerto))
+				puerto++;
+			socketUPD = new DatagramSocket(puerto); 
+			String reg = "Soy un televisor y me quiero conectar con el servidor";
+			
+			Arrays.fill(buffer, (byte) 0);
+			buffer = reg.getBytes();
+			DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
+			socketUPD.send(salida);
+			
+		
+			
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		this.ventanaPantallaTV = new VentanaPantallaTV();
 		this.ventanaPantallaTV.setControlador(this);
 		this.dni = "";
+		this.tv = new PantallaTV();
+		tv.esperandoNotificaciones(socketUPD);
 	}
 	
 	public static ControladorVentanaPantallaTV getInstancia() {
@@ -36,23 +70,18 @@ public class ControladorVentanaPantallaTV{
 		return instancia;
 	}
 	
-	public void iniciaConexion() { 
-		try {
-			direccion = InetAddress.getByName("localHost");	
-			socketUPD = new DatagramSocket(); 
-			
-			
-		
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+	public static boolean puertoDisponible(int puerto) {
+        try {
+            DatagramSocket socket = new DatagramSocket(puerto);
+            socket.close(); 
+            return true; 
+        } catch (SocketException e) {
+            return false; 
+        }
+    }
+
 	
-	public void recibeDNI() { 
+	/**public void recibeDNI() { 
 		try {
 			buffer = dni.getBytes();
 			DatagramPacket entrada = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
@@ -66,7 +95,7 @@ public class ControladorVentanaPantallaTV{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} //recibe dni
-	}
+	}**/
 	
 	public void muestraTurno(Turno turno) {
 		this.ventanaPantallaTV.agregaTurno(turno);

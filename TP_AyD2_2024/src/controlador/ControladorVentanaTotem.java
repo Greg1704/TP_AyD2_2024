@@ -47,7 +47,6 @@ public class ControladorVentanaTotem implements ActionListener{
 			Arrays.fill(buffer, (byte) 0);
 			buffer = reg.getBytes();
 			DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
-			System.out.println("Suerte encontrandome grego");
 			socketUPD.send(salida);
 			
 		
