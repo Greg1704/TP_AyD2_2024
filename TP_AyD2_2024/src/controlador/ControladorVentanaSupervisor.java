@@ -2,6 +2,7 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -17,7 +18,7 @@ import java.io.Serializable;
 
 import javax.swing.JOptionPane;
 
-
+import ventana.VentanaLogin;
 import ventana.VentanaSupervisor;
 import ventana.VentanaTotem;
 import modelo.Estadisticas;
@@ -25,6 +26,8 @@ import modelo.Estadisticas;
 public class ControladorVentanaSupervisor implements ActionListener{
 
 	private VentanaSupervisor ventanasupervisor; 
+	private VentanaLogin ventanaLogin;
+	public boolean admin;
 	private static ControladorVentanaSupervisor instancia = null;
 	private InetAddress direccion; 
 	private DatagramSocket socketUPD; 
@@ -38,36 +41,42 @@ public class ControladorVentanaSupervisor implements ActionListener{
 	
 	
 	private ControladorVentanaSupervisor() { 
+		this.ventanaLogin = new VentanaLogin(); 
+		this.ventanaLogin.setControladorSupervisor(this);
 		
-		try {
+		if (admin) {
+			this.ventanaLogin.frame.setVisible(false);
+			try {
+				
+				int puerto = 10700;
+				
+				InetAddress direccion = InetAddress.getByName("localHost");
+				
+				
+				while(!puertoDisponible(puerto))
+					puerto++;
+				socketUPD = new DatagramSocket(puerto); 
+				String reg = "1111";
+				
+				buffer = reg.getBytes();
+				DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
+				
+				socketUPD.send(salida);
+		
+				
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
-			int puerto = 10700;
-			
-			InetAddress direccion = InetAddress.getByName("localHost");
 			
 			
-			while(!puertoDisponible(puerto))
-				puerto++;
-			socketUPD = new DatagramSocket(puerto); 
-			String reg = "1111";
-			
-			buffer = reg.getBytes();
-			DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
-			
-			socketUPD.send(salida);
-	
-			
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			this.ventanasupervisor = new VentanaSupervisor();
+			this.ventanasupervisor.setControlador(this);
 		}
-		
-		
-		this.ventanasupervisor = new VentanaSupervisor();
-		this.ventanasupervisor.setControlador(this);
 	}
 	
 	public static boolean puertoDisponible(int puerto) {

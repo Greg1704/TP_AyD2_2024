@@ -13,13 +13,16 @@ import java.util.Arrays;
 import javax.swing.JOptionPane;
 
 import modelo.Operador;
+import ventana.VentanaLogin;
 import ventana.VentanaOperador;
 
 
 public class ControladorVentanaOperador implements ActionListener{
 
-	private VentanaOperador ventanaOperador; 
+	private VentanaOperador ventanaOperador;
+	private VentanaLogin ventanaLogin;
 	private String siguiente = "false";
+	public boolean admin;
 	private InetAddress direccion; 
 	private DatagramSocket socketUPD;
 	static byte[] buffer = new byte[1024];
@@ -30,37 +33,46 @@ public class ControladorVentanaOperador implements ActionListener{
 	
 	
 	private ControladorVentanaOperador() {
+		this.ventanaLogin = new VentanaLogin(); 
+		this.ventanaLogin.setControladorOperador(this);
+		this.ventanaLogin.setActionListener(this);
+
+		//this.ventanaLogin.setControlador(this);
 		
-		try {
-			puerto = 10300;
+		
+		if (admin) {
+			this.ventanaLogin.setVisible(false);
+			try {
+				puerto = 10300;
+				
+				direccion = InetAddress.getByName("localHost");
+				
+				
+				while(!puertoDisponible(puerto))
+					puerto++;
+				socketUPD = new DatagramSocket(puerto); 
+				
+				String reg = ingresarNumeroDeBox();
+				
+				Arrays.fill(buffer, (byte) 0);
+				buffer = reg.getBytes();
+				DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
+				
+				socketUPD.send(salida);
+				
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
-			direccion = InetAddress.getByName("localHost");
-			
-			
-			while(!puertoDisponible(puerto))
-				puerto++;
-			socketUPD = new DatagramSocket(puerto); 
-			
-			String reg = ingresarNumeroDeBox();
-			
-			Arrays.fill(buffer, (byte) 0);
-			buffer = reg.getBytes();
-			DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
-			
-			socketUPD.send(salida);
-			
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			this.ventanaOperador = new VentanaOperador();
+			this.ventanaOperador.setControlador(this);
+			//op = new Operador(1);
+			this.esperandoNotificaciones(socketUPD);
 		}
-		
-		this.ventanaOperador = new VentanaOperador();
-		this.ventanaOperador.setControlador(this);
-		//op = new Operador(1);
-		this.esperandoNotificaciones(socketUPD);
 	}
 	
 	public static boolean puertoDisponible(int puerto) {
@@ -138,6 +150,10 @@ public class ControladorVentanaOperador implements ActionListener{
 				e1.printStackTrace();
 			}
 			
+		}else { 
+			if (e.getActionCommand().equalsIgnoreCase("LogIn")) { 
+				this.admin=this.ventanaLogin.consultaAdmin(); 
+			}
 		}
 	}
 	

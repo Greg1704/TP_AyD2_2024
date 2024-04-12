@@ -59,7 +59,7 @@ public class VentanaTotem extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaTotem() { //falta boton de borrar
+	public VentanaTotem() { 
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 337, 277);
