@@ -40,26 +40,7 @@ public class VentanaTotem extends JFrame {
 	private JButton btnBorrar;
 	private ControladorVentanaTotem controladorVentanaTotem;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaTotem frame = new VentanaTotem();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public VentanaTotem() { //falta boton de borrar
+	public VentanaTotem() { 
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 337, 277);

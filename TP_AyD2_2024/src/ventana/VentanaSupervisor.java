@@ -100,10 +100,10 @@ public class VentanaSupervisor extends JFrame {
 	
 	public void setControlador(ControladorVentanaSupervisor controladorVentanaSupervisor) {
 		this.controladorVentanaSupervisor = controladorVentanaSupervisor;
-		this.inicializa(controladorVentanaSupervisor); 
 	}
 
 	
+
 	private void CargaEstadistica() {
 		this.lblCantClientesAtendidos.setText(estadisticas.getCantCliAtentidos());
 		this.lblTiempoPromedioEspera.setText(estadisticas.getTiempoEsperaProm());
