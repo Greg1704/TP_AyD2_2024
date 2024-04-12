@@ -1,8 +1,10 @@
 package modelo;
 
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -13,6 +15,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Executors;
 
 public class Servidor {
@@ -25,12 +28,14 @@ public class Servidor {
 		byte[] buffer = new byte[1024];
 		
 		//ArrayList<Integer> conexiones = new ArrayList<>(); 
-		HashMap<Integer, String> conexiones = new HashMap<>();
+		HashMap<String, Integer> conexiones = new HashMap<>();
 		GestionDeTurnos gdt = new GestionDeTurnos();
-		ArrayList<Integer> boxesOcupados = new ArrayList<Integer>();
-		
+		//ArrayList<Integer> boxesOcupados = new ArrayList<Integer>();
+		HashMap<Integer, Integer> boxesOcupados = new HashMap<>();  //<N Box,Puerto Box>
 		 
 		try {
+			ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+	        ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
 			DatagramSocket socketUDP = new DatagramSocket(port); 
 			System.out.println("Servidor iniciado");
 			
@@ -56,7 +61,7 @@ public class Servidor {
 				if(puertoEntrada >= 10100 && puertoEntrada <=10200) { //Entrada de Totems
 					if (!conexiones.containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
 						System.out.println("se establecio la conexion con: " + puertoEntrada);
-						conexiones.put(puertoEntrada,"Totem");   
+						conexiones.put("Totem",puertoEntrada);   
 					}else { //Caso en el que se este enviando un turno para el subsistema de gestion de turnos
 						System.out.println("Entro al lugar indicado");
 						gdt.añadirTurno(mensaje);
@@ -65,14 +70,14 @@ public class Servidor {
 				}else if(puertoEntrada >= 10300 && puertoEntrada <=10400) { //Entrada de Operadores/Boxs
 					if (!conexiones.containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
 						System.out.println("se establecio la conexion con: " + puertoEntrada);
-						conexiones.put(puertoEntrada,"Operador");
+						conexiones.put("Operador",puertoEntrada);
 						int box = Integer.parseInt(mensaje);
-						if(boxesOcupados.contains(box)) {
+						if(boxesOcupados.containsValue(box)) {
 							box = 1;
-							while(boxesOcupados.contains(box))
+							while(boxesOcupados.containsValue(box))
 								box++;
 						}
-						boxesOcupados.add(box);
+						boxesOcupados.put(puertoEntrada,box);
 						Arrays.fill(buffer, (byte) 0);
 						String reg = Integer.toString(box);
 						buffer = reg.getBytes();
@@ -81,14 +86,25 @@ public class Servidor {
 						
 					}else if(mensaje.equals("acepto")){ //Caso confirmacion de llegada del cliente al box
 						System.out.println("El cliente vino al box papa");
-					}else{ //Caso en el que el operador solicita un nuevo cliente para que vaya al box
+					}else{ //Caso en el que el operador solicita un nuevo cliente para que vaya al box   
 						Turno t = gdt.extraerPrimerTurno();
-						//esperando a nahue :D
+						t.setNumeroDeBox(String.valueOf(boxesOcupados.get(puertoEntrada)));
+						objectStream.writeObject(t);
+			            objectStream.flush();
+			            Arrays.fill(buffer, (byte) 0);
+			            buffer = byteStream.toByteArray();
+			            for (Map.Entry<String,Integer> entry : conexiones.entrySet()) {
+			                if (entry.getKey().equals("TV")) {
+			                    DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,entry.getValue());
+								socketUDP.send(salida);
+			                }
+			            }
+						
 					}
 				}else if(puertoEntrada >= 10500 && puertoEntrada <=10600) { //Entrada de las Pantallas TV
 					if (!conexiones.containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
 						System.out.println("se establecio la conexion con: " + puertoEntrada);
-						conexiones.put(puertoEntrada,"TV"); 
+						conexiones.put("TV",puertoEntrada); 
 						System.out.println("Televisor en linea papito");
 						Arrays.fill(buffer, (byte) 0);
 						String reg = "1234";

@@ -1,6 +1,8 @@
 package modelo;
 
-public class Turno {
+import java.io.Serializable;
+
+public class Turno implements Serializable{
 	public String dni;
 	public String numeroDeBox;
 	
