@@ -21,6 +21,7 @@ public class VentanaOperador extends JFrame implements ActionListener{
 	private JPanel contentPane;
 	private ControladorVentanaOperador ControladorVentanaOperador;
 	private JLabel lblTextNroBox;
+	private JLabel lblNroBox;
 
 	
 	public VentanaOperador() {
@@ -47,7 +48,7 @@ public class VentanaOperador extends JFrame implements ActionListener{
 		lblTextNroBox.setBounds(10, 11, 111, 49);
 		panel.add(lblTextNroBox);
 		
-		JLabel lblNroBox = new JLabel("");
+		lblNroBox = new JLabel("");
 		lblNroBox.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblNroBox.setEnabled(false);
 		lblNroBox.setBounds(124, 21, 93, 35);
@@ -72,5 +73,9 @@ public class VentanaOperador extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void setBox(String box) {
+		this.lblNroBox.setText(box);
 	}
 }
