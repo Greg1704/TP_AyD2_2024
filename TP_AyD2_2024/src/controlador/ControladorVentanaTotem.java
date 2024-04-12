@@ -94,7 +94,7 @@ public class ControladorVentanaTotem implements ActionListener{
 					direccion = InetAddress.getByName("localHost");
 					//DatagramSocket socketUPD = new DatagramSocket(); 
 					//dni = "DNIT " + dni;
-					Arrays.fill(buffer, (byte) 0);
+					System.out.println(dni);
 					buffer = dni.getBytes();
 					DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 					socketUPD.send(salida);
@@ -106,6 +106,7 @@ public class ControladorVentanaTotem implements ActionListener{
 				this.ventanaTotem.errorLargo();
 			}
 		}
+		Arrays.fill(buffer, (byte) 0);
 	}
 
 }

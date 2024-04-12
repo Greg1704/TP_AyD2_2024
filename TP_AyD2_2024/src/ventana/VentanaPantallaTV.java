@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.swing.JLabel;
@@ -151,11 +152,14 @@ public class VentanaPantallaTV extends JFrame {
 		
 		turnosMuestra.remove(4);
 		
-		 for (Map.Entry<Integer, Turno> entry : turnosMuestra.entrySet()) { //ver si funciona, no se
-	            int key = entry.getKey();
-	            Turno value = entry.getValue();
-	            turnosMuestra.put(key + 1, value);
-	        }
+		Iterator<Map.Entry<Integer, Turno>> iterator = turnosMuestra.entrySet().iterator();
+		while (iterator.hasNext()) {
+		    Map.Entry<Integer, Turno> entry = iterator.next();
+		    int key = entry.getKey();
+		    Turno value = entry.getValue();
+		    iterator.remove(); // Eliminar la entrada actual de manera segura
+		    turnosMuestra.put(key + 1, value); // Agregar una nueva entrada con la clave incrementada
+		}
 
         turnosMuestra.put(1, turno);
         actualizaPantalla(); 
@@ -164,11 +168,19 @@ public class VentanaPantallaTV extends JFrame {
 	public void actualizaPantalla() { 
 		this.lblPantallaBox1.setText(turnosMuestra.get(1).getNumeroDeBox());
 		this.lblPantallaDni1.setText(turnosMuestra.get(1).getDni());
-		this.lblPantallaBox2.setText(turnosMuestra.get(2).getNumeroDeBox());
-		this.lblPantallaDni2.setText(turnosMuestra.get(1).getDni());
-		this.lblPantallaBox3.setText(turnosMuestra.get(3).getNumeroDeBox());
-		this.lblPantallaDni3.setText(turnosMuestra.get(1).getDni());
-		this.lblPantallaBox4.setText(turnosMuestra.get(4).getNumeroDeBox());
+		if(turnosMuestra.containsKey(2)) {
+			this.lblPantallaBox2.setText(turnosMuestra.get(2).getNumeroDeBox());
+			this.lblPantallaDni2.setText(turnosMuestra.get(2).getDni());
+		}
+		if(turnosMuestra.containsKey(3)) {
+			this.lblPantallaBox3.setText(turnosMuestra.get(3).getNumeroDeBox());
+			this.lblPantallaDni3.setText(turnosMuestra.get(3).getDni());
+		}
+		if(turnosMuestra.containsKey(4)) {
+			this.lblPantallaBox4.setText(turnosMuestra.get(4).getNumeroDeBox());
+			this.lblPantallaDni4.setText(turnosMuestra.get(4).getDni());
+
+		}
 	}
 	
 	public void setControlador (ControladorVentanaPantallaTV controladorVentanaPantallaTV) {

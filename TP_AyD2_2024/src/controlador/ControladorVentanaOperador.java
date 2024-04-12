@@ -43,7 +43,6 @@ public class ControladorVentanaOperador implements ActionListener{
 			
 			String reg = ingresarNumeroDeBox();
 			
-			Arrays.fill(buffer, (byte) 0);
 			buffer = reg.getBytes();
 			DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 			
@@ -60,6 +59,8 @@ public class ControladorVentanaOperador implements ActionListener{
 		this.ventanaOperador = new VentanaOperador();
 		this.ventanaOperador.setControlador(this);
 		//op = new Operador(1);
+		Arrays.fill(buffer, (byte) 0);
+
 		this.esperandoNotificaciones(socketUPD);
 	}
 	
@@ -104,7 +105,6 @@ public class ControladorVentanaOperador implements ActionListener{
 	}
 
 	public void actionPerformed(ActionEvent e) { //deberia conectarse con el servidor y enviar un "true" (hay que ver como sacar el string y poner un boolean o algo) diciendo que hay siguiente.
-		Arrays.fill(buffer, (byte) 0);
 		if (e.getActionCommand().equalsIgnoreCase("Llamar siguiente")) { 
 			//byte[] buffer = new byte[1024]; 
 			siguiente = "true";
@@ -139,6 +139,8 @@ public class ControladorVentanaOperador implements ActionListener{
 			}
 			
 		}
+		Arrays.fill(buffer, (byte) 0);
+
 	}
 	
 	public void esperandoNotificaciones(DatagramSocket socketUDP) {
@@ -166,6 +168,7 @@ public class ControladorVentanaOperador implements ActionListener{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			Arrays.fill(buffer, (byte) 0);
 		}
 	}
 	

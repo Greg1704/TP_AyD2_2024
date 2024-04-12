@@ -2,7 +2,9 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -97,25 +99,31 @@ public class ControladorVentanaPantallaTV{
 	
 	public void esperandoNotificaciones(DatagramSocket socketUDP) {
 		// TODO Auto-generated method stub
-
+		byte[] buffer2 = new byte[2048];
 		while(true) {
-			DatagramPacket entrada = new DatagramPacket(buffer, buffer.length);
+			DatagramPacket entrada = new DatagramPacket(buffer2, buffer2.length);
 			try {
 				socketUDP.receive(entrada);
 				
-				String mensaje = new String(entrada.getData());
-				mensaje = mensaje.trim();
+				ByteArrayInputStream byteStream = new ByteArrayInputStream(entrada.getData());
+	            ObjectInputStream objectStream = new ObjectInputStream(byteStream);
+	            Turno t = (Turno) objectStream.readObject();
+				
+				/*String mensaje = new String(entrada.getData());
+				mensaje = mensaje.trim();*/
 				int puertoEntrada = entrada.getPort();
 				InetAddress direccion = entrada.getAddress();
 				
-				System.out.println(mensaje);
 				
 				if(puertoEntrada == 10000) {
-					System.out.println("Soy un televisor llamando la atención");
+					this.ventanaPantallaTV.agregaTurno(t);
 				}else {
 					System.out.println("Puerto no habilitado");
 				}
 			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
