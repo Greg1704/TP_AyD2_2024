@@ -3,8 +3,8 @@ package modelo;
 import java.io.Serializable;
 
 public class Turno implements Serializable{
-	public String dni;
-	public String numeroDeBox;
+	private String dni;
+	private String numeroDeBox;
 	
 	
 	public Turno(String dni) {
@@ -31,5 +31,13 @@ public class Turno implements Serializable{
 	public void setNumeroDeBox(String numeroDeBox) {
 		this.numeroDeBox = numeroDeBox;
 	}
+
+
+	@Override
+	public String toString() {
+		return "Turno [dni=" + dni + ", numeroDeBox=" + numeroDeBox + "]";
+	}
+	
+	
 	
 }

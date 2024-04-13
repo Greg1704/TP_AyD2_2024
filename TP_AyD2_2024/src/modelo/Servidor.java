@@ -33,8 +33,6 @@ public class Servidor {
 		HashMap<Integer, Integer> boxesOcupados = new HashMap<>();  //<N Box,Puerto Box>
 		 
 		try {
-			ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-	        ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
 			DatagramSocket socketUDP = new DatagramSocket(port); 
 			System.out.println("Servidor iniciado");
 			
@@ -88,8 +86,10 @@ public class Servidor {
 						System.out.println("El cliente vino al box papa");
 					}else{ //Caso en el que el operador solicita un nuevo cliente para que vaya al box   
 						Turno t = gdt.extraerPrimerTurno();
-						System.out.println(t.getDni() + "   " + t.getNumeroDeBox());
+						//System.out.println(t.getDni() + "   " + t.getNumeroDeBox());
 						t.setNumeroDeBox(String.valueOf(boxesOcupados.get(puertoEntrada)));
+						ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+				        ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
 						objectStream.writeObject(t);
 			            objectStream.flush();
 			            buffer = byteStream.toByteArray();

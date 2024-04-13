@@ -162,6 +162,12 @@ public class VentanaPantallaTV extends JFrame {
 		}
 
         turnosMuestra.put(1, turno);
+        /*for (Map.Entry<Integer, Turno> entry : turnosMuestra.entrySet()) {
+            int clave = entry.getKey();
+            Turno valor = entry.getValue();
+            System.out.println("Clave: " + clave + ", Valor: " + valor);
+        }  
+        System.out.println("--------------------------------------------");*/
         actualizaPantalla(); 
 	}
 	

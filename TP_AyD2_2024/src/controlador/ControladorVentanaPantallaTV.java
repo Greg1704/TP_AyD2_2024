@@ -99,8 +99,8 @@ public class ControladorVentanaPantallaTV{
 	
 	public void esperandoNotificaciones(DatagramSocket socketUDP) {
 		// TODO Auto-generated method stub
-		byte[] buffer2 = new byte[2048];
 		while(true) {
+			byte[] buffer2 = new byte[2048];
 			DatagramPacket entrada = new DatagramPacket(buffer2, buffer2.length);
 			try {
 				socketUDP.receive(entrada);
@@ -113,7 +113,7 @@ public class ControladorVentanaPantallaTV{
 				mensaje = mensaje.trim();*/
 				int puertoEntrada = entrada.getPort();
 				InetAddress direccion = entrada.getAddress();
-				
+				System.out.println(t);
 				
 				if(puertoEntrada == 10000) {
 					this.ventanaPantallaTV.agregaTurno(t);
