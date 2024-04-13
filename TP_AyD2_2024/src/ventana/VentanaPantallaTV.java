@@ -149,26 +149,18 @@ public class VentanaPantallaTV extends JFrame {
 	}*/
 	
 	public void agregaTurno(Turno turno)  { 
-		
-		turnosMuestra.remove(4);
-		
-		Iterator<Map.Entry<Integer, Turno>> iterator = turnosMuestra.entrySet().iterator();
-		while (iterator.hasNext()) {
-		    Map.Entry<Integer, Turno> entry = iterator.next();
-		    int key = entry.getKey();
-		    Turno value = entry.getValue();
-		    iterator.remove(); // Eliminar la entrada actual de manera segura
-		    turnosMuestra.put(key + 1, value); // Agregar una nueva entrada con la clave incrementada
-		}
-
-        turnosMuestra.put(1, turno);
-        /*for (Map.Entry<Integer, Turno> entry : turnosMuestra.entrySet()) {
-            int clave = entry.getKey();
-            Turno valor = entry.getValue();
-            System.out.println("Clave: " + clave + ", Valor: " + valor);
-        }  
-        System.out.println("--------------------------------------------");*/
-        actualizaPantalla(); 
+	    HashMap<Integer, Turno> nuevoTurnosMuestra = new HashMap<>();
+	    
+	    turnosMuestra.remove(4);
+	    
+	    for (Map.Entry<Integer, Turno> entry : turnosMuestra.entrySet()) {
+	        int clave = entry.getKey();
+	        Turno valor = entry.getValue();	        
+	        nuevoTurnosMuestra.put(clave + 1, valor);
+	    } 
+	    nuevoTurnosMuestra.put(1, turno);
+	    turnosMuestra = nuevoTurnosMuestra;
+	    actualizaPantalla(); 
 	}
 	
 	public void actualizaPantalla() { 
