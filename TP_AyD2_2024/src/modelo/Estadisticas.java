@@ -1,17 +1,23 @@
 package modelo;
 
 import java.util.List;
+
+import controlador.ControladorVentanaPantallaTV;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
 //VER: en que esta el resultado del cronometro (seg, miliseg, etc)
 
-public class Estadisticas {
+public class Estadisticas implements Serializable{
+	
 	private List<Long> tiemposEspera = new ArrayList<>();
 	public int cantCliAtentidos;
 	public float tiempoEsperaProm;
 	public float tiempoEsperaMin;
 	public float tiempoEsperaMax;
+	private static Estadisticas instancia = null;
 	
 	
 	public Estadisticas() {
@@ -20,6 +26,13 @@ public class Estadisticas {
 		this.tiempoEsperaProm =0.0f;
 		this.tiempoEsperaMin =0.0f;
 		this.tiempoEsperaMax = 0.0f;
+	}
+	
+	
+	public static Estadisticas getInstance() {
+		if (instancia == null) 
+			instancia = new Estadisticas();
+		return instancia;
 	}
 
 	public List<Long> getTiempos() {

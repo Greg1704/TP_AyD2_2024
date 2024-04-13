@@ -99,7 +99,7 @@ public class ControladorVentanaSupervisor implements ActionListener{
 	//Para recibir los datos de la clase estadistica
 	public void recibeEstadisticas() {
 		while (true) {
-			buffer = new byte[3072]; // Reservar buffer para recibir objeto
+			buffer = new byte[4096]; // Reservar buffer para recibir objeto //VER: chequear  valor buffer
 		    DatagramPacket entrada = new DatagramPacket(buffer, buffer.length, direccion, portServidor);
 		    try {
 		    	 socketUPD.receive(entrada);

@@ -135,7 +135,21 @@ public class Servidor {
 					  System.out.println("se establecio la conexion con: " + puertoEntrada);
 					  conexiones.put(puertoEntrada, "Supervisor");
 					  
-					  
+					  //VER: a chequear desde aca todo xq me base en el de arriba  :(
+					  Estadisticas e = estadisticas.getInstance();
+					  ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+				      ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
+				      objectStream.writeObject(e);
+			          objectStream.flush();
+			          buffer = byteStream.toByteArray();
+			          for (Map.Entry<Integer,String> entry : conexiones.entrySet()) {
+			                if (entry.getValue().equals("Supervisor")) {
+			                    DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,entry.getKey());
+								socketUDP.send(salida);
+			                }
+			            }
+			          
+			          
 					}
 				}
 		
