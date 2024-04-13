@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 
 public class Servidor {
-
+	
 	public static void main(String[] args) { 
 		ServerSocket servidor = null; 
 		Socket sc = null;
@@ -29,6 +29,7 @@ public class Servidor {
 		//ArrayList<Integer> conexiones = new ArrayList<>(); 
 		HashMap<Integer, String> conexiones = new HashMap<>();
 		GestionDeTurnos gdt = new GestionDeTurnos();
+		Estadisticas estadisticas = new Estadisticas();
 		//ArrayList<Integer> boxesOcupados = new ArrayList<Integer>();
 		HashMap<Integer, Integer> boxesOcupados = new HashMap<>();  //<N Box,Puerto Box>
 		 
@@ -54,7 +55,7 @@ public class Servidor {
 				//Totem: 10100 - 10200
 				//Operadores: 10300 - 10400 
 				//TV: 10500 - 10600 
-				
+				//Supervisor: 10700 - 10800
 				
 				if(puertoEntrada >= 10100 && puertoEntrada <=10200) { //Entrada de Totems
 					if (!conexiones.containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
@@ -84,6 +85,7 @@ public class Servidor {
 						
 					}else if(mensaje.equals("acepto")){ //Caso confirmacion de llegada del cliente al box
 						System.out.println("El cliente vino al box papa");
+						//estadisticas.agregarTiempos(t.getCronometro());  //VER:  Q IRIA ACAAAAAAAAA!!!
 					}else{ //Caso en el que el operador solicita un nuevo cliente para que vaya al box
 						if(!gdt.isColaTurnosVacia()) {
 							Turno t = gdt.extraerPrimerTurno();
@@ -105,6 +107,8 @@ public class Servidor {
 				            System.out.println("Largo buffer = " + buffer.length);
 							DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 							socketUDP.send(salida);
+
+							
 						}else {
 							System.out.println("Entro en donde no hay turnos");
 							String reg = "no hay turno";
@@ -124,6 +128,14 @@ public class Servidor {
 						buffer = reg.getBytes();
 						DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 						socketUDP.send(salida);*/
+					}
+				}
+				else if (puertoEntrada >= 10700 && puertoEntrada <=10800) {
+					if (!conexiones.containsKey(puertoEntrada)) {
+					  System.out.println("se establecio la conexion con: " + puertoEntrada);
+					  conexiones.put(puertoEntrada, "Supervisor");
+					  
+					  
 					}
 				}
 		

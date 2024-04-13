@@ -5,11 +5,14 @@ import java.io.Serializable;
 public class Turno implements Serializable{
 	private String dni;
 	private String numeroDeBox;
+	private Cronometro cronometro;
+	
 	
 	
 	public Turno(String dni) {
 		this.dni = dni;
 		this.numeroDeBox = "0";
+		this.cronometro = new Cronometro();
 	}
 
 
@@ -38,6 +41,8 @@ public class Turno implements Serializable{
 		return "Turno [dni=" + dni + ", numeroDeBox=" + numeroDeBox + "]";
 	}
 	
-	
+	public Cronometro getCronometro() {
+        return cronometro;
+    }
 	
 }

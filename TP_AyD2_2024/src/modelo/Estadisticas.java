@@ -1,20 +1,68 @@
 package modelo;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+
+//VER: en que esta el resultado del cronometro (seg, miliseg, etc)
+
 public class Estadisticas {
+	private List<Long> tiemposEspera = new ArrayList<>();
 	public int cantCliAtentidos;
 	public float tiempoEsperaProm;
+	public float tiempoEsperaMin;
+	public float tiempoEsperaMax;
+	
+	
+	public Estadisticas() {
+		super();
+		this.cantCliAtentidos = 0;
+		this.tiempoEsperaProm =0.0f;
+		this.tiempoEsperaMin =0.0f;
+		this.tiempoEsperaMax = 0.0f;
+	}
+
+	public List<Long> getTiempos() {
+		return tiemposEspera;
+	}
+
+	public void agregarTiempos(long tiempo) {
+	    tiemposEspera.add(tiempo);
+	    GeneraEstadisticas();
+	}
+	
+	public void agregarClienteAtendidos() {
+		this.cantCliAtentidos++;
+	}
+	
+	public void GeneraEstadisticas() {
+		if (tiemposEspera.isEmpty()) {
+            throw new IllegalStateException("La lista de tiempos está vacía");
+        }
+        
+		setTiempoEsperaMin(Collections.min(tiemposEspera));
+        setTiempoEsperaMax(Collections.max(tiemposEspera));
+        
+        long suma = 0;
+        for (long tiempo : tiemposEspera) {
+            suma += tiempo;
+        }
+        if (this.cantCliAtentidos>0)
+        	setTiempoEsperaProm((float)suma / this.cantCliAtentidos);
+        else {
+        	setTiempoEsperaProm(0);
+        }
+        	
+	}
+	
 	
 	public float getTiempoEsperaProm() {
 		return tiempoEsperaProm;
 	}
-
+	
 	public void setTiempoEsperaProm(float tiempoEsperaProm) {
 		this.tiempoEsperaProm = tiempoEsperaProm;
 	}
-
-	public float tiempoEsperaMin;
-	public float tiempoEsperaMax;
-	
 	
 	public int getCantCliAtentidos() {
 		return cantCliAtentidos;

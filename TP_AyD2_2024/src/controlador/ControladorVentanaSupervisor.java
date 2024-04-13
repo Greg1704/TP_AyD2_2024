@@ -26,7 +26,7 @@ import modelo.Estadisticas;
 public class ControladorVentanaSupervisor implements ActionListener{
 
 	private VentanaSupervisor ventanasupervisor; 
-	private VentanaLogin ventanaLogin;
+	private VentanaLogIn ventanaLogin;
 	public boolean admin;
 	private static ControladorVentanaSupervisor instancia = null;
 	private InetAddress direccion; 
@@ -38,7 +38,7 @@ public class ControladorVentanaSupervisor implements ActionListener{
 	public int cantCliAtendidos;
 	public float tiempoEsperaMin;
 	public float tiempoEsperaMax;
-	
+	public float tiempoEsperaProm;
 	
 	private ControladorVentanaSupervisor() { 
 		this.ventanaLogin = new VentanaLogin(); 
@@ -98,29 +98,24 @@ public class ControladorVentanaSupervisor implements ActionListener{
 	
 	//Para recibir los datos de la clase estadistica
 	public void recibeEstadisticas() {
-		  try {
-		    buffer = new byte[1024]; // Reservar buffer para recibir objeto
+		while (true) {
+			buffer = new byte[3072]; // Reservar buffer para recibir objeto
 		    DatagramPacket entrada = new DatagramPacket(buffer, buffer.length, direccion, portServidor);
-		    socketUPD.receive(entrada);
+		    try {
+		    	 socketUPD.receive(entrada);
 
-		    // Deserializar bytes recibidos en objeto Estadisticas
-		    ByteArrayInputStream bais = new ByteArrayInputStream(entrada.getData());
-		    ObjectInputStream in = new ObjectInputStream(bais);
-		    estadisticas = (Estadisticas) in.readObject();
+		    	 // Deserializar bytes recibidos en objeto Estadisticas
+		    	 ByteArrayInputStream byteStream = new ByteArrayInputStream(entrada.getData());
+		    	 ObjectInputStream objectStream = new ObjectInputStream(byteStream);
+		    	 estadisticas = (Estadisticas) objectStream.readObject();
 
-		    // Acceder a los datos del objeto Estadisticas recibido
-		    cantCliAtendidos = estadisticas.getCantCliAtentidos();
-		    tiempoEsperaMin = estadisticas.getTiempoEsperaMin();
-		    tiempoEsperaMax = estadisticas.getTiempoEsperaMax();
-
-		    System.out.println("Estadísticas recibidas:");
-		    System.out.println("  Clientes atendidos: " + cantCliAtendidos);
-		    System.out.println("  Tiempo espera mínimo: " + tiempoEsperaMin);
-		    System.out.println("  Tiempo espera máximo: " + tiempoEsperaMax);
-		    
+		    	 this.ventanasupervisor.CargaEstadistica(estadisticas);
+		    	 
+		    	 
 		  } catch (IOException | ClassNotFoundException e) {
 		    e.printStackTrace();
 		  }
+		}
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {

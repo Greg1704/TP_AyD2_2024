@@ -10,17 +10,22 @@ public class GestionDeTurnos {
         this.colaDeTurnos = new LinkedList<>(); 
     }
 
+    //Al crear el turno, se inicia el cronometro
     public void añadirTurno(String dni) {
         Turno t = new Turno(dni);
         colaDeTurnos.add(t);
+        t.getCronometro().iniciar();  
     }
 
     public void removerTurno(String dni) {
         colaDeTurnos.removeIf(turno -> turno.getDni().equals(dni));
     }
 
+    //retirar turno de la cola y detener turno
     public Turno extraerPrimerTurno() {
-        return colaDeTurnos.poll();
+        Turno turno = colaDeTurnos.poll();
+        turno.getCronometro().detener();
+		return turno; 
     }
     
     public boolean isColaTurnosVacia() {

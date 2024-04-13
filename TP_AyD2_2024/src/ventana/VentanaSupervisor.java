@@ -104,11 +104,11 @@ public class VentanaSupervisor extends JFrame {
 
 	
 
-	private void CargaEstadistica() {
-		this.lblCantClientesAtendidos.setText(estadisticas.getCantCliAtentidos());
-		this.lblTiempoPromedioEspera.setText(estadisticas.getTiempoEsperaProm());
-		this.lblTiempoMaxEspera.setText(estadisticas.getTiempoEsperaMax());
-		this.lblTiempoMinEspera.setText(estadisticas.getTiempoEsperaMin());
+	public void CargaEstadistica(Estadisticas estadisticas) {
+		this.lblCantClientesAtendidos.setText(String.valueOf(estadisticas.getCantCliAtentidos()));
+		this.lblTiempoPromedioEspera.setText(String.valueOf(estadisticas.getTiempoEsperaProm()));
+		this.lblTiempoMaxEspera.setText(String.valueOf(estadisticas.getTiempoEsperaMax()));
+		this.lblTiempoMinEspera.setText(String.valueOf(estadisticas.getTiempoEsperaMin()));
 	}
 	
 }
