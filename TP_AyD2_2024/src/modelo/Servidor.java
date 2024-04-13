@@ -84,22 +84,35 @@ public class Servidor {
 						
 					}else if(mensaje.equals("acepto")){ //Caso confirmacion de llegada del cliente al box
 						System.out.println("El cliente vino al box papa");
-					}else{ //Caso en el que el operador solicita un nuevo cliente para que vaya al box   
-						Turno t = gdt.extraerPrimerTurno();
-						//System.out.println(t.getDni() + "   " + t.getNumeroDeBox());
-						t.setNumeroDeBox(String.valueOf(boxesOcupados.get(puertoEntrada)));
-						ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-				        ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
-						objectStream.writeObject(t);
-			            objectStream.flush();
-			            buffer = byteStream.toByteArray();
-			            for (Map.Entry<Integer,String> entry : conexiones.entrySet()) {
-			                if (entry.getValue().equals("TV")) {
-			                    DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,entry.getKey());
-								socketUDP.send(salida);
-			                }
-			            }
-						
+					}else{ //Caso en el que el operador solicita un nuevo cliente para que vaya al box
+						if(!gdt.isColaTurnosVacia()) {
+							Turno t = gdt.extraerPrimerTurno();
+							//System.out.println(t.getDni() + "   " + t.getNumeroDeBox());
+							t.setNumeroDeBox(String.valueOf(boxesOcupados.get(puertoEntrada)));
+							ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+					        ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
+							objectStream.writeObject(t);
+				            objectStream.flush();
+				            buffer = byteStream.toByteArray();
+				            for (Map.Entry<Integer,String> entry : conexiones.entrySet()) {
+				                if (entry.getValue().equals("TV")) {
+				                    DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,entry.getKey());
+									socketUDP.send(salida);
+				                }
+				            }
+				            String reg = "hay turno";
+							buffer = reg.getBytes();
+				            System.out.println("Largo buffer = " + buffer.length);
+							DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
+							socketUDP.send(salida);
+						}else {
+							System.out.println("Entro en donde no hay turnos");
+							String reg = "no hay turno";
+							buffer = reg.getBytes();
+				            System.out.println("Largo buffer = " + buffer.length);
+							DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
+							socketUDP.send(salida);
+						}
 					}
 				}else if(puertoEntrada >= 10500 && puertoEntrada <=10600) { //Entrada de las Pantallas TV
 					if (!conexiones.containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema

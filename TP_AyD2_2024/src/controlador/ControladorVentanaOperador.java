@@ -114,21 +114,7 @@ public class ControladorVentanaOperador implements ActionListener{
 				buffer = siguiente.getBytes();
 				DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 				
-				socketUPD.send(salida);
-										
-				this.ventanaOperador.setVisible(false);
-				
-				int siOno = JOptionPane.showConfirmDialog(null,"Se presento el cliente?",null, JOptionPane.YES_NO_OPTION);
-				
-				if (siOno == JOptionPane.YES_OPTION) {
-					String acepto = "acepto";
-					Arrays.fill(buffer, (byte) 0);
-					buffer = acepto.getBytes();
-					DatagramPacket salidaSi = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
-					socketUPD.send(salidaSi);
-		        }
-				
-				this.ventanaOperador.setVisible(true);
+				socketUPD.send(salida);				
 			
 			} catch (UnknownHostException e1) {
 				// TODO Auto-generated catch block
@@ -147,6 +133,7 @@ public class ControladorVentanaOperador implements ActionListener{
 		// TODO Auto-generated method stub
 
 		while(true) {
+			buffer = new byte[1024];
 			DatagramPacket entrada = new DatagramPacket(buffer, buffer.length);
 			try {
 				socketUDP.receive(entrada);
@@ -159,8 +146,28 @@ public class ControladorVentanaOperador implements ActionListener{
 				System.out.println(mensaje);
 				
 				if(puertoEntrada == 10000) {
-					System.out.println("Soy un operador llamando la atención y mi numero de box es " + mensaje);
-					this.setNumeroBox(mensaje);
+					if (mensaje.matches("\\d+")) {
+						System.out.println("Soy un operador llamando la atención y mi numero de box es " + mensaje);
+						this.setNumeroBox(mensaje);
+					}else {
+						if(mensaje.equals("hay turno")) {
+							this.ventanaOperador.setVisible(false);
+							
+							int siOno = JOptionPane.showConfirmDialog(null,"Se presento el cliente?",null, JOptionPane.YES_NO_OPTION);
+							
+							if (siOno == JOptionPane.YES_OPTION) {
+								String acepto = "acepto";
+								Arrays.fill(buffer, (byte) 0);
+								buffer = acepto.getBytes();
+								DatagramPacket salidaSi = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
+								socketUPD.send(salidaSi);
+					        }
+							
+							this.ventanaOperador.setVisible(true);
+						}else {
+							JOptionPane.showMessageDialog(null, "No hay turnos en espera en la cola");
+						}
+					}
 				}else {
 					System.out.println("Puerto no habilitado");
 				}
