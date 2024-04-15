@@ -18,7 +18,6 @@ import java.io.Serializable;
 
 import javax.swing.JOptionPane;
 
-import ventana.VentanaLogin;
 import ventana.VentanaSupervisor;
 import ventana.VentanaTotem;
 import modelo.Estadisticas;
@@ -26,8 +25,7 @@ import modelo.Estadisticas;
 public class ControladorVentanaSupervisor implements ActionListener{
 
 	private VentanaSupervisor ventanasupervisor; 
-	private VentanaLogIn ventanaLogin;
-	public boolean admin;
+	public boolean admin = true;
 	private static ControladorVentanaSupervisor instancia = null;
 	private InetAddress direccion; 
 	private DatagramSocket socketUPD; 
@@ -40,12 +38,9 @@ public class ControladorVentanaSupervisor implements ActionListener{
 	public float tiempoEsperaMax;
 	public float tiempoEsperaProm;
 	
-	private ControladorVentanaSupervisor() { 
-		this.ventanaLogin = new VentanaLogin(); 
-		this.ventanaLogin.setControladorSupervisor(this);
-		
+	private ControladorVentanaSupervisor() { 		
 		if (admin) {
-			this.ventanaLogin.frame.setVisible(false);
+			
 			try {
 				
 				int puerto = 10700;

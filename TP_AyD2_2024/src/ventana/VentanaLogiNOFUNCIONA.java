@@ -28,7 +28,7 @@ public class VentanaLogiNOFUNCIONA extends JFrame {
 	private JPasswordField passwordField;
 	private JButton btnLogin;
 	private ControladorVentanaOperador controladorVentanaOperador;
-	private ControladorVentanaSupervisor ControladorVentanaSupervisor;
+	private ControladorVentanaSupervisor controladorVentanaSupervisor;
 	
 	/**
 	 * Launch the application.
@@ -105,6 +105,14 @@ public class VentanaLogiNOFUNCIONA extends JFrame {
 			btnLogin.setBackground(new Color(153, 197, 213));
 			frmLogin.getRootPane().add(btnLogin);
 			
+			btnLogin.addActionListener(new ActionListener() { //boton 7
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if(!textUsername.getText().equals("") && !passwordField.getText().equals(""));
+						consultaAdmin();
+				}
+			});
+			
 			this.frmLogin.setVisible(true);
 			//this.setVisible(true);
 			
@@ -116,15 +124,17 @@ public class VentanaLogiNOFUNCIONA extends JFrame {
 		}
 		
 		public void setControladorSupervisor(ControladorVentanaSupervisor controladorVentanaSupervisor) {
-			this.ControladorVentanaSupervisor = controladorVentanaSupervisor;
+			this.controladorVentanaSupervisor = controladorVentanaSupervisor;
 			//this.inicializa(controladorVentanaTotem); 
 		}
 		
 		public boolean consultaAdmin() {
 			String user = this.textUsername.getText();
-			if (user.equalsIgnoreCase("admin")) 
+			if (user.equalsIgnoreCase("admin")) {
+				this.setControladorSupervisor(ControladorVentanaSupervisor.getInstancia());
 				return true;
-			else { 
+			}else { 
+				this.setControladorOperador(ControladorVentanaOperador.getInstancia());
 				return false;
 
 			}
@@ -134,7 +144,7 @@ public class VentanaLogiNOFUNCIONA extends JFrame {
 			this.btnLogin.addActionListener(actionListener);
 		}
 
-	
+		
 		
 
 
