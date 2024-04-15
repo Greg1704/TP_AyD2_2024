@@ -85,7 +85,6 @@ public class Servidor {
 						
 					}else if(mensaje.equals("acepto")){ //Caso confirmacion de llegada del cliente al box
 						System.out.println("El cliente vino al box papa");
-						//estadisticas.agregarTiempos(t.getCronometro());  //VER:  Q IRIA ACAAAAAAAAA!!!
 					}else{ //Caso en el que el operador solicita un nuevo cliente para que vaya al box
 						if(!gdt.isColaTurnosVacia()) {
 							Turno t = gdt.extraerPrimerTurno();
@@ -107,7 +106,7 @@ public class Servidor {
 				            System.out.println("Largo buffer = " + buffer.length);
 							DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 							socketUDP.send(salida);
-
+							estadisticas.agregarTiempos(t.getCronometro().getTiempoFin()); 
 							
 						}else {
 							System.out.println("Entro en donde no hay turnos");

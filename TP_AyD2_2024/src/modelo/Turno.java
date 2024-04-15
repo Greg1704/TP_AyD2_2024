@@ -8,7 +8,6 @@ public class Turno implements Serializable{
 	private Cronometro cronometro;
 	
 	
-	
 	public Turno(String dni) {
 		this.dni = dni;
 		this.numeroDeBox = "0";
@@ -42,7 +41,7 @@ public class Turno implements Serializable{
 	}
 	
 	public Cronometro getCronometro() {
-        return cronometro;
+		return cronometro;
     }
 	
 }
