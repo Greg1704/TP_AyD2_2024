@@ -141,12 +141,8 @@ public class Servidor {
 				      objectStream.writeObject(e);
 			          objectStream.flush();
 			          buffer = byteStream.toByteArray();
-			          for (Map.Entry<Integer,String> entry : conexiones.entrySet()) {
-			                if (entry.getValue().equals("Supervisor")) {
-			                    DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,entry.getKey());
-								socketUDP.send(salida);
-			                }
-			            }
+			          
+			          //Hacer envio a ventana Supervisor
 			          
 			          
 					}
