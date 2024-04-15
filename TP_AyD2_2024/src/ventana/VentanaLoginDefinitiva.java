@@ -149,7 +149,8 @@ public class VentanaLoginDefinitiva extends JFrame implements MouseListener, Key
 	
 	public void consultaAdmin() {
 		String user = this.textFieldUsuario.getText();
-		this.setVisible(false);
+		//this.setVisible(false);
+		this.dispose();
 		if (user.equalsIgnoreCase("admin")) {
 			this.setControladorSupervisor(ControladorVentanaSupervisor.getInstancia());
 		}else { 
