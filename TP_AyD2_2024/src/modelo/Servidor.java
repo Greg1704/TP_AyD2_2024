@@ -129,11 +129,11 @@ public class Servidor {
 						System.out.println("se establecio la conexion con: " + puertoEntrada);
 						conexiones.put(puertoEntrada,"TV"); 
 						System.out.println("Televisor en linea papito");
-						Arrays.fill(buffer, (byte) 0);
+						/*Arrays.fill(buffer, (byte) 0);
 						String reg = "1234";
 						buffer = reg.getBytes();
 						DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
-						socketUDP.send(salida);
+						socketUDP.send(salida);*/
 					}
 				}
 				else if (puertoEntrada >= 10700 && puertoEntrada <=10800) {
