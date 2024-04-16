@@ -10,16 +10,21 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
+
+import javax.swing.JOptionPane;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+import ventana.VentanaLoginDefinitiva;
 import ventana.VentanaSupervisor;
 import modelo.Estadisticas;
 
 public class ControladorVentanaSupervisor implements ActionListener{
 
 	private VentanaSupervisor ventanasupervisor; 
+	private VentanaLoginDefinitiva vl;
 	public boolean admin = true;
 	private static ControladorVentanaSupervisor instancia = null;
 	private InetAddress direccion; 
@@ -32,38 +37,48 @@ public class ControladorVentanaSupervisor implements ActionListener{
 
 	
 	private ControladorVentanaSupervisor() { 		
-		if (admin) {
-			
-			try {
-				
-				int puerto = 10700;
-				
-				direccion = InetAddress.getByName("localHost");
-				
-				
-				while(!puertoDisponible(puerto))
-					puerto++;
-				socketUPD = new DatagramSocket(puerto); 
-				String reg = "Soy supervisor y me quiero conectar con el servidor";
-				
-				buffer = reg.getBytes();
-				DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
-				
-				socketUPD.send(salida);
+		this.vl = new VentanaLoginDefinitiva();
+		this.vl.setControladorSupervisor(this);
+		this.vl.esperarBoton();
 		
-				
-			} catch (UnknownHostException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			this.ventanasupervisor = new VentanaSupervisor();
-			this.ventanasupervisor.setControlador(this);
-			recibeEstadisticas(socketUPD);
+		while(!this.vl.getTextFieldUsuario().getText().equals("admin")) {
+			JOptionPane.showMessageDialog(null, "Usuario y/o contraseña invalido");
+			this.vl.dispose();
+			this.vl = new VentanaLoginDefinitiva();
+			this.vl.setControladorSupervisor(this);
+			this.vl.esperarBoton();
 		}
+		
+		try {
+			
+			int puerto = 10700;
+			
+			direccion = InetAddress.getByName("localHost");
+			
+			
+			while(!puertoDisponible(puerto))
+				puerto++;
+			socketUPD = new DatagramSocket(puerto); 
+			String reg = "Soy supervisor y me quiero conectar con el servidor";
+			
+			buffer = reg.getBytes();
+			DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
+			
+			socketUPD.send(salida);
+	
+			
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.vl.dispose();
+		this.ventanasupervisor = new VentanaSupervisor();
+		this.ventanasupervisor.setControlador(this);
+		recibeEstadisticas(socketUPD);
+		
 	}
 	
 	public static boolean puertoDisponible(int puerto) {

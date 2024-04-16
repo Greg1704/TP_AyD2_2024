@@ -27,6 +27,7 @@ public class VentanaLoginDefinitiva extends JFrame implements MouseListener, Key
 	private JButton btnLogin;
 	private ControladorVentanaOperador controladorVentanaOperador;
 	private ControladorVentanaSupervisor controladorVentanaSupervisor;
+	 private boolean botonPresionado = false;
 
 	/**
 	 * Launch the application.
@@ -80,6 +81,8 @@ public class VentanaLoginDefinitiva extends JFrame implements MouseListener, Key
 		contentPane.add(btnLogin);
 		btnLogin.addMouseListener(this);
 		btnLogin.setEnabled(false);
+		
+		this.setVisible(true);
 	}
 
 	@Override
@@ -108,7 +111,8 @@ public class VentanaLoginDefinitiva extends JFrame implements MouseListener, Key
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if(e.getSource() == this.btnLogin) {
-			this.consultaAdmin();
+			this.botonPresionado = true;
+			this.btnLogin.setEnabled(false);
 		}
 		
 	}
@@ -147,7 +151,7 @@ public class VentanaLoginDefinitiva extends JFrame implements MouseListener, Key
 		//this.inicializa(controladorVentanaTotem); 
 	}
 	
-	public void consultaAdmin() {
+	/*public void consultaAdmin() {
 		String user = this.textFieldUsuario.getText();
 		//this.setVisible(false);
 		this.dispose();
@@ -156,5 +160,35 @@ public class VentanaLoginDefinitiva extends JFrame implements MouseListener, Key
 		}else { 
 			this.setControladorOperador(ControladorVentanaOperador.getInstancia());
 		}
+	}*/
+	
+	 public boolean esperarBoton() {
+		// Esperar hasta que el botón sea presionado
+	        while (!botonPresionado) {
+	            try {
+	                Thread.sleep(100); // Pausa para no saturar el CPU
+	            } catch (InterruptedException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	        return botonPresionado;
+	 }
+
+	public JTextField getTextFieldUsuario() {
+		return textFieldUsuario;
 	}
+
+	public void setTextFieldUsuario(JTextField textFieldUsuario) {
+		this.textFieldUsuario = textFieldUsuario;
+	}
+
+	public JPasswordField getPasswordField() {
+		return passwordField;
+	}
+
+	public void setPasswordField(JPasswordField passwordField) {
+		this.passwordField = passwordField;
+	}
+	 
+	 
 }

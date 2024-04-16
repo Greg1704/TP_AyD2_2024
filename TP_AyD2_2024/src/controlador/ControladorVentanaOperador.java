@@ -13,12 +13,14 @@ import java.util.Arrays;
 import javax.swing.JOptionPane;
 
 import modelo.Operador;
+import ventana.VentanaLoginDefinitiva;
 import ventana.VentanaOperador;
 
 
 public class ControladorVentanaOperador implements ActionListener{
 
 	private VentanaOperador ventanaOperador; 
+	private VentanaLoginDefinitiva vl;
 	private String siguiente = "false";
 	private InetAddress direccion; 
 	private DatagramSocket socketUPD;
@@ -30,6 +32,18 @@ public class ControladorVentanaOperador implements ActionListener{
 	
 	
 	private ControladorVentanaOperador() {
+		
+		this.vl = new VentanaLoginDefinitiva();
+		this.vl.setControladorOperador(this);
+		this.vl.esperarBoton();
+		
+		while(this.vl.getTextFieldUsuario().getText().equals("admin")) {
+			JOptionPane.showMessageDialog(null, "Usuario y/o contraseña invalido");
+			this.vl.dispose();
+			this.vl = new VentanaLoginDefinitiva();
+			this.vl.setControladorOperador(this);
+			this.vl.esperarBoton();
+		}
 		
 		try {
 			puerto = 10300;
@@ -55,13 +69,14 @@ public class ControladorVentanaOperador implements ActionListener{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		this.vl.dispose();
 		this.ventanaOperador = new VentanaOperador();
 		this.ventanaOperador.setControlador(this);
 		//op = new Operador(1);
 		Arrays.fill(buffer, (byte) 0);
 
 		this.esperandoNotificaciones(socketUPD);
+		
 	}
 	
 	public static boolean puertoDisponible(int puerto) {
