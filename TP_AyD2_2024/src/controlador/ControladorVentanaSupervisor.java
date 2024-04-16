@@ -38,7 +38,7 @@ public class ControladorVentanaSupervisor implements ActionListener{
 				
 				int puerto = 10700;
 				
-				InetAddress direccion = InetAddress.getByName("localHost");
+				direccion = InetAddress.getByName("localHost");
 				
 				
 				while(!puertoDisponible(puerto))
@@ -111,7 +111,7 @@ public class ControladorVentanaSupervisor implements ActionListener{
 			System.out.println("Se apreto actualizar");
 			actualizar = "trueActualizar";
 			try {
-				
+				buffer = new byte[4096];
 				Arrays.fill(buffer, (byte) 0);
 				buffer = actualizar.getBytes();
 				DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);

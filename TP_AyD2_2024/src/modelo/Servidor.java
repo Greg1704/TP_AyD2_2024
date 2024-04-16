@@ -153,7 +153,7 @@ public class Servidor {
 			          DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 			          socketUDP.send(salida);
 					}
-					/*else {
+					else {
 					 	if (mensaje.equals("trueActualizar")){
 							Estadisticas e = Estadisticas.getInstance();
 							ByteArrayOutputStream byteStream_Est = new ByteArrayOutputStream();
@@ -173,9 +173,9 @@ public class Servidor {
 					        System.out.println("Largo buffer = " + buffer_Est.length);
 							DatagramPacket salida_Est = new DatagramPacket(buffer_Est, buffer_Est.length,direccion,puertoEntrada);
 							socketUDP.send(salida_Est);
-						}*/
+						}
+					}
 				}
-			
 		
 				
 				//System.out.println(referencia);

@@ -147,7 +147,7 @@ public class VentanaSupervisor extends JFrame {
 		contentPane.add(textFieldFecha);
 		textFieldFecha.setColumns(10);
 		
-		JButton btnActualizar = new JButton("Actualizar");
+		btnActualizar = new JButton("Actualizar");
 		btnActualizar.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnActualizar.setBounds(10, 384, 732, 39);
 		contentPane.add(btnActualizar);
@@ -172,6 +172,7 @@ public class VentanaSupervisor extends JFrame {
 	
 	public void setControlador(ControladorVentanaSupervisor controladorVentanaSupervisor) {
 		this.controladorVentanaSupervisor = controladorVentanaSupervisor;
+		this.inicializa(controladorVentanaSupervisor);
 	}
 	
 	
