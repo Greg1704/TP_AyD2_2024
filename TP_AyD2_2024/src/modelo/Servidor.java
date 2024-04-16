@@ -40,7 +40,9 @@ public class Servidor {
 			System.out.println("Servidor iniciado");
 			
 			while(true) {
-				byte[] buffer = new byte[1024];
+				byte[] buffer = new byte[1024];	
+				//byte[] buffer_Est = new byte[5120];	
+				
 				DatagramPacket entrada = new DatagramPacket(buffer, buffer.length);
 				socketUDP.receive(entrada);
 				
@@ -103,7 +105,7 @@ public class Servidor {
 				            
 				            for (Map.Entry<Integer,String> entry : conexiones.entrySet()) {
 				                if (entry.getValue().equals("TV")) {
-				                    DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,entry.getKey());
+				                	DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,entry.getKey());
 									socketUDP.send(salida);
 				                }
 				            }
@@ -118,14 +120,22 @@ public class Servidor {
 					        ObjectOutputStream objectStream_Est = new ObjectOutputStream(byteStream_Est);
 							objectStream_Est.writeObject(e);
 							objectStream_Est.flush();
-							buffer = byteStream_Est.toByteArray();
+							buffer_Est = byteStream_Est.toByteArray();
 					        for (Map.Entry<Integer,String> entry : conexiones.entrySet()) {
 					           if (entry.getValue().equals("Supervisor")) {
 						          System.out.println("Envio estadisticas (en llamar siguiente)");
-			                	  DatagramPacket salida1 = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
+			                	  DatagramPacket salida1 = new DatagramPacket(buffer_Est, buffer_Est.length,direccion,puertoEntrada);
 						          socketUDP.send(salida1);
 						        }
-					        }*/
+					        }
+							
+							
+							String reg_Est = "hay turno, envio estadistica";
+							buffer_Est = reg_Est.getBytes();
+					        System.out.println("Largo buffer = " + buffer_Est.length);
+							DatagramPacket salida_Est = new DatagramPacket(buffer_Est, buffer_Est.length,direccion,puertoEntrada);
+							socketUDP.send(salida_Est);
+							*/
 					            
 						}else {
 							System.out.println("Entro en donde no hay turnos");
@@ -151,8 +161,9 @@ public class Servidor {
 				else if (puertoEntrada >= 10700 && puertoEntrada <=10800) {
 					if (!conexiones.containsKey(puertoEntrada)) {
 					  System.out.println("se establecio la conexion con: " + puertoEntrada);
-					  System.out.println("Envio estadisticas (en conexion)");
 					  conexiones.put(puertoEntrada, "Supervisor");
+					  
+					  System.out.println("Envio estadisticas (en conexion)");
 					  
 					  Estadisticas e = Estadisticas.getInstance();
 					  ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
@@ -163,7 +174,7 @@ public class Servidor {
 			          
 			          DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 			          socketUDP.send(salida);
-			          
+			        
 			          
 					}
 				}
