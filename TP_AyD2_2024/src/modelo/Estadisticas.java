@@ -1,8 +1,9 @@
 package modelo;
 
+import java.time.LocalDate;
 import java.util.List;
 
-import controlador.ControladorVentanaPantallaTV;
+
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class Estadisticas implements Serializable{
 	public float tiempoEsperaMin;
 	public float tiempoEsperaMax;
 	private static Estadisticas instancia = null;
+	private LocalDate fechaActual;
 	
 	
 	public Estadisticas() {
@@ -26,6 +28,7 @@ public class Estadisticas implements Serializable{
 		this.tiempoEsperaProm =0.0f;
 		this.tiempoEsperaMin =0.0f;
 		this.tiempoEsperaMax = 0.0f;
+		this.fechaActual = LocalDate.now();
 	}
 	
 	
@@ -100,6 +103,27 @@ public class Estadisticas implements Serializable{
 	public void setTiempoEsperaMax(float tiempoEsperaMax) {
 		this.tiempoEsperaMax = tiempoEsperaMax;
 	}
+
+
+	public List<Long> getTiemposEspera() {
+		return tiemposEspera;
+	}
+
+
+	public void setTiemposEspera(List<Long> tiemposEspera) {
+		this.tiemposEspera = tiemposEspera;
+	}
+
+
+	public LocalDate getFechaActual() {
+		return fechaActual;
+	}
+
+
+	public void setFechaActual(LocalDate fechaActual) {
+		this.fechaActual = fechaActual;
+	}
+	
 	
 	
 }

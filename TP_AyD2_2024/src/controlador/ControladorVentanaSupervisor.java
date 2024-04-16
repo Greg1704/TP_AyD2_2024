@@ -51,7 +51,7 @@ public class ControladorVentanaSupervisor implements ActionListener{
 				while(!puertoDisponible(puerto))
 					puerto++;
 				socketUPD = new DatagramSocket(puerto); 
-				String reg = "1111";
+				String reg = "Soy supervisor y me quiero conectar con el servidor";
 				
 				buffer = reg.getBytes();
 				DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
@@ -67,10 +67,9 @@ public class ControladorVentanaSupervisor implements ActionListener{
 				e.printStackTrace();
 			}
 			
-			
-			
 			this.ventanasupervisor = new VentanaSupervisor();
 			this.ventanasupervisor.setControlador(this);
+			recibeEstadisticas(socketUPD);
 		}
 	}
 	
@@ -92,7 +91,7 @@ public class ControladorVentanaSupervisor implements ActionListener{
 	}
 	
 	//Para recibir los datos de la clase estadistica
-	public void recibeEstadisticas() {
+	public void recibeEstadisticas(DatagramSocket socketUPD) {
 		while (true) {
 			buffer = new byte[4096]; // Reservar buffer para recibir objeto //VER: chequear  valor buffer
 		    DatagramPacket entrada = new DatagramPacket(buffer, buffer.length, direccion, portServidor);
@@ -103,7 +102,7 @@ public class ControladorVentanaSupervisor implements ActionListener{
 		    	 ByteArrayInputStream byteStream = new ByteArrayInputStream(entrada.getData());
 		    	 ObjectInputStream objectStream = new ObjectInputStream(byteStream);
 		    	 estadisticas = (Estadisticas) objectStream.readObject();
-
+		    	 System.out.println("Recibo estadisticas");
 		    	 this.ventanasupervisor.CargaEstadistica(estadisticas);
 		    	 
 		    	 

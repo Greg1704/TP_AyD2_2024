@@ -1,5 +1,4 @@
 package ventana;
-import modelo.Estadisticas;
 
 import java.awt.EventQueue;
 
@@ -10,22 +9,27 @@ import javax.swing.border.EmptyBorder;
 import controlador.ControladorVentanaSupervisor;
 
 import javax.swing.JLabel;
+
+import java.awt.Color;
+import javax.swing.JTextField;
+
+
+import modelo.Estadisticas;
 import java.awt.Font;
-import javax.swing.SwingConstants;
+
 
 public class VentanaSupervisor extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private JTextField textFieldCantCliAtendidos;
+	private JTextField textFieldTiempoEspProm;
+	private JTextField textFieldTiempoMinEsp;
+	private JTextField textFieldTiempoMaxEsp;
+	private JTextField textFieldFecha;
 	private ControladorVentanaSupervisor controladorVentanaSupervisor;
+	private Estadisticas estadisticas;
 
-	private JLabel lblCantClientesAtendidos;
-	private JLabel lblTiempoPromedioEspera;
-	private JLabel lblTiempoMaxEspera;
-	private JLabel lblTiempoMinEspera;
-	private Estadisticas estadisticas; 
-	
-	
 	/**
 	 * Launch the application.
 	 */
@@ -47,53 +51,76 @@ public class VentanaSupervisor extends JFrame {
 	 */
 	public VentanaSupervisor() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 637, 375);
+		setBounds(100, 100, 721, 412);
 		contentPane = new JPanel();
+		contentPane.setForeground(new Color(0, 0, 0));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblTextoCantClientesAtendidos = new JLabel("Cantidad de clientes atendidos:");
-		lblTextoCantClientesAtendidos.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblTextoCantClientesAtendidos.setBounds(10, 25, 359, 56);
-		contentPane.add(lblTextoCantClientesAtendidos);
+		JLabel lblNewLabel = new JLabel("MONITOREO Y ANÁLISIS");
+		lblNewLabel.setForeground(new Color(0, 0, 0));
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblNewLabel.setBounds(229, 11, 232, 25);
+		contentPane.add(lblNewLabel);
 		
-		JLabel lblCantClientesAtendidos = new JLabel("");
-		lblCantClientesAtendidos.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblCantClientesAtendidos.setBounds(379, 38, 146, 43);
-		contentPane.add(lblCantClientesAtendidos);
+		JLabel lblNewLabel_1 = new JLabel("Cantidad de clientes atendidos");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblNewLabel_1.setBounds(10, 64, 252, 60);
+		contentPane.add(lblNewLabel_1);
 		
-		JLabel lblTextoTiempoMaxEspera = new JLabel("Tiempo maximo de espera:");
-		lblTextoTiempoMaxEspera.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblTextoTiempoMaxEspera.setBounds(10, 188, 326, 56);
-		contentPane.add(lblTextoTiempoMaxEspera);
+		JLabel lblNewLabel_2 = new JLabel("Tiempo de espera promedio");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblNewLabel_2.setBounds(10, 151, 252, 25);
+		contentPane.add(lblNewLabel_2);
 		
-		JLabel lblTiempoMaxEspera = new JLabel("");
-		lblTiempoMaxEspera.setBounds(381, 201, 135, 43);
-		contentPane.add(lblTiempoMaxEspera);
+		JLabel lblNewLabel_2_1 = new JLabel("Tiempo mínimo de espera ");
+		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblNewLabel_2_1.setBounds(10, 221, 252, 25);
+		contentPane.add(lblNewLabel_2_1);
 		
-		JLabel lblTextoTiempoMinEspera = new JLabel("Tiempo minimo de espera:");
-		lblTextoTiempoMinEspera.setHorizontalAlignment(SwingConstants.LEFT);
-		lblTextoTiempoMinEspera.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblTextoTiempoMinEspera.setBounds(10, 255, 326, 56);
-		contentPane.add(lblTextoTiempoMinEspera);
+		JLabel lblNewLabel_2_2 = new JLabel("Tiempo máximo de espera");
+		lblNewLabel_2_2.setBackground(new Color(0, 0, 0));
+		lblNewLabel_2_2.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblNewLabel_2_2.setBounds(10, 291, 252, 25);
+		contentPane.add(lblNewLabel_2_2);
 		
-		JLabel lblTiempoPromedioEspera = new JLabel("Tiempo promedio de espera:");
-		lblTiempoPromedioEspera.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblTiempoPromedioEspera.setBounds(10, 107, 326, 56);
-		contentPane.add(lblTiempoPromedioEspera);
+		textFieldCantCliAtendidos = new JTextField();
+		textFieldCantCliAtendidos.setEditable(false);
+		textFieldCantCliAtendidos.setBounds(261, 79, 145, 37);
+		contentPane.add(textFieldCantCliAtendidos);
+		textFieldCantCliAtendidos.setColumns(10);
 		
-		JLabel lblTiempoMinEspera = new JLabel("");
-		lblTiempoMinEspera.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblTiempoMinEspera.setBounds(370, 257, 146, 43);
-		contentPane.add(lblTiempoMinEspera);
+		textFieldTiempoEspProm = new JTextField();
+		textFieldTiempoEspProm.setEditable(false);
+		textFieldTiempoEspProm.setColumns(10);
+		textFieldTiempoEspProm.setBounds(261, 148, 145, 37);
+		contentPane.add(textFieldTiempoEspProm);
 		
-		JLabel lblTiempoPromEspera = new JLabel("");
-		lblTiempoPromEspera.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblTiempoPromEspera.setBounds(385, 120, 131, 43);
-		contentPane.add(lblTiempoPromEspera);
-
+		textFieldTiempoMinEsp = new JTextField();
+		textFieldTiempoMinEsp.setEditable(false);
+		textFieldTiempoMinEsp.setColumns(10);
+		textFieldTiempoMinEsp.setBounds(261, 218, 145, 37);
+		contentPane.add(textFieldTiempoMinEsp);
+		
+		textFieldTiempoMaxEsp = new JTextField();
+		textFieldTiempoMaxEsp.setEditable(false);
+		textFieldTiempoMaxEsp.setColumns(10);
+		textFieldTiempoMaxEsp.setBounds(261, 288, 145, 37);
+		contentPane.add(textFieldTiempoMaxEsp);
+		
+		JLabel lblNewLabel_3 = new JLabel("FECHA");
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblNewLabel_3.setBounds(536, 144, 129, 37);
+		contentPane.add(lblNewLabel_3);
+		
+		textFieldFecha = new JTextField();
+		textFieldFecha.setEditable(false);
+		textFieldFecha.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		textFieldFecha.setBounds(505, 187, 129, 37);
+		contentPane.add(textFieldFecha);
+		textFieldFecha.setColumns(10);
 		
 		this.setVisible(true);
 	}
@@ -105,10 +132,11 @@ public class VentanaSupervisor extends JFrame {
 	
 
 	public void CargaEstadistica(Estadisticas estadisticas) {
-		this.lblCantClientesAtendidos.setText(String.valueOf(estadisticas.getCantCliAtentidos()));
-		this.lblTiempoPromedioEspera.setText(String.valueOf(estadisticas.getTiempoEsperaProm()));
-		this.lblTiempoMaxEspera.setText(String.valueOf(estadisticas.getTiempoEsperaMax()));
-		this.lblTiempoMinEspera.setText(String.valueOf(estadisticas.getTiempoEsperaMin()));
+		System.out.println("Carga estadisticas");
+		this.textFieldCantCliAtendidos.setText(String.valueOf(estadisticas.getCantCliAtentidos()));
+		this.textFieldTiempoEspProm.setText(String.valueOf(estadisticas.getTiempoEsperaProm()));
+		this.textFieldTiempoMaxEsp.setText(String.valueOf(estadisticas.getTiempoEsperaMax()));
+		this.textFieldTiempoMinEsp.setText(String.valueOf(estadisticas.getTiempoEsperaMin()));
+		this.textFieldFecha.setText(String.valueOf(estadisticas.getFechaActual()));
 	}
-	
 }

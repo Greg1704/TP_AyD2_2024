@@ -1,5 +1,6 @@
 package modelo;
 
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -32,7 +33,8 @@ public class Servidor {
 		Estadisticas estadisticas = new Estadisticas();
 		//ArrayList<Integer> boxesOcupados = new ArrayList<Integer>();
 		HashMap<Integer, Integer> boxesOcupados = new HashMap<>();  //<N Box,Puerto Box>
-		 
+		
+		
 		try {
 			DatagramSocket socketUDP = new DatagramSocket(port); 
 			System.out.println("Servidor iniciado");
@@ -87,27 +89,44 @@ public class Servidor {
 						System.out.println("El cliente vino al box papa");
 					}else{ //Caso en el que el operador solicita un nuevo cliente para que vaya al box
 						if(!gdt.isColaTurnosVacia()) {
+							 
 							Turno t = gdt.extraerPrimerTurno();
-							//System.out.println(t.getDni() + "   " + t.getNumeroDeBox());
+							Estadisticas e = Estadisticas.getInstance();
+					        e.agregarTiempos(t.getCronometro().getTiempoFin());
 							t.setNumeroDeBox(String.valueOf(boxesOcupados.get(puertoEntrada)));
+							
 							ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
 					        ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
 							objectStream.writeObject(t);
 				            objectStream.flush();
 				            buffer = byteStream.toByteArray();
+				            
 				            for (Map.Entry<Integer,String> entry : conexiones.entrySet()) {
 				                if (entry.getValue().equals("TV")) {
 				                    DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,entry.getKey());
 									socketUDP.send(salida);
 				                }
 				            }
+				            
 				            String reg = "hay turno";
 							buffer = reg.getBytes();
 				            System.out.println("Largo buffer = " + buffer.length);
 							DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 							socketUDP.send(salida);
-							estadisticas.agregarTiempos(t.getCronometro().getTiempoFin()); 
-							
+					            
+					        /*ByteArrayOutputStream byteStream_Est = new ByteArrayOutputStream();
+					        ObjectOutputStream objectStream_Est = new ObjectOutputStream(byteStream_Est);
+							objectStream_Est.writeObject(e);
+							objectStream_Est.flush();
+							buffer = byteStream_Est.toByteArray();
+					        for (Map.Entry<Integer,String> entry : conexiones.entrySet()) {
+					           if (entry.getValue().equals("Supervisor")) {
+						          System.out.println("Envio estadisticas (en llamar siguiente)");
+			                	  DatagramPacket salida1 = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
+						          socketUDP.send(salida1);
+						        }
+					        }*/
+					            
 						}else {
 							System.out.println("Entro en donde no hay turnos");
 							String reg = "no hay turno";
@@ -122,27 +141,28 @@ public class Servidor {
 						System.out.println("se establecio la conexion con: " + puertoEntrada);
 						conexiones.put(puertoEntrada,"TV"); 
 						System.out.println("Televisor en linea papito");
-						/*Arrays.fill(buffer, (byte) 0);
+						Arrays.fill(buffer, (byte) 0);
 						String reg = "1234";
 						buffer = reg.getBytes();
 						DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
-						socketUDP.send(salida);*/
+						socketUDP.send(salida);
 					}
 				}
 				else if (puertoEntrada >= 10700 && puertoEntrada <=10800) {
 					if (!conexiones.containsKey(puertoEntrada)) {
 					  System.out.println("se establecio la conexion con: " + puertoEntrada);
+					  System.out.println("Envio estadisticas (en conexion)");
 					  conexiones.put(puertoEntrada, "Supervisor");
 					  
-					  //VER: a chequear desde aca todo xq me base en el de arriba  :(
-					  Estadisticas e = estadisticas.getInstance();
+					  Estadisticas e = Estadisticas.getInstance();
 					  ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
 				      ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
 				      objectStream.writeObject(e);
 			          objectStream.flush();
 			          buffer = byteStream.toByteArray();
 			          
-			          //Hacer envio a ventana Supervisor
+			          DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
+			          socketUDP.send(salida);
 			          
 			          
 					}

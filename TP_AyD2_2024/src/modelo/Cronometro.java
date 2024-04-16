@@ -1,6 +1,8 @@
 package modelo;
 
-public class Cronometro {
+import java.io.Serializable;
+
+public class Cronometro implements Serializable {
 	 private long tiempoInicio;
 	 private long tiempoFin;
 	 
@@ -20,8 +22,9 @@ public class Cronometro {
 			this.tiempoInicio = tiempoInicio;
 		}
 
+		//devuelve en segundos
 		public long getTiempoFin() {
-			return this.tiempoFin;
+			return this.tiempoFin / 1000;
 		}
 
 		public void setTiempoFin(long tiempoFin) {
