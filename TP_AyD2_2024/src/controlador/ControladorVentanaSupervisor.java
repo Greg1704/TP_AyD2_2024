@@ -9,17 +9,12 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-
-
+import java.util.Arrays;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-
-import javax.swing.JOptionPane;
-
 import ventana.VentanaSupervisor;
-import ventana.VentanaTotem;
 import modelo.Estadisticas;
 
 public class ControladorVentanaSupervisor implements ActionListener{
@@ -32,11 +27,9 @@ public class ControladorVentanaSupervisor implements ActionListener{
 	static byte[] buffer = new byte[1024];
 	final static int portServidor = 10000;
 	private Estadisticas estadisticas; 
+	private String actualizar = "false";
 	
-	public int cantCliAtendidos;
-	public float tiempoEsperaMin;
-	public float tiempoEsperaMax;
-	public float tiempoEsperaProm;
+
 	
 	private ControladorVentanaSupervisor() { 		
 		if (admin) {
@@ -90,19 +83,20 @@ public class ControladorVentanaSupervisor implements ActionListener{
 		return instancia;
 	}
 	
-	//Para recibir los datos de la clase estadistica
+
 	public void recibeEstadisticas(DatagramSocket socketUPD) {
 		while (true) {
 			buffer = new byte[4096]; // Reservar buffer para recibir objeto //VER: chequear  valor buffer
 		    DatagramPacket entrada = new DatagramPacket(buffer, buffer.length, direccion, portServidor);
 		    try {
 		    	 socketUPD.receive(entrada);
-
+		    	 
 		    	 // Deserializar bytes recibidos en objeto Estadisticas
 		    	 ByteArrayInputStream byteStream = new ByteArrayInputStream(entrada.getData());
 		    	 ObjectInputStream objectStream = new ObjectInputStream(byteStream);
 		    	 estadisticas = (Estadisticas) objectStream.readObject();
 		    	 System.out.println("Recibo estadisticas");
+		    	 
 		    	 this.ventanasupervisor.CargaEstadistica(estadisticas);
 		    	 
 		    	 
@@ -111,9 +105,29 @@ public class ControladorVentanaSupervisor implements ActionListener{
 		  }
 		}
 	}
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		
+	
+	public void actionPerformed(ActionEvent e) { //deberia conectarse con el servidor y enviar un "true" (hay que ver como sacar el string y poner un boolean o algo) diciendo que hay siguiente.
+		if (e.getActionCommand().equalsIgnoreCase("Actualizar")) { 
+			System.out.println("Se apreto actualizar");
+			actualizar = "trueActualizar";
+			try {
+				
+				Arrays.fill(buffer, (byte) 0);
+				buffer = actualizar.getBytes();
+				DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
+				
+				socketUPD.send(salida);				
+			
+			} catch (UnknownHostException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+		}
+		Arrays.fill(buffer, (byte) 0);
 	}
 	
 	

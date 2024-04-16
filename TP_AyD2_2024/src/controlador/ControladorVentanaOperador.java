@@ -143,8 +143,6 @@ public class ControladorVentanaOperador implements ActionListener{
 				int puertoEntrada = entrada.getPort();
 				InetAddress direccion = entrada.getAddress();
 				
-				System.out.println(mensaje);
-				
 				if(puertoEntrada == 10000) {
 					if (mensaje.matches("\\d+")) {
 						System.out.println("Soy un operador llamando la atención y mi numero de box es " + mensaje);

@@ -41,7 +41,7 @@ public class Servidor {
 			
 			while(true) {
 				byte[] buffer = new byte[1024];	
-				//byte[] buffer_Est = new byte[5120];	
+				byte[] buffer_Est = new byte[5120];	
 				
 				DatagramPacket entrada = new DatagramPacket(buffer, buffer.length);
 				socketUDP.receive(entrada);
@@ -53,7 +53,6 @@ public class Servidor {
 				
 				//conexiones.add(puertoEntrada);
 				
-				System.out.println(mensaje);
 				System.out.println("Largo del mensaje  " + mensaje.length());
 				
 				//Totem: 10100 - 10200
@@ -91,7 +90,6 @@ public class Servidor {
 						System.out.println("El cliente vino al box papa");
 					}else{ //Caso en el que el operador solicita un nuevo cliente para que vaya al box
 						if(!gdt.isColaTurnosVacia()) {
-							 
 							Turno t = gdt.extraerPrimerTurno();
 							Estadisticas e = Estadisticas.getInstance();
 					        e.agregarTiempos(t.getCronometro().getTiempoFin());
@@ -116,27 +114,7 @@ public class Servidor {
 							DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 							socketUDP.send(salida);
 					            
-					        /*ByteArrayOutputStream byteStream_Est = new ByteArrayOutputStream();
-					        ObjectOutputStream objectStream_Est = new ObjectOutputStream(byteStream_Est);
-							objectStream_Est.writeObject(e);
-							objectStream_Est.flush();
-							buffer_Est = byteStream_Est.toByteArray();
-					        for (Map.Entry<Integer,String> entry : conexiones.entrySet()) {
-					           if (entry.getValue().equals("Supervisor")) {
-						          System.out.println("Envio estadisticas (en llamar siguiente)");
-			                	  DatagramPacket salida1 = new DatagramPacket(buffer_Est, buffer_Est.length,direccion,puertoEntrada);
-						          socketUDP.send(salida1);
-						        }
-					        }
-							
-							
-							String reg_Est = "hay turno, envio estadistica";
-							buffer_Est = reg_Est.getBytes();
-					        System.out.println("Largo buffer = " + buffer_Est.length);
-							DatagramPacket salida_Est = new DatagramPacket(buffer_Est, buffer_Est.length,direccion,puertoEntrada);
-							socketUDP.send(salida_Est);
-							*/
-					            
+					       
 						}else {
 							System.out.println("Entro en donde no hay turnos");
 							String reg = "no hay turno";
@@ -174,15 +152,33 @@ public class Servidor {
 			          
 			          DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 			          socketUDP.send(salida);
-			        
-			          
 					}
+					/*else {
+					 	if (mensaje.equals("trueActualizar")){
+							Estadisticas e = Estadisticas.getInstance();
+							ByteArrayOutputStream byteStream_Est = new ByteArrayOutputStream();
+				        	ObjectOutputStream objectStream_Est = new ObjectOutputStream(byteStream_Est);
+							objectStream_Est.writeObject(e);
+							objectStream_Est.flush();
+							buffer_Est = byteStream_Est.toByteArray();
+				        	for (Map.Entry<Integer,String> entry : conexiones.entrySet()) {
+				        		if (entry.getValue().equals("Supervisor")) {
+						         	System.out.println("Envio Estadisticas (en Actualizar)");
+			                	  	DatagramPacket salida1 = new DatagramPacket(buffer_Est, buffer_Est.length,direccion,puertoEntrada);
+						          	socketUDP.send(salida1);
+						        }
+					        }
+							String reg_Est = "envio estadistica";
+							buffer_Est = reg_Est.getBytes();
+					        System.out.println("Largo buffer = " + buffer_Est.length);
+							DatagramPacket salida_Est = new DatagramPacket(buffer_Est, buffer_Est.length,direccion,puertoEntrada);
+							socketUDP.send(salida_Est);
+						}*/
 				}
+			
 		
 				
 				//System.out.println(referencia);
-				
-				
 				
 				//System.out.println(mensaje);
 				//System.out.println(conexiones);
