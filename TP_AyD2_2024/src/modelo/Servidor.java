@@ -88,6 +88,10 @@ public class Servidor {
 						
 					}else if(mensaje.equals("acepto")){ //Caso confirmacion de llegada del cliente al box
 						System.out.println("El cliente vino al box papa");
+						
+						
+						
+						
 					}else{ //Caso en el que el operador solicita un nuevo cliente para que vaya al box
 						if(!gdt.isColaTurnosVacia()) {
 							Turno t = gdt.extraerPrimerTurno();
@@ -136,7 +140,7 @@ public class Servidor {
 						socketUDP.send(salida);*/
 					}
 				}
-				else if (puertoEntrada >= 10700 && puertoEntrada <=10800) {
+				else if (puertoEntrada >= 10700 && puertoEntrada <=10800) { //Entrada de Supervisores
 					if (!conexiones.containsKey(puertoEntrada)) {
 					  System.out.println("se establecio la conexion con: " + puertoEntrada);
 					  conexiones.put(puertoEntrada, "Supervisor");
@@ -156,6 +160,7 @@ public class Servidor {
 					else {
 					 	if (mensaje.equals("trueActualizar")){
 							Estadisticas e = Estadisticas.getInstance();
+							System.out.println(e.cantCliAtentidos + "   " + e.tiempoEsperaProm + "   " + e.tiempoEsperaMin + "   " + e.tiempoEsperaMax + "   ");
 							ByteArrayOutputStream byteStream_Est = new ByteArrayOutputStream();
 				        	ObjectOutputStream objectStream_Est = new ObjectOutputStream(byteStream_Est);
 							objectStream_Est.writeObject(e);
@@ -168,11 +173,13 @@ public class Servidor {
 						          	socketUDP.send(salida1);
 						        }
 					        }
+				        	/**
 							String reg_Est = "envio estadistica";
 							buffer_Est = reg_Est.getBytes();
 					        System.out.println("Largo buffer = " + buffer_Est.length);
 							DatagramPacket salida_Est = new DatagramPacket(buffer_Est, buffer_Est.length,direccion,puertoEntrada);
 							socketUDP.send(salida_Est);
+							**/
 						}
 					}
 				}
