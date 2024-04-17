@@ -34,6 +34,7 @@ public class Servidor {
 		Estadisticas estadisticas = new Estadisticas();
 		//ArrayList<Integer> boxesOcupados = new ArrayList<Integer>();
 		HashMap<Integer, Integer> boxesOcupados = new HashMap<>();  //<N Box,Puerto Box>
+		ArrayList<Turno> turnosEnPantalla = new ArrayList<Turno>();
 		
 		
 		try {
@@ -102,6 +103,13 @@ public class Servidor {
 							
 					        t.setNumeroDeBox(String.valueOf(boxesOcupados.get(puertoEntrada)));
 							
+					        
+					        if(turnosEnPantalla.size() == 4) {
+					        	turnosEnPantalla.remove(0);
+					        }
+					        
+					        turnosEnPantalla.add(t);
+					        
 							ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
 					        ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
 							objectStream.writeObject(t);
@@ -141,6 +149,15 @@ public class Servidor {
 						buffer = reg.getBytes();
 						DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 						socketUDP.send(salida);*/
+						for(Turno turno: turnosEnPantalla) {
+							ByteArrayOutputStream byteStream_Est = new ByteArrayOutputStream();
+				        	ObjectOutputStream objectStream_Est = new ObjectOutputStream(byteStream_Est);
+							objectStream_Est.writeObject(turno);
+							objectStream_Est.flush();
+							buffer_Est = byteStream_Est.toByteArray();
+							DatagramPacket salida1 = new DatagramPacket(buffer_Est, buffer_Est.length,direccion,puertoEntrada);
+				          	socketUDP.send(salida1);
+						}
 					}
 				}
 				else if (puertoEntrada >= 10700 && puertoEntrada <=10800) { //Entrada de Supervisores
