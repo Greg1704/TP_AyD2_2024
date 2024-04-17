@@ -44,7 +44,6 @@ public class Estadisticas implements Serializable{
 
 	public void agregarTiempos(long tiempo) {
 	    tiemposEspera.add(tiempo);
-	    agregarClienteAtendidos();
 	    GeneraEstadisticas();
 	}
 	

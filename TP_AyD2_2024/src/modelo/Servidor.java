@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 
 public class Servidor {
+	private static long tiempoEspera;
 	
 	public static void main(String[] args) { 
 		ServerSocket servidor = null; 
@@ -88,16 +89,18 @@ public class Servidor {
 						
 					}else if(mensaje.equals("acepto")){ //Caso confirmacion de llegada del cliente al box
 						System.out.println("El cliente vino al box papa");
-						
-						
-						
+						Estadisticas e = Estadisticas.getInstance();
+						e.agregarClienteAtendidos();
+						e.agregarTiempos(tiempoEspera);
 						
 					}else{ //Caso en el que el operador solicita un nuevo cliente para que vaya al box
 						if(!gdt.isColaTurnosVacia()) {
 							Turno t = gdt.extraerPrimerTurno();
 							Estadisticas e = Estadisticas.getInstance();
-					        e.agregarTiempos(t.getCronometro().getTiempoFin());
-							t.setNumeroDeBox(String.valueOf(boxesOcupados.get(puertoEntrada)));
+							tiempoEspera = t.getCronometro().getTiempoFin();
+							
+							
+					        t.setNumeroDeBox(String.valueOf(boxesOcupados.get(puertoEntrada)));
 							
 							ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
 					        ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
