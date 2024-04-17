@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -179,6 +180,7 @@ public class VentanaPantallaTV extends JFrame {
 			this.lblPantallaDni4.setText(turnosMuestra.get(4).getDni());
 
 		}
+		Toolkit.getDefaultToolkit().beep();
 	}
 	
 	public void setControlador (ControladorVentanaPantallaTV controladorVentanaPantallaTV) {
