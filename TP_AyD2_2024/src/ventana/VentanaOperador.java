@@ -50,8 +50,7 @@ public class VentanaOperador extends JFrame implements ActionListener{
 		
 		lblNroBox = new JLabel("");
 		lblNroBox.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblNroBox.setEnabled(false);
-		lblNroBox.setBounds(124, 21, 93, 35);
+		lblNroBox.setBounds(124, 11, 93, 49);  
 		panel.add(lblNroBox);
 		
 		
