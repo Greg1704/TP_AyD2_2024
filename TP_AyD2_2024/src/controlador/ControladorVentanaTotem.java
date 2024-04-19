@@ -2,23 +2,18 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.Inet4Address;
 import java.net.InetAddress;
-import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JOptionPane;
 
 import ventana.VentanaTotem;
+
 
 public class ControladorVentanaTotem implements ActionListener{
 	public VentanaTotem ventanaTotem;
@@ -94,7 +89,7 @@ public class ControladorVentanaTotem implements ActionListener{
 					direccion = InetAddress.getByName("localHost");
 					//DatagramSocket socketUPD = new DatagramSocket(); 
 					//dni = "DNIT " + dni;
-					System.out.println(dni);
+					//System.out.println(dni);
 					buffer = dni.getBytes();
 					DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 					socketUPD.send(salida);

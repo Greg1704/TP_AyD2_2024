@@ -16,12 +16,7 @@ import javax.swing.JTextField;
 
 import modelo.Estadisticas;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.UnknownHostException;
-import java.util.Arrays;
 
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
@@ -38,7 +33,6 @@ public class VentanaSupervisor extends JFrame {
 	private JTextField textFieldFecha;
 	private JButton btnActualizar;
 	private ControladorVentanaSupervisor controladorVentanaSupervisor;
-	private Estadisticas estadisticas;
 
 	/**
 	 * Launch the application.

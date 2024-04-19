@@ -14,8 +14,6 @@ import java.util.Arrays;
 import javax.swing.JOptionPane;
 
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 
 import ventana.VentanaLoginDefinitiva;
 import ventana.VentanaSupervisor;
@@ -110,7 +108,7 @@ public class ControladorVentanaSupervisor implements ActionListener{
 		    	 ByteArrayInputStream byteStream = new ByteArrayInputStream(entrada.getData());
 		    	 ObjectInputStream objectStream = new ObjectInputStream(byteStream);
 		    	 estadisticas = (Estadisticas) objectStream.readObject();
-		    	 System.out.println("Recibo estadisticas");
+		    	 //System.out.println("Recibo estadisticas");
 		    	 
 		    	 this.ventanasupervisor.CargaEstadistica(estadisticas);
 		    	 
@@ -123,7 +121,7 @@ public class ControladorVentanaSupervisor implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e) { //deberia conectarse con el servidor y enviar un "true" (hay que ver como sacar el string y poner un boolean o algo) diciendo que hay siguiente.
 		if (e.getActionCommand().equalsIgnoreCase("Actualizar")) { 
-			System.out.println("Se apreto actualizar");
+			//System.out.println("Se apreto actualizar");
 			actualizar = "trueActualizar";
 			try {
 				buffer = new byte[4096];

@@ -151,22 +151,11 @@ public class VentanaLoginDefinitiva extends JFrame implements MouseListener, Key
 		//this.inicializa(controladorVentanaTotem); 
 	}
 	
-	/*public void consultaAdmin() {
-		String user = this.textFieldUsuario.getText();
-		//this.setVisible(false);
-		this.dispose();
-		if (user.equalsIgnoreCase("admin")) {
-			this.setControladorSupervisor(ControladorVentanaSupervisor.getInstancia());
-		}else { 
-			this.setControladorOperador(ControladorVentanaOperador.getInstancia());
-		}
-	}*/
 	
 	 public boolean esperarBoton() {
-		// Esperar hasta que el botón sea presionado
 	        while (!botonPresionado) {
 	            try {
-	                Thread.sleep(100); // Pausa para no saturar el CPU
+	                Thread.sleep(100); 
 	            } catch (InterruptedException e) {
 	                e.printStackTrace();
 	            }

@@ -2,36 +2,29 @@ package modelo;
 
 
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Executors;
 
 public class Servidor {
 	private static long tiempoEspera;
 	
 	public static void main(String[] args) { 
-		ServerSocket servidor = null; 
-		Socket sc = null;
+		//ServerSocket servidor = null; 
+		//Socket sc = null;
 	
 		final int port = 10000; 
 		
 		//ArrayList<Integer> conexiones = new ArrayList<>(); 
 		HashMap<Integer, String> conexiones = new HashMap<>();
 		GestionDeTurnos gdt = new GestionDeTurnos();
-		Estadisticas estadisticas = new Estadisticas();
+		//Estadisticas estadisticas = new Estadisticas();
 		//ArrayList<Integer> boxesOcupados = new ArrayList<Integer>();
 		HashMap<Integer, Integer> boxesOcupados = new HashMap<>();  //<N Box,Puerto Box>
 		ArrayList<Turno> turnosEnPantalla = new ArrayList<Turno>();
@@ -67,7 +60,6 @@ public class Servidor {
 						System.out.println("se establecio la conexion con: " + puertoEntrada);
 						conexiones.put(puertoEntrada,"Totem");   
 					}else { //Caso en el que se este enviando un turno para el subsistema de gestion de turnos
-						System.out.println("Entro al lugar indicado");
 						gdt.añadirTurno(mensaje);
 						gdt.mostrarCola(); //No funciona el metodo :(
 					}
@@ -89,7 +81,6 @@ public class Servidor {
 
 						
 					}else if(mensaje.equals("acepto")){ //Caso confirmacion de llegada del cliente al box
-						System.out.println("El cliente vino al box papa");
 						Estadisticas e = Estadisticas.getInstance();
 						e.agregarClienteAtendidos();
 						e.agregarTiempos(tiempoEspera);
@@ -97,7 +88,7 @@ public class Servidor {
 					}else{ //Caso en el que el operador solicita un nuevo cliente para que vaya al box
 						if(!gdt.isColaTurnosVacia()) {
 							Turno t = gdt.extraerPrimerTurno();
-							Estadisticas e = Estadisticas.getInstance();
+							//Estadisticas e = Estadisticas.getInstance();
 							tiempoEspera = t.getCronometro().getTiempoFin();
 							
 							
@@ -130,8 +121,7 @@ public class Servidor {
 							socketUDP.send(salida);
 					            
 					       
-						}else {
-							System.out.println("Entro en donde no hay turnos");
+						}else { //Entra si no hay turnos disponibles
 							String reg = "no hay turno";
 							buffer = reg.getBytes();
 				            System.out.println("Largo buffer = " + buffer.length);
@@ -143,7 +133,6 @@ public class Servidor {
 					if (!conexiones.containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
 						System.out.println("se establecio la conexion con: " + puertoEntrada);
 						conexiones.put(puertoEntrada,"TV"); 
-						System.out.println("Televisor en linea papito");
 						/*Arrays.fill(buffer, (byte) 0);
 						String reg = "1234";
 						buffer = reg.getBytes();

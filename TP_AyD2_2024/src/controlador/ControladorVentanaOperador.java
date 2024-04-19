@@ -12,7 +12,6 @@ import java.util.Arrays;
 
 import javax.swing.JOptionPane;
 
-import modelo.Operador;
 import ventana.VentanaLoginDefinitiva;
 import ventana.VentanaOperador;
 
@@ -160,7 +159,7 @@ public class ControladorVentanaOperador implements ActionListener{
 				
 				if(puertoEntrada == 10000) {
 					if (mensaje.matches("\\d+")) {
-						System.out.println("Soy un operador llamando la atención y mi numero de box es " + mensaje);
+						//System.out.println("Soy un operador y mi numero de box es " + mensaje);
 						this.setNumeroBox(mensaje);
 					}else {
 						if(mensaje.equals("hay turno")) {
@@ -182,7 +181,7 @@ public class ControladorVentanaOperador implements ActionListener{
 						}
 					}
 				}else {
-					System.out.println("Puerto no habilitado");
+					//System.out.println("Puerto no habilitado");
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
