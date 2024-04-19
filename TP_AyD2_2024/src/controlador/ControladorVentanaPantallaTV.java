@@ -7,8 +7,11 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
+
+import javax.swing.JOptionPane;
 
 import modelo.Turno;
 import ventana.VentanaPantallaTV;
@@ -39,10 +42,22 @@ public class ControladorVentanaPantallaTV{
 			buffer = reg.getBytes();
 			DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 			socketUPD.send(salida);
+			socketUPD.setSoTimeout(1000);
 			
+			DatagramPacket entrada = new DatagramPacket(buffer, buffer.length);
+			socketUPD.receive(entrada);
+			socketUPD.setSoTimeout(0);
+			
+			this.ventanaPantallaTV = new VentanaPantallaTV();
+			this.ventanaPantallaTV.setControlador(this);
+			this.esperandoNotificaciones(socketUPD);
 		
 			
-		} catch (UnknownHostException e) {
+		}catch (SocketTimeoutException e2) {
+			JOptionPane.showMessageDialog(null, "Servidor fuera de linea");
+			this.socketUPD.close();
+        } 
+		catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -51,9 +66,7 @@ public class ControladorVentanaPantallaTV{
 		}
 		
 		
-		this.ventanaPantallaTV = new VentanaPantallaTV();
-		this.ventanaPantallaTV.setControlador(this);
-		this.esperandoNotificaciones(socketUPD);
+		
 	}
 	
 	public static ControladorVentanaPantallaTV getInstancia() {

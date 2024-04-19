@@ -28,6 +28,7 @@ public class Servidor {
 		//ArrayList<Integer> boxesOcupados = new ArrayList<Integer>();
 		HashMap<Integer, Integer> boxesOcupados = new HashMap<>();  //<N Box,Puerto Box>
 		ArrayList<Turno> turnosEnPantalla = new ArrayList<Turno>();
+		String reg;
 		
 		
 		try {
@@ -59,9 +60,20 @@ public class Servidor {
 					if (!conexiones.containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
 						System.out.println("se establecio la conexion con: " + puertoEntrada);
 						conexiones.put(puertoEntrada,"Totem");   
+						
+						reg = "confirmacion";
+						buffer = reg.getBytes();
+						DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
+						socketUDP.send(salida);
+						
 					}else { //Caso en el que se este enviando un turno para el subsistema de gestion de turnos
 						gdt.añadirTurno(mensaje);
 						gdt.mostrarCola(); //No funciona el metodo :(
+						
+						reg = "confirmacion";
+						buffer = reg.getBytes();
+						DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
+						socketUDP.send(salida);
 					}
 				}else if(puertoEntrada >= 10300 && puertoEntrada <=10400) { //Entrada de Operadores/Boxs
 					if (!conexiones.containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
@@ -74,7 +86,7 @@ public class Servidor {
 								box++;
 						}
 						boxesOcupados.put(puertoEntrada,box);
-						String reg = Integer.toString(box);
+						reg = Integer.toString(box);
 						buffer = reg.getBytes();
 						DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 						socketUDP.send(salida);
@@ -114,7 +126,7 @@ public class Servidor {
 				                }
 				            }
 				            
-				            String reg = "hay turno";
+				            reg = "hay turno";
 							buffer = reg.getBytes();
 				            System.out.println("Largo buffer = " + buffer.length);
 							DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
@@ -122,7 +134,7 @@ public class Servidor {
 					            
 					       
 						}else { //Entra si no hay turnos disponibles
-							String reg = "no hay turno";
+							reg = "no hay turno";
 							buffer = reg.getBytes();
 				            System.out.println("Largo buffer = " + buffer.length);
 							DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
@@ -133,6 +145,12 @@ public class Servidor {
 					if (!conexiones.containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
 						System.out.println("se establecio la conexion con: " + puertoEntrada);
 						conexiones.put(puertoEntrada,"TV"); 
+						
+						
+						reg = "confirmacion";
+						buffer = reg.getBytes();
+						DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
+						socketUDP.send(salida);
 						/*Arrays.fill(buffer, (byte) 0);
 						String reg = "1234";
 						buffer = reg.getBytes();

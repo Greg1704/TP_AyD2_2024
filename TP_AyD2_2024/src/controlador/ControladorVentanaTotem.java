@@ -7,6 +7,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 
@@ -43,10 +44,22 @@ public class ControladorVentanaTotem implements ActionListener{
 			buffer = reg.getBytes();
 			DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 			socketUPD.send(salida);
+			socketUPD.setSoTimeout(2000);
 			
-		
+			DatagramPacket entrada = new DatagramPacket(buffer,buffer.length);
+			socketUPD.receive(entrada);
+			socketUPD.setSoTimeout(0);
+			JOptionPane.showMessageDialog(null, "Conectado al servidor"); 
 			
-		} catch (UnknownHostException e) {
+			
+			this.ventanaTotem = new VentanaTotem();
+			this.ventanaTotem.setControlador(this);
+			this.ventanaTotem.setActionListener(this);
+			
+		}catch (SocketTimeoutException e2) {
+			JOptionPane.showMessageDialog(null, "Servidor fuera de linea"); 
+        }  
+		catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -55,9 +68,7 @@ public class ControladorVentanaTotem implements ActionListener{
 		}
 		
 		
-		this.ventanaTotem = new VentanaTotem();
-		this.ventanaTotem.setControlador(this);
-		this.ventanaTotem.setActionListener(this);
+		
 		
 	}
 	
@@ -83,7 +94,6 @@ public class ControladorVentanaTotem implements ActionListener{
 			String dni = this.ventanaTotem.getDni();
 			if (dni.length() == 8) {
 				this.ventanaTotem.setDni("");
-				JOptionPane.showMessageDialog(null, "DNI recibido"); //Se podria poner "Su dni ha sido enviado a la cola de espera" por formalizarlo un poco idk
 				InetAddress direccion;
 				try {
 					direccion = InetAddress.getByName("localHost");
@@ -93,7 +103,17 @@ public class ControladorVentanaTotem implements ActionListener{
 					buffer = dni.getBytes();
 					DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 					socketUPD.send(salida);
-				} catch (IOException e1) {
+					socketUPD.setSoTimeout(2000);
+					
+					DatagramPacket entrada = new DatagramPacket(buffer,buffer.length);
+					socketUPD.receive(entrada);
+					socketUPD.setSoTimeout(0);
+					JOptionPane.showMessageDialog(null, "DNI recibido"); 
+
+				}catch (SocketTimeoutException e2) {
+					JOptionPane.showMessageDialog(null, "Servidor fuera de linea"); 
+		        } 
+				catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}

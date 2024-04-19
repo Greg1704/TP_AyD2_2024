@@ -8,6 +8,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 
@@ -63,6 +64,7 @@ public class ControladorVentanaSupervisor implements ActionListener{
 			DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 			
 			socketUPD.send(salida);
+			socketUPD.setSoTimeout(1000);
 	
 			
 		} catch (UnknownHostException e) {
@@ -98,25 +100,31 @@ public class ControladorVentanaSupervisor implements ActionListener{
 	
 
 	public void recibeEstadisticas(DatagramSocket socketUPD) {
-		while (true) {
-			buffer = new byte[4096]; // Reservar buffer para recibir objeto //VER: chequear  valor buffer
-		    DatagramPacket entrada = new DatagramPacket(buffer, buffer.length, direccion, portServidor);
+		
 		    try {
-		    	 socketUPD.receive(entrada);
+		    	while (true) {
+					 buffer = new byte[4096]; // Reservar buffer para recibir objeto //VER: chequear  valor buffer
+					 DatagramPacket entrada = new DatagramPacket(buffer, buffer.length, direccion, portServidor);
+			    	 socketUPD.receive(entrada);
+			    	 socketUPD.setSoTimeout(0);
+			    	 // Deserializar bytes recibidos en objeto Estadisticas
+			    	 ByteArrayInputStream byteStream = new ByteArrayInputStream(entrada.getData());
+			    	 ObjectInputStream objectStream = new ObjectInputStream(byteStream);
+			    	 estadisticas = (Estadisticas) objectStream.readObject();
+			    	 //System.out.println("Recibo estadisticas");
+			    	 
+			    	 this.ventanasupervisor.CargaEstadistica(estadisticas);
 		    	 
-		    	 // Deserializar bytes recibidos en objeto Estadisticas
-		    	 ByteArrayInputStream byteStream = new ByteArrayInputStream(entrada.getData());
-		    	 ObjectInputStream objectStream = new ObjectInputStream(byteStream);
-		    	 estadisticas = (Estadisticas) objectStream.readObject();
-		    	 //System.out.println("Recibo estadisticas");
-		    	 
-		    	 this.ventanasupervisor.CargaEstadistica(estadisticas);
-		    	 
-		    	 
-		  } catch (IOException | ClassNotFoundException e) {
+		    	}	 
+		  } catch (SocketTimeoutException e2) {
+				JOptionPane.showMessageDialog(null, "Servidor fuera de linea");
+				this.socketUPD.close();
+				this.ventanasupervisor.dispose();
+	        } 
+		    catch (IOException | ClassNotFoundException e) {
 		    e.printStackTrace();
 		  }
-		}
+		
 	}
 	
 	public void actionPerformed(ActionEvent e) { //deberia conectarse con el servidor y enviar un "true" (hay que ver como sacar el string y poner un boolean o algo) diciendo que hay siguiente.
@@ -130,7 +138,7 @@ public class ControladorVentanaSupervisor implements ActionListener{
 				DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 				
 				socketUPD.send(salida);				
-			
+				socketUPD.setSoTimeout(1000);
 			} catch (UnknownHostException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

@@ -7,6 +7,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 
@@ -60,6 +61,7 @@ public class ControladorVentanaOperador implements ActionListener{
 			DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 			
 			socketUPD.send(salida);
+			socketUPD.setSoTimeout(2000);
 			
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
@@ -128,7 +130,8 @@ public class ControladorVentanaOperador implements ActionListener{
 				buffer = siguiente.getBytes();
 				DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 				
-				socketUPD.send(salida);				
+				socketUPD.send(salida);		
+				socketUPD.setSoTimeout(2000);
 			
 			} catch (UnknownHostException e1) {
 				// TODO Auto-generated catch block
@@ -146,49 +149,57 @@ public class ControladorVentanaOperador implements ActionListener{
 	public void esperandoNotificaciones(DatagramSocket socketUDP) {
 		// TODO Auto-generated method stub
 
-		while(true) {
-			buffer = new byte[1024];
-			DatagramPacket entrada = new DatagramPacket(buffer, buffer.length);
+		
 			try {
-				socketUDP.receive(entrada);
-				
-				String mensaje = new String(entrada.getData());
-				mensaje = mensaje.trim();
-				int puertoEntrada = entrada.getPort();
-				InetAddress direccion = entrada.getAddress();
-				
-				if(puertoEntrada == 10000) {
-					if (mensaje.matches("\\d+")) {
-						//System.out.println("Soy un operador y mi numero de box es " + mensaje);
-						this.setNumeroBox(mensaje);
-					}else {
-						if(mensaje.equals("hay turno")) {
-							this.ventanaOperador.setVisible(false);
-							
-							int siOno = JOptionPane.showConfirmDialog(null,"Se presento el cliente?",null, JOptionPane.YES_NO_OPTION);
-							
-							if (siOno == JOptionPane.YES_OPTION) {
-								String acepto = "acepto";
-								Arrays.fill(buffer, (byte) 0);
-								buffer = acepto.getBytes();
-								DatagramPacket salidaSi = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
-								socketUPD.send(salidaSi);
-					        }
-							
-							this.ventanaOperador.setVisible(true);
+				while(true) {
+					buffer = new byte[1024];
+					DatagramPacket entrada = new DatagramPacket(buffer, buffer.length);
+					socketUDP.receive(entrada);
+					socketUPD.setSoTimeout(0);
+					
+					String mensaje = new String(entrada.getData());
+					mensaje = mensaje.trim();
+					int puertoEntrada = entrada.getPort();
+					InetAddress direccion = entrada.getAddress();
+					
+					if(puertoEntrada == 10000) {
+						if (mensaje.matches("\\d+")) {
+							//System.out.println("Soy un operador y mi numero de box es " + mensaje);
+							this.setNumeroBox(mensaje);
 						}else {
-							JOptionPane.showMessageDialog(null, "No hay turnos en espera en la cola");
+							if(mensaje.equals("hay turno")) {
+								this.ventanaOperador.setVisible(false);
+								
+								int siOno = JOptionPane.showConfirmDialog(null,"Se presento el cliente?",null, JOptionPane.YES_NO_OPTION);
+								
+								if (siOno == JOptionPane.YES_OPTION) {
+									String acepto = "acepto";
+									Arrays.fill(buffer, (byte) 0);
+									buffer = acepto.getBytes();
+									DatagramPacket salidaSi = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
+									socketUPD.send(salidaSi);
+						        }
+								
+								this.ventanaOperador.setVisible(true);
+							}else {
+								JOptionPane.showMessageDialog(null, "No hay turnos en espera en la cola");
+							}
 						}
+					}else {
+						//System.out.println("Puerto no habilitado");
 					}
-				}else {
-					//System.out.println("Puerto no habilitado");
 				}
-			} catch (IOException e) {
+			}catch (SocketTimeoutException e2) {
+				JOptionPane.showMessageDialog(null, "Servidor fuera de linea");
+				this.socketUPD.close();
+				this.ventanaOperador.dispose();
+	        } 
+			catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			Arrays.fill(buffer, (byte) 0);
-		}
+		
 	}
 	
 	public void setNumeroBox(String box) {
