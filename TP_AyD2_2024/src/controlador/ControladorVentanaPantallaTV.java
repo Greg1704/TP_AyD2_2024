@@ -121,7 +121,7 @@ public class ControladorVentanaPantallaTV{
 				//System.out.println(t);
 				
 				if(puertoEntrada == 10000) {
-					this.ventanaPantallaTV.agregaTurno(t);
+					this.ventanaPantallaTV.actualizaTurnos(t);
 				}else {
 					//System.out.println("Puerto no habilitado");
 				}
@@ -136,7 +136,7 @@ public class ControladorVentanaPantallaTV{
 	}
 	
 	public void muestraTurno(Turno turno) {
-		this.ventanaPantallaTV.agregaTurno(turno);
+		this.ventanaPantallaTV.actualizaTurnos(turno);
 
 	}
 	

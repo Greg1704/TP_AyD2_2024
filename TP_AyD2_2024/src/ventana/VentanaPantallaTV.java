@@ -146,7 +146,7 @@ public class VentanaPantallaTV extends JFrame {
 		
 	}*/
 	
-	public void agregaTurno(Turno turno)  { 
+	public void actualizaTurnos(Turno turno)  { 
 	    HashMap<Integer, Turno> nuevoTurnosMuestra = new HashMap<>();
 	    
 	    turnosMuestra.remove(4);
