@@ -44,7 +44,7 @@ public class ControladorVentanaTotem implements ActionListener{
 			buffer = reg.getBytes();
 			DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 			socketUPD.send(salida);
-			socketUPD.setSoTimeout(2000);
+			socketUPD.setSoTimeout(1000);
 			
 			DatagramPacket entrada = new DatagramPacket(buffer,buffer.length);
 			socketUPD.receive(entrada);
@@ -103,7 +103,7 @@ public class ControladorVentanaTotem implements ActionListener{
 					buffer = dni.getBytes();
 					DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 					socketUPD.send(salida);
-					socketUPD.setSoTimeout(2000);
+					socketUPD.setSoTimeout(1000);
 					
 					DatagramPacket entrada = new DatagramPacket(buffer,buffer.length);
 					socketUPD.receive(entrada);

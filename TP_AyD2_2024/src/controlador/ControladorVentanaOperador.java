@@ -61,7 +61,7 @@ public class ControladorVentanaOperador implements ActionListener{
 			DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 			
 			socketUPD.send(salida);
-			socketUPD.setSoTimeout(2000);
+			socketUPD.setSoTimeout(1000);
 			
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
@@ -131,7 +131,7 @@ public class ControladorVentanaOperador implements ActionListener{
 				DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 				
 				socketUPD.send(salida);		
-				socketUPD.setSoTimeout(2000);
+				socketUPD.setSoTimeout(1000);
 			
 			} catch (UnknownHostException e1) {
 				// TODO Auto-generated catch block
