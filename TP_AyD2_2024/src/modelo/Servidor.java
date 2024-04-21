@@ -102,7 +102,7 @@ public class Servidor {
 							Turno t = gdt.extraerPrimerTurno();
 							//Estadisticas e = Estadisticas.getInstance();
 							tiempoEspera = t.getCronometro().getTiempoFin();
-							
+							System.out.println(tiempoEspera);
 							
 					        t.setNumeroDeBox(String.valueOf(boxesOcupados.get(puertoEntrada)));
 							

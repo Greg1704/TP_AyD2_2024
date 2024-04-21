@@ -24,7 +24,7 @@ public class Cronometro implements Serializable {
 
 		//devuelve en segundos
 		public long getTiempoFin() {
-			return this.tiempoFin / 60000;
+			return this.tiempoFin / 1000;
 		}
 
 		public void setTiempoFin(long tiempoFin) {

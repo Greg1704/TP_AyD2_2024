@@ -178,9 +178,9 @@ public class VentanaSupervisor extends JFrame {
 	public void CargaEstadistica(Estadisticas estadisticas) {
 		System.out.println("Carga estadisticas");
 		this.textFieldCantCliAtendidos.setText(String.valueOf(estadisticas.getCantCliAtentidos()));
-		this.textFieldTiempoEspProm.setText(String.valueOf(estadisticas.getTiempoEsperaProm()));
-		this.textFieldTiempoMaxEsp.setText(String.valueOf(estadisticas.getTiempoEsperaMax()));
-		this.textFieldTiempoMinEsp.setText(String.valueOf(estadisticas.getTiempoEsperaMin()));
+		this.textFieldTiempoEspProm.setText(String.format("%.3f", estadisticas.getTiempoEsperaProm()/60));
+		this.textFieldTiempoMaxEsp.setText(String.format("%.3f", estadisticas.getTiempoEsperaMax()/60));
+		this.textFieldTiempoMinEsp.setText(String.format("%.3f", estadisticas.getTiempoEsperaMin()/60));
 		this.textFieldFecha.setText(String.valueOf(estadisticas.getFechaActual()));
 	}
 }
