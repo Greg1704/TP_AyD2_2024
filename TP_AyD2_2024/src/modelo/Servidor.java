@@ -7,6 +7,8 @@ import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -14,26 +16,56 @@ import java.util.Map;
 
 public class Servidor {
 	private static long tiempoEspera;
+	static int portMonitor = 11000;
+	public static GestionServidor gestionServidor; 
+	
 	
 	public static void main(String[] args) { 
 		//ServerSocket servidor = null; 
 		//Socket sc = null;
-	
-		final int port = 10000; 
 		
-		//ArrayList<Integer> conexiones = new ArrayList<>(); 
-		HashMap<Integer, String> conexiones = new HashMap<>();
-		GestionDeTurnos gdt = new GestionDeTurnos();
+		HashMap<Integer, String> conexiones;
+		GestionDeTurnos gdt;
+		HashMap<Integer, Integer> boxesOcupados;
+		ArrayList<Turno> turnosEnPantalla;
+		
+		gestionServidor =  new GestionServidor(conexiones, gdt, boxesOcupados, turnosEnPantalla); 
+		
+		
+		InetAddress direccion;
+		byte[] buffer = new byte[1024];
 		//Estadisticas estadisticas = new Estadisticas();
 		//ArrayList<Integer> boxesOcupados = new ArrayList<Integer>();
-		HashMap<Integer, Integer> boxesOcupados = new HashMap<>();  //<N Box,Puerto Box>
-		ArrayList<Turno> turnosEnPantalla = new ArrayList<Turno>();
+		
 		String reg;
 		
-		
 		try {
+			int port = 10000;
 			DatagramSocket socketUDP = new DatagramSocket(port); 
 			System.out.println("Servidor iniciado");
+			
+			try {
+				direccion = InetAddress.getByName("localHost");
+				
+				while(!puertoDisponible(port))
+					port++;
+				socketUDP = new DatagramSocket(port); 
+				
+				buffer = reg.getBytes();
+				DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portMonitor);
+				
+				socketUDP.send(salida);
+				socketUDP.setSoTimeout(1000);
+				
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
 			
 			while(true) {
 				byte[] buffer = new byte[1024];	
@@ -57,9 +89,10 @@ public class Servidor {
 				//Supervisor: 10700 - 10800
 				
 				if(puertoEntrada >= 10100 && puertoEntrada <=10200) { //Entrada de Totems
-					if (!conexiones.containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
+					if (!gestionServidor.getConexiones().containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
 						System.out.println("se establecio la conexion con: " + puertoEntrada);
-						conexiones.put(puertoEntrada,"Totem");   
+						gestionServidor.getConexiones().put(puertoEntrada,"Totem");
+					 
 						
 						reg = "confirmacion";
 						buffer = reg.getBytes();
@@ -67,8 +100,8 @@ public class Servidor {
 						socketUDP.send(salida);
 						
 					}else { //Caso en el que se este enviando un turno para el subsistema de gestion de turnos
-						gdt.añadirTurno(mensaje);
-						gdt.mostrarCola(); //No funciona el metodo :(
+						gestionServidor.getGdt().añadirTurno(mensaje);
+						gestionServidor.getGdt().mostrarCola(); //No funciona el metodo :(
 						
 						reg = "confirmacion";
 						buffer = reg.getBytes();
@@ -76,16 +109,16 @@ public class Servidor {
 						socketUDP.send(salida);
 					}
 				}else if(puertoEntrada >= 10300 && puertoEntrada <=10400) { //Entrada de Operadores/Boxs
-					if (!conexiones.containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
+					if (!gestionServidor.getConexiones().containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
 						System.out.println("se establecio la conexion con: " + puertoEntrada);
-						conexiones.put(puertoEntrada,"Operador");
+						gestionServidor.getConexiones().put(puertoEntrada,"Operador");
 						int box = Integer.parseInt(mensaje);
-						if(boxesOcupados.containsValue(box)) {
+						if(gestionServidor.getBoxesOcupados().containsValue(box)) {
 							box = 1;
-							while(boxesOcupados.containsValue(box))
+							while(gestionServidor.getBoxesOcupados().containsValue(box))
 								box++;
 						}
-						boxesOcupados.put(puertoEntrada,box);
+						gestionServidor.getBoxesOcupados().put(puertoEntrada,box);
 						reg = Integer.toString(box);
 						buffer = reg.getBytes();
 						DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
@@ -98,20 +131,20 @@ public class Servidor {
 						e.agregarTiempos(tiempoEspera);
 						
 					}else{ //Caso en el que el operador solicita un nuevo cliente para que vaya al box
-						if(!gdt.isColaTurnosVacia()) {
-							Turno t = gdt.extraerPrimerTurno();
+						if(!gestionServidor.getGdt().isColaTurnosVacia()) {
+							Turno t = gestionServidor.getGdt().extraerPrimerTurno();
 							//Estadisticas e = Estadisticas.getInstance();
 							tiempoEspera = t.getCronometro().getTiempoFin();
 							System.out.println(tiempoEspera);
 							
-					        t.setNumeroDeBox(String.valueOf(boxesOcupados.get(puertoEntrada)));
+					        t.setNumeroDeBox(String.valueOf(gestionServidor.getBoxesOcupados().get(puertoEntrada)));
 							
 					        
-					        if(turnosEnPantalla.size() == 4) {
-					        	turnosEnPantalla.remove(0);
+					        if(gestionServidor.getTurnosEnPantalla().size() == 4) {
+					        	gestionServidor.getTurnosEnPantalla().remove(0);
 					        }
 					        
-					        turnosEnPantalla.add(t);
+					        gestionServidor.getTurnosEnPantalla().add(t);
 					        
 							ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
 					        ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
@@ -119,7 +152,7 @@ public class Servidor {
 				            objectStream.flush();
 				            buffer = byteStream.toByteArray();
 				            
-				            for (Map.Entry<Integer,String> entry : conexiones.entrySet()) {
+				            for (Map.Entry<Integer,String> entry : gestionServidor.getConexiones().entrySet()) {
 				                if (entry.getValue().equals("TV")) {
 				                	DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,entry.getKey());
 									socketUDP.send(salida);
@@ -142,9 +175,9 @@ public class Servidor {
 						}
 					}
 				}else if(puertoEntrada >= 10500 && puertoEntrada <=10600) { //Entrada de las Pantallas TV
-					if (!conexiones.containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
+					if (!gestionServidor.getConexiones().containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
 						System.out.println("se establecio la conexion con: " + puertoEntrada);
-						conexiones.put(puertoEntrada,"TV"); 
+						gestionServidor.getConexiones().put(puertoEntrada,"TV"); 
 						
 						
 						reg = "confirmacion";
@@ -156,7 +189,7 @@ public class Servidor {
 						buffer = reg.getBytes();
 						DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 						socketUDP.send(salida);*/
-						for(Turno turno: turnosEnPantalla) {
+						for(Turno turno: gestionServidor.getTurnosEnPantalla()) {
 							ByteArrayOutputStream byteStream_Est = new ByteArrayOutputStream();
 				        	ObjectOutputStream objectStream_Est = new ObjectOutputStream(byteStream_Est);
 							objectStream_Est.writeObject(turno);
@@ -168,9 +201,9 @@ public class Servidor {
 					}
 				}
 				else if (puertoEntrada >= 10700 && puertoEntrada <=10800) { //Entrada de Supervisores
-					if (!conexiones.containsKey(puertoEntrada)) {
+					if (!gestionServidor.getConexiones().containsKey(puertoEntrada)) {
 					  System.out.println("se establecio la conexion con: " + puertoEntrada);
-					  conexiones.put(puertoEntrada, "Supervisor");
+					  gestionServidor.getConexiones().put(puertoEntrada, "Supervisor");
 					  
 					  System.out.println("Envio estadisticas (en conexion)");
 					  
@@ -193,7 +226,7 @@ public class Servidor {
 							objectStream_Est.writeObject(e);
 							objectStream_Est.flush();
 							buffer_Est = byteStream_Est.toByteArray();
-				        	for (Map.Entry<Integer,String> entry : conexiones.entrySet()) {
+				        	for (Map.Entry<Integer,String> entry : gestionServidor.getConexiones().entrySet()) {
 				        		if (entry.getValue().equals("Supervisor")) {
 						         	System.out.println("Envio Estadisticas (en Actualizar)");
 			                	  	DatagramPacket salida1 = new DatagramPacket(buffer_Est, buffer_Est.length,direccion,puertoEntrada);
@@ -224,7 +257,21 @@ public class Servidor {
 			e.printStackTrace();
 		}
 		
-		 
+	}
+	
+	public static boolean puertoDisponible(int puerto) {
+        try {
+            DatagramSocket socket = new DatagramSocket(puerto);
+            socket.close(); 
+            return true; 
+        } catch (SocketException e) {
+            return false; 
+        }
+    }
+
+	private static void heartbeat() {
+		
+		
 	}
 	
 }

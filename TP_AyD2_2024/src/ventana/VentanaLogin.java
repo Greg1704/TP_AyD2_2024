@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 
-public class VentanaLoginDefinitiva extends JFrame implements MouseListener, KeyListener {
+public class VentanaLogin extends JFrame implements MouseListener, KeyListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -36,7 +36,7 @@ public class VentanaLoginDefinitiva extends JFrame implements MouseListener, Key
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaLoginDefinitiva frame = new VentanaLoginDefinitiva();
+					VentanaLogin frame = new VentanaLogin();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,7 +48,7 @@ public class VentanaLoginDefinitiva extends JFrame implements MouseListener, Key
 	/**
 	 * Create the frame.
 	 */
-	public VentanaLoginDefinitiva() {
+	public VentanaLogin() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 423, 300);
 		contentPane = new JPanel();

@@ -13,14 +13,14 @@ import java.util.Arrays;
 
 import javax.swing.JOptionPane;
 
-import ventana.VentanaLoginDefinitiva;
+import ventana.VentanaLogin;
 import ventana.VentanaOperador;
 
 
 public class ControladorVentanaOperador implements ActionListener{
 
 	private VentanaOperador ventanaOperador; 
-	private VentanaLoginDefinitiva vl;
+	private VentanaLogin vl;
 	private String siguiente = "false";
 	private InetAddress direccion; 
 	private DatagramSocket socketUPD;
@@ -33,14 +33,14 @@ public class ControladorVentanaOperador implements ActionListener{
 	
 	private ControladorVentanaOperador() {
 		
-		this.vl = new VentanaLoginDefinitiva();
+		this.vl = new VentanaLogin();
 		this.vl.setControladorOperador(this);
 		this.vl.esperarBoton();
 		
 		while(this.vl.getTextFieldUsuario().getText().equals("admin")) {
 			JOptionPane.showMessageDialog(null, "Usuario y/o contraseña invalido");
 			this.vl.dispose();
-			this.vl = new VentanaLoginDefinitiva();
+			this.vl = new VentanaLogin();
 			this.vl.setControladorOperador(this);
 			this.vl.esperarBoton();
 		}

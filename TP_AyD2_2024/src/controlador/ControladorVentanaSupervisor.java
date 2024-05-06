@@ -16,14 +16,14 @@ import javax.swing.JOptionPane;
 
 import java.io.ObjectInputStream;
 
-import ventana.VentanaLoginDefinitiva;
+import ventana.VentanaLogin;
 import ventana.VentanaSupervisor;
 import modelo.Estadisticas;
 
 public class ControladorVentanaSupervisor implements ActionListener{
 
 	private VentanaSupervisor ventanasupervisor; 
-	private VentanaLoginDefinitiva vl;
+	private VentanaLogin vl;
 	public boolean admin = true;
 	private static ControladorVentanaSupervisor instancia = null;
 	private InetAddress direccion; 
@@ -36,14 +36,14 @@ public class ControladorVentanaSupervisor implements ActionListener{
 
 	
 	private ControladorVentanaSupervisor() { 		
-		this.vl = new VentanaLoginDefinitiva();
+		this.vl = new VentanaLogin();
 		this.vl.setControladorSupervisor(this);
 		this.vl.esperarBoton();
 		
 		while(!this.vl.getTextFieldUsuario().getText().equals("admin")) {
 			JOptionPane.showMessageDialog(null, "Usuario y/o contraseña invalido");
 			this.vl.dispose();
-			this.vl = new VentanaLoginDefinitiva();
+			this.vl = new VentanaLogin();
 			this.vl.setControladorSupervisor(this);
 			this.vl.esperarBoton();
 		}
