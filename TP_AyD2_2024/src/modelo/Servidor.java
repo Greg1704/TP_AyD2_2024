@@ -13,13 +13,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Servidor {
 	private static long tiempoEspera;
 	static int portMonitor = 11000;
 	public static GestionServidor gestionServidor; 
-	
-	
 	public static void main(String[] args) { 
 		//ServerSocket servidor = null; 
 		//Socket sc = null;
@@ -58,7 +58,7 @@ public class Servidor {
 			socketUDP.send(salida);
 				
 			System.out.println("Servidor iniciado");
-							
+										
 			
 			while(true) {
 				byte[] buffer = new byte[1024];	
@@ -80,6 +80,7 @@ public class Servidor {
 				//Operadores: 10300 - 10400 
 				//TV: 10500 - 10600 
 				//Supervisor: 10700 - 10800
+				//Monitor: 11000
 				
 				if(puertoEntrada >= 10100 && puertoEntrada <=10200) { //Entrada de Totems
 					if (!gestionServidor.getConexiones().containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
@@ -235,6 +236,11 @@ public class Servidor {
 							**/
 						}
 					}
+				}else if(puertoEntrada == 11000) {
+					reg = "heartbeat";
+					buffer = reg.getBytes();
+					salida = new DatagramPacket(buffer, buffer.length,direccion,portMonitor);
+					socketUDP.send(salida);
 				}
 		
 				
@@ -261,10 +267,5 @@ public class Servidor {
             return false; 
         }
     }
-
-	private static void heartbeat() {
-		
-		
-	}
 	
 }
