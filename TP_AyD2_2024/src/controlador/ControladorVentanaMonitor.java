@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 
 import modelo.Monitor;
 import ventana.VentanaLogin;
+import ventana.VentanaMonitor;
 import ventana.VentanaOperador;
 
 public class ControladorVentanaMonitor {
@@ -24,19 +25,29 @@ public class ControladorVentanaMonitor {
 	final int portMonitor = 11000;
 	String reg;
 	private HashMap<Integer, Boolean> servidoresDisp = new HashMap<>();
+	private VentanaMonitor vm;
+	private static ControladorVentanaMonitor instancia = null;
 	
 	
-	private void controladorVentanaMonitor() {
+	private ControladorVentanaMonitor() {
 		//DatagramSocket socketUDP;
 		try {
 			socketUDP = new DatagramSocket(portMonitor);
 			
+			this.vm = new VentanaMonitor();
+			this.vm.setControlador(this,this.servidoresDisp);
 			this.esperandoNotificaciones(socketUDP);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public static ControladorVentanaMonitor getInstancia() {
+		if (instancia == null)
+			instancia = new ControladorVentanaMonitor();
+		return instancia;
 	}
 	
 	
@@ -61,6 +72,8 @@ public class ControladorVentanaMonitor {
 								this.servidoresDisp.put(puertoEntrada, true);
 							else
 								this.servidoresDisp.put(puertoEntrada, false);
+							
+							this.vm.actualizaServDisp(servidoresDisp);
 						}
 					}else {
 						//System.out.println("Puerto no habilitado");
