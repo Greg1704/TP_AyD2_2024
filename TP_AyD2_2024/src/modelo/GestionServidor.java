@@ -4,19 +4,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GestionServidor {
-	public HashMap<Integer, String> conexiones = new HashMap<>();
-	public GestionDeTurnos gdt = new GestionDeTurnos();
-	public HashMap<Integer, Integer> boxesOcupados = new HashMap<>();  //<N Box,Puerto Box>
-	public ArrayList<Turno> turnosEnPantalla = new ArrayList<Turno>();
+	public HashMap<Integer, String> conexiones;
+	public GestionDeTurnos gdt;
+	public HashMap<Integer, Integer> boxesOcupados; //<N Box,Puerto Box>
+	public ArrayList<Turno> turnosEnPantalla;
 	
 	
-	public GestionServidor(HashMap<Integer, String> conexiones, GestionDeTurnos gdt,
-			HashMap<Integer, Integer> boxesOcupados, ArrayList<Turno> turnosEnPantalla) {
+	public GestionServidor() {
 		super();
-		this.conexiones = conexiones;
-		this.gdt = gdt;
-		this.boxesOcupados = boxesOcupados;
-		this.turnosEnPantalla = turnosEnPantalla;
+		this.conexiones = new HashMap<>();
+		this.gdt = new GestionDeTurnos();
+		this.boxesOcupados = new HashMap<>();  //<N Box,Puerto Box>
+		this.turnosEnPantalla = new ArrayList<Turno>();
 	}
 	
 	public HashMap<Integer, String> getConexiones() {

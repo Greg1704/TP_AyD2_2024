@@ -13,14 +13,14 @@ public class pruebafalopaGrego {
 		
 		
 		
-		GestionServidor gestionServidor =  new GestionServidor(null, gdt, null, null);
+		//GestionServidor gestionServidor =  new GestionServidor(null, gdt, null, null);
 		
 		
 		Turno turno = new Turno(null);
 	
 		
 		System.out.println(gdt);
-		System.out.println(gestionServidor.getGdt());
+		//System.out.println(gestionServidor.getGdt());
 		
 		
 		

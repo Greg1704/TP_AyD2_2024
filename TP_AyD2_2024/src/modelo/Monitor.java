@@ -14,9 +14,9 @@ import controlador.ControladorVentanaOperador;
 public class Monitor {
 	private Boolean estado;
 	private DatagramSocket socketUPD;
+	private InetAddress direccion; 
 	static byte[] buffer = new byte[1024];
 	final int portServidor = 10000;
-	private static ControladorVentanaOperador instancia = null;
 	private int portMonitor = 11000; 
 	private HashMap<Integer, Boolean> servidoresDisp = new HashMap<>();  //<Port,estado>
 	
@@ -26,7 +26,7 @@ public class Monitor {
 		try {
 			
 			direccion = InetAddress.getByName("localHost");
-			
+			String reg = "";
 			
 			socketUPD = new DatagramSocket(portMonitor); 
 			

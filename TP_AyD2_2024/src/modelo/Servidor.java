@@ -24,48 +24,41 @@ public class Servidor {
 		//ServerSocket servidor = null; 
 		//Socket sc = null;
 		
-		HashMap<Integer, String> conexiones;
-		GestionDeTurnos gdt;
-		HashMap<Integer, Integer> boxesOcupados;
-		ArrayList<Turno> turnosEnPantalla;
+		//HashMap<Integer, String> conexiones;
+		//GestionDeTurnos gdt;
+		//HashMap<Integer, Integer> boxesOcupados;
+		//ArrayList<Turno> turnosEnPantalla;
 		
-		gestionServidor =  new GestionServidor(conexiones, gdt, boxesOcupados, turnosEnPantalla); 
+		gestionServidor =  new GestionServidor(); 
 		
 		
-		InetAddress direccion;
-		byte[] buffer = new byte[1024];
+		
 		//Estadisticas estadisticas = new Estadisticas();
 		//ArrayList<Integer> boxesOcupados = new ArrayList<Integer>();
 		
-		String reg;
+		String reg = "";
 		
 		try {
+			InetAddress direccion = InetAddress.getByName("localHost");
+			byte[] bufferInicial = new byte[1024];
 			int port = 10000;
+			
+			
+			
+			direccion = InetAddress.getByName("localHost");
+				
+			while(!puertoDisponible(port))
+				port++;
+				
 			DatagramSocket socketUDP = new DatagramSocket(port); 
+				
+			bufferInicial = reg.getBytes();
+			DatagramPacket salida = new DatagramPacket(bufferInicial, bufferInicial.length,direccion,portMonitor);
+				
+			socketUDP.send(salida);
+				
 			System.out.println("Servidor iniciado");
-			
-			try {
-				direccion = InetAddress.getByName("localHost");
-				
-				while(!puertoDisponible(port))
-					port++;
-				socketUDP = new DatagramSocket(port); 
-				
-				buffer = reg.getBytes();
-				DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portMonitor);
-				
-				socketUDP.send(salida);
-				socketUDP.setSoTimeout(1000);
-				
-			} catch (UnknownHostException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			
+							
 			
 			while(true) {
 				byte[] buffer = new byte[1024];	
@@ -77,7 +70,7 @@ public class Servidor {
 				String mensaje = new String(entrada.getData());
 				mensaje = mensaje.trim();
 				int puertoEntrada = entrada.getPort();
-				InetAddress direccion = entrada.getAddress();
+				//InetAddress direccion = entrada.getAddress();
 				
 				//conexiones.add(puertoEntrada);
 				
@@ -96,7 +89,7 @@ public class Servidor {
 						
 						reg = "confirmacion";
 						buffer = reg.getBytes();
-						DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
+						salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 						socketUDP.send(salida);
 						
 					}else { //Caso en el que se este enviando un turno para el subsistema de gestion de turnos
@@ -105,7 +98,7 @@ public class Servidor {
 						
 						reg = "confirmacion";
 						buffer = reg.getBytes();
-						DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
+						salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 						socketUDP.send(salida);
 					}
 				}else if(puertoEntrada >= 10300 && puertoEntrada <=10400) { //Entrada de Operadores/Boxs
@@ -121,7 +114,7 @@ public class Servidor {
 						gestionServidor.getBoxesOcupados().put(puertoEntrada,box);
 						reg = Integer.toString(box);
 						buffer = reg.getBytes();
-						DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
+						salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 						socketUDP.send(salida);
 
 						
@@ -154,7 +147,7 @@ public class Servidor {
 				            
 				            for (Map.Entry<Integer,String> entry : gestionServidor.getConexiones().entrySet()) {
 				                if (entry.getValue().equals("TV")) {
-				                	DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,entry.getKey());
+				                	salida = new DatagramPacket(buffer, buffer.length,direccion,entry.getKey());
 									socketUDP.send(salida);
 				                }
 				            }
@@ -162,7 +155,7 @@ public class Servidor {
 				            reg = "hay turno";
 							buffer = reg.getBytes();
 				            System.out.println("Largo buffer = " + buffer.length);
-							DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
+							salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 							socketUDP.send(salida);
 					            
 					       
@@ -170,7 +163,7 @@ public class Servidor {
 							reg = "no hay turno";
 							buffer = reg.getBytes();
 				            System.out.println("Largo buffer = " + buffer.length);
-							DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
+							salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 							socketUDP.send(salida);
 						}
 					}
@@ -182,7 +175,7 @@ public class Servidor {
 						
 						reg = "confirmacion";
 						buffer = reg.getBytes();
-						DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
+						salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 						socketUDP.send(salida);
 						/*Arrays.fill(buffer, (byte) 0);
 						String reg = "1234";
@@ -214,7 +207,7 @@ public class Servidor {
 			          objectStream.flush();
 			          buffer = byteStream.toByteArray();
 			          
-			          DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
+			          salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 			          socketUDP.send(salida);
 					}
 					else {
