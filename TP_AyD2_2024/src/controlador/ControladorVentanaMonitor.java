@@ -92,13 +92,15 @@ public class ControladorVentanaMonitor {
 			}catch (SocketTimeoutException e) {
 				// TODO Auto-generated catch block
 				JOptionPane.showMessageDialog(null, "Murio el servidor principal, RIP"); 
+				this.servidoresDisp.remove(10000);
+				this.vm.actualizaServDisp(servidoresDisp);
 			}
 			catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			Arrays.fill(buffer, (byte) 0);
-		
+			System.out.println("Murio el while");
 	}
 	
 	
