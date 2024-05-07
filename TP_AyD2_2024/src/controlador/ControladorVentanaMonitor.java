@@ -9,6 +9,7 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -80,10 +81,13 @@ public class ControladorVentanaMonitor {
 								this.servidoresDisp.put(puertoEntrada, false);
 							
 							this.vm.actualizaServDisp(servidoresDisp);
-						}else {
+						}else if(mensaje.equals("heartbeat")){
 							this.estaVivo = true;
 							socketUDP.setSoTimeout(6000);
 							System.out.println("*Ruido de latido*");
+						}else if(mensaje.equals("reemplazo")) {
+							this.estaVivo = true;
+							this.servidoresDisp.put(puertoServerPrincipal, true);
 						}
 					}else {
 						//System.out.println("Puerto no habilitado");
@@ -92,8 +96,10 @@ public class ControladorVentanaMonitor {
 			}catch (SocketTimeoutException e) {
 				// TODO Auto-generated catch block
 				JOptionPane.showMessageDialog(null, "Murio el servidor principal, RIP"); 
-				this.servidoresDisp.remove(10000);
+				this.servidoresDisp.remove(puertoServerPrincipal);
 				this.vm.actualizaServDisp(servidoresDisp);
+				this.secundarioAPrincipal();
+				this.esperandoNotificaciones(socketUDP);
 			}
 			catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -152,6 +158,30 @@ public class ControladorVentanaMonitor {
 	        }
 		}, 500, 3000);
 	
+	}
+	
+	private void secundarioAPrincipal() {
+		try {
+			
+			Set<Integer> keySet = this.servidoresDisp.keySet();
+			Integer[] keys = keySet.toArray(new Integer[0]);  
+			if(keys.length > 0) {
+				String reg = "cambio";
+				InetAddress direccion = InetAddress.getByName("localHost");
+				byte[] buffer = new byte[1024];
+				buffer = reg.getBytes();
+		    	DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,keys[0]);
+				socketUDP.send(salida);
+				socketUDP.setSoTimeout(6000);
+				this.servidoresDisp.remove(keys[0]);
+			}
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }

@@ -236,11 +236,20 @@ public class Servidor {
 							**/
 						}
 					}
-				}else if(puertoEntrada == 11000) {
-					reg = "heartbeat";
-					buffer = reg.getBytes();
-					salida = new DatagramPacket(buffer, buffer.length,direccion,portMonitor);
-					socketUDP.send(salida);
+				}else if(puertoEntrada == 11000) {  //Entrada del Monitor
+					if(mensaje.equals("heartbeat")) {  //Caso heartbeat
+						reg = "heartbeat";
+						buffer = reg.getBytes();
+						salida = new DatagramPacket(buffer, buffer.length,direccion,portMonitor);
+						socketUDP.send(salida);
+					}else if(mensaje.equals("cambio")) { //Caso en el que un servidor secundario pasa a ser el principal
+						socketUDP.close();
+						port = 10000;
+						socketUDP = new DatagramSocket(port);	
+						reg = "reemplazo";
+						buffer = reg.getBytes();
+						salida = new DatagramPacket(buffer, buffer.length,direccion,portMonitor);
+					}
 				}
 		
 				
