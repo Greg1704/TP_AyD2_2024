@@ -245,7 +245,7 @@ public class Servidor {
 					}else if(mensaje.equals("cambio")) { //Caso en el que un servidor secundario pasa a ser el principal
 						socketUDP.close();
 						port = 10000;
-						socketUDP = new DatagramSocket(port);	
+						socketUDP = new DatagramSocket(port); //ACA SE ROMPE TODO	
 						reg = "reemplazo";
 						buffer = reg.getBytes();
 						salida = new DatagramPacket(buffer, buffer.length,direccion,portMonitor);
