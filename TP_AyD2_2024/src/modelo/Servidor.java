@@ -262,12 +262,12 @@ public class Servidor {
 						
 						
 					}else if(mensaje.equals("cambio")) { //Caso en el que un servidor secundario pasa a ser el principal
-						socketUDP.close();
-						port = 10000;
-						socketUDP = new DatagramSocket(port); //ACA SE ROMPE TODO	
-						reg = "reemplazo";
-						buffer = reg.getBytes();
-						salida = new DatagramPacket(buffer, buffer.length,direccion,portMonitor);
+						for (Map.Entry<Integer,String> entry : gestionServidor.getConexiones().entrySet()) {
+							reg = "cambio";
+							buffer = reg.getBytes();
+							salida = new DatagramPacket(buffer, buffer.length,direccion,entry.getKey());
+							socketUDP.send(salida);
+						}
 					}
 				} else if(puertoEntrada == port-1) { //recibe datos de backup
 				
