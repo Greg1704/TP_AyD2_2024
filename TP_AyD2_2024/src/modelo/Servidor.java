@@ -247,10 +247,10 @@ public class Servidor {
 						socketUDP.send(salida);
 						
 						
-						
+						GestionServidor e = GestionServidor.getInstance();
 						ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
 					    ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
-					    objectStream.writeObject(gestionServidor);
+					    objectStream.writeObject(e);
 				        objectStream.flush();
 				        buffer = byteStream.toByteArray();
 				        

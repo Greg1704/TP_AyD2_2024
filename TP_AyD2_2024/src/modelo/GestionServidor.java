@@ -42,5 +42,10 @@ public class GestionServidor {
 	public void setTurnosEnPantalla(ArrayList<Turno> turnosEnPantalla) {
 		this.turnosEnPantalla = turnosEnPantalla;
 	}
+
+	public static GestionServidor getInstance() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
