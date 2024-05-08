@@ -1,16 +1,21 @@
 package modelo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class GestionServidor {
+public class GestionServidor implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public HashMap<Integer, String> conexiones;
 	public GestionDeTurnos gdt;
 	public HashMap<Integer, Integer> boxesOcupados; //<N Box,Puerto Box>
 	public ArrayList<Turno> turnosEnPantalla;
 	
 	
-	public GestionServidor() {
+	public GestionServidor()  {
 		super();
 		this.conexiones = new HashMap<>();
 		this.gdt = new GestionDeTurnos();
