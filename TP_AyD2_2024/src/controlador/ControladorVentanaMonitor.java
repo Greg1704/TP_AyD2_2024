@@ -81,7 +81,7 @@ public class ControladorVentanaMonitor {
 								this.servidoresDisp.put(puertoEntrada, false);
 							
 							this.vm.actualizaServDisp(servidoresDisp);
-						}else if(mensaje.equals("heartbeat")){
+						}else if(mensaje.equals("pong")){
 							this.estaVivo = true;
 							socketUDP.setSoTimeout(6000);
 							System.out.println("*Ruido de latido*");

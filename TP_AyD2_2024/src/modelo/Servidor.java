@@ -272,7 +272,7 @@ public class Servidor {
 				} else if(puertoEntrada == port-1) { //recibe datos de backup
 				
 			    	 try {
-						socketUPD.receive(entrada);
+						socketUPD.receive(entrada); //Esta linea es ilegal
 						socketUPD.setSoTimeout(0);
 				    	 // Deserializar bytes recibidos en objeto Estadisticas
 				    	 ByteArrayInputStream byteStream = new ByteArrayInputStream(entrada.getData());
