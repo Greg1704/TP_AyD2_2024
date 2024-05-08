@@ -134,7 +134,7 @@ public class ControladorVentanaMonitor {
 	private void heartbeat(int puertoServidor, DatagramSocket socketUDP) throws UnknownHostException,SocketTimeoutException {
 		
 		Timer t = new Timer();
-		String reg = "heartbeat";
+		String reg = "ping";
 		InetAddress direccion = InetAddress.getByName("localHost");
 		
 		

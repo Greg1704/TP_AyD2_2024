@@ -237,8 +237,8 @@ public class Servidor {
 						}
 					}
 				}else if(puertoEntrada == 11000) {  //Entrada del Monitor
-					if(mensaje.equals("heartbeat")) {  //Caso heartbeat
-						reg = "heartbeat";
+					if(mensaje.equals("ping")) {  //Caso heartbeat
+						reg = "pong";
 						buffer = reg.getBytes();
 						salida = new DatagramPacket(buffer, buffer.length,direccion,portMonitor);
 						socketUDP.send(salida);
