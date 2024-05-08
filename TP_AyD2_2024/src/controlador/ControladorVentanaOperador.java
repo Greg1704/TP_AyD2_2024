@@ -25,7 +25,7 @@ public class ControladorVentanaOperador implements ActionListener{
 	private InetAddress direccion; 
 	private DatagramSocket socketUPD;
 	static byte[] buffer = new byte[1024];
-	final int portServidor = 10000;
+	int portServidor = 10000;
 	private static ControladorVentanaOperador instancia = null;
 	int puerto;
 	//Operador op;
@@ -162,7 +162,7 @@ public class ControladorVentanaOperador implements ActionListener{
 					int puertoEntrada = entrada.getPort();
 					InetAddress direccion = entrada.getAddress();
 					
-					if(puertoEntrada == 10000) {
+					if(puertoEntrada == portServidor) {
 						if (mensaje.matches("\\d+")) {
 							//System.out.println("Soy un operador y mi numero de box es " + mensaje);
 							this.setNumeroBox(mensaje);
@@ -185,8 +185,8 @@ public class ControladorVentanaOperador implements ActionListener{
 								JOptionPane.showMessageDialog(null, "No hay turnos en espera en la cola");
 							}
 						}
-					}else {
-						//System.out.println("Puerto no habilitado");
+					}else if(puertoEntrada >portServidor && puertoEntrada <10011){
+						this.portServidor = puertoEntrada;
 					}
 				}
 			}catch (SocketTimeoutException e2) {

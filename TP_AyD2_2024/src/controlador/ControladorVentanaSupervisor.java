@@ -29,7 +29,7 @@ public class ControladorVentanaSupervisor implements ActionListener{
 	private InetAddress direccion; 
 	private DatagramSocket socketUPD; 
 	static byte[] buffer = new byte[1024];
-	final static int portServidor = 10000;
+	int portServidor = 10000;
 	private Estadisticas estadisticas; 
 	private String actualizar = "false";
 	
@@ -103,17 +103,24 @@ public class ControladorVentanaSupervisor implements ActionListener{
 		
 		    try {
 		    	while (true) {
-					 buffer = new byte[4096]; // Reservar buffer para recibir objeto //VER: chequear  valor buffer
-					 DatagramPacket entrada = new DatagramPacket(buffer, buffer.length, direccion, portServidor);
-			    	 socketUPD.receive(entrada);
-			    	 socketUPD.setSoTimeout(0);
-			    	 // Deserializar bytes recibidos en objeto Estadisticas
-			    	 ByteArrayInputStream byteStream = new ByteArrayInputStream(entrada.getData());
-			    	 ObjectInputStream objectStream = new ObjectInputStream(byteStream);
-			    	 estadisticas = (Estadisticas) objectStream.readObject();
-			    	 //System.out.println("Recibo estadisticas");
-			    	 
-			    	 this.ventanasupervisor.CargaEstadistica(estadisticas);
+						 buffer = new byte[4096]; // Reservar buffer para recibir objeto //VER: chequear  valor buffer
+						 DatagramPacket entrada = new DatagramPacket(buffer, buffer.length, direccion, portServidor);
+				    	 socketUPD.receive(entrada);
+				    	 socketUPD.setSoTimeout(0);
+				    	 int puertoEntrada = entrada.getPort();
+						InetAddress direccion = entrada.getAddress();
+						
+						if(puertoEntrada == portServidor) {
+					    	 // Deserializar bytes recibidos en objeto Estadisticas
+					    	 ByteArrayInputStream byteStream = new ByteArrayInputStream(entrada.getData());
+					    	 ObjectInputStream objectStream = new ObjectInputStream(byteStream);
+					    	 estadisticas = (Estadisticas) objectStream.readObject();
+					    	 //System.out.println("Recibo estadisticas");
+					    	 
+					    	 this.ventanasupervisor.CargaEstadistica(estadisticas);
+						}else if(puertoEntrada>portServidor && puertoEntrada <10011){
+							this.portServidor = puertoEntrada;
+						}
 		    	 
 		    	}	 
 		  } catch (SocketTimeoutException e2) {

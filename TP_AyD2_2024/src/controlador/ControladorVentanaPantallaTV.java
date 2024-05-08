@@ -19,7 +19,7 @@ import ventana.VentanaPantallaTV;
 public class ControladorVentanaPantallaTV{
 
 	private VentanaPantallaTV ventanaPantallaTV; 
-	final static int portServidor = 10000;
+	int portServidor = 10000;
 	static byte[] buffer = new byte[1024]; 
 	private DatagramSocket socketUPD;
 	private static ControladorVentanaPantallaTV instancia = null;
@@ -120,10 +120,10 @@ public class ControladorVentanaPantallaTV{
 				//InetAddress direccion = entrada.getAddress();
 				//System.out.println(t);
 				
-				if(puertoEntrada == 10000) {
+				if(puertoEntrada == portServidor) {
 					this.ventanaPantallaTV.actualizaTurnos(t);
-				}else {
-					//System.out.println("Puerto no habilitado");
+				}else if(puertoEntrada>portServidor && puertoEntrada <10011){
+					this.portServidor = puertoEntrada;
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
