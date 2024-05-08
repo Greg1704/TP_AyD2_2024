@@ -2,7 +2,9 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -13,12 +15,13 @@ import java.util.Arrays;
 
 import javax.swing.JOptionPane;
 
+import modelo.Turno;
 import ventana.VentanaTotem;
 
 
 public class ControladorVentanaTotem implements ActionListener{
 	public VentanaTotem ventanaTotem;
-	final static int portServidor = 10000;
+	int portServidor = 10000;
 	static byte[] buffer = new byte[1024];
 	private static ControladorVentanaTotem instancia = null;
 	DatagramSocket socketUPD;
@@ -87,6 +90,33 @@ public class ControladorVentanaTotem implements ActionListener{
 			instancia = new ControladorVentanaTotem();
 		return instancia;
 	}
+	
+	
+	public void esperandoNotificaciones(DatagramSocket socketUDP) {
+		// TODO Auto-generated method stub
+		while(true) {
+			byte[] buffer2 = new byte[2048];
+			DatagramPacket entrada = new DatagramPacket(buffer2, buffer2.length);
+			try {
+				socketUDP.receive(entrada);
+				/*String mensaje = new String(entrada.getData());
+				mensaje = mensaje.trim();*/
+				int puertoEntrada = entrada.getPort();
+				//InetAddress direccion = entrada.getAddress();
+				//System.out.println(t);
+				
+				if(puertoEntrada == 10000) {
+					
+				}else if(puertoEntrada>10000 && puertoEntrada <10011){
+					this.portServidor = puertoEntrada;
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+		}
+	}
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
