@@ -1,8 +1,10 @@
 package modelo;
 
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -19,6 +21,7 @@ import java.util.TimerTask;
 public class Servidor {
 	private static long tiempoEspera;
 	static int portMonitor = 11000;
+	private static DatagramSocket socketUPD; 
 	public static GestionServidor gestionServidor; 
 	public static void main(String[] args) { 
 		//ServerSocket servidor = null; 
@@ -242,6 +245,22 @@ public class Servidor {
 						buffer = reg.getBytes();
 						salida = new DatagramPacket(buffer, buffer.length,direccion,portMonitor);
 						socketUDP.send(salida);
+						
+						
+						
+						ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+					    ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
+					    objectStream.writeObject(gestionServidor);
+				        objectStream.flush();
+				        buffer = byteStream.toByteArray();
+				        
+				        
+				        int puertoServidorNext = port+1;
+				        
+				        salida = new DatagramPacket(buffer, buffer.length,direccion,puertoServidorNext);
+				        socketUDP.send(salida);
+						
+						
 					}else if(mensaje.equals("cambio")) { //Caso en el que un servidor secundario pasa a ser el principal
 						socketUDP.close();
 						port = 10000;
@@ -250,6 +269,23 @@ public class Servidor {
 						buffer = reg.getBytes();
 						salida = new DatagramPacket(buffer, buffer.length,direccion,portMonitor);
 					}
+				} else if(puertoEntrada == port-1) { //recibe datos de backup
+				
+			    	 try {
+						socketUPD.receive(entrada);
+						socketUPD.setSoTimeout(0);
+				    	 // Deserializar bytes recibidos en objeto Estadisticas
+				    	 ByteArrayInputStream byteStream = new ByteArrayInputStream(entrada.getData());
+				    	 ObjectInputStream objectStream = new ObjectInputStream(byteStream);
+				    	 gestionServidor = (GestionServidor) objectStream.readObject();
+				    	 //System.out.println("Recibo estadisticas");
+				    	 
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			    	 
+					
 				}
 		
 				
