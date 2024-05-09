@@ -141,7 +141,7 @@ public class ControladorVentanaTotem implements ActionListener{
 					JOptionPane.showMessageDialog(null, "DNI recibido"); 
 
 				}catch (SocketTimeoutException e2) {
-					JOptionPane.showMessageDialog(null, "Servidor fuera de linea"); 
+					JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
 		        } 
 				catch (IOException e1) {
 					// TODO Auto-generated catch block

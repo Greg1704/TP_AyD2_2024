@@ -80,6 +80,8 @@ public class ControladorVentanaOperador implements ActionListener{
 		
 	}
 	
+	
+	
 	public static boolean puertoDisponible(int puerto) {
         try {
             DatagramSocket socket = new DatagramSocket(puerto);
@@ -190,7 +192,7 @@ public class ControladorVentanaOperador implements ActionListener{
 					}
 				}
 			}catch (SocketTimeoutException e2) {
-				JOptionPane.showMessageDialog(null, "Servidor fuera de linea");
+				JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
 				this.socketUPD.close();
 				this.ventanaOperador.dispose();
 	        } 

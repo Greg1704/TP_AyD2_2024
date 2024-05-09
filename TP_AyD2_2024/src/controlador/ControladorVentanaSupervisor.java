@@ -124,9 +124,10 @@ public class ControladorVentanaSupervisor implements ActionListener{
 		    	 
 		    	}	 
 		  } catch (SocketTimeoutException e2) {
-				JOptionPane.showMessageDialog(null, "Servidor fuera de linea");
-				this.socketUPD.close();
-				this.ventanasupervisor.dispose();
+			  JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
+			  this.socketUPD.close();
+			  this.ventanasupervisor.dispose();
+				
 	        } 
 		    catch (IOException | ClassNotFoundException e) {
 		    e.printStackTrace();

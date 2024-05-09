@@ -54,7 +54,7 @@ public class ControladorVentanaPantallaTV{
 		
 			
 		}catch (SocketTimeoutException e2) {
-			JOptionPane.showMessageDialog(null, "Servidor fuera de linea");
+			JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
 			this.socketUPD.close();
         } 
 		catch (UnknownHostException e) {
