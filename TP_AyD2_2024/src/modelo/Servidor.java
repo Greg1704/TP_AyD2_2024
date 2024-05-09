@@ -68,7 +68,10 @@ public class Servidor {
 				byte[] buffer_Est = new byte[5120];	
 				
 				DatagramPacket entrada = new DatagramPacket(buffer, buffer.length);
-				socketUDP.receive(entrada);
+				socketUDP.receive(entrada);  
+				
+				
+				//HABRIA QUE HACER ALGO ACA QUE DIFERENCIE SI EL MENSAJE ES UN STRING O UN OBJETO DE ALGUN TIPO
 				
 				String mensaje = new String(entrada.getData());
 				mensaje = mensaje.trim();
@@ -272,8 +275,8 @@ public class Servidor {
 				} else if(puertoEntrada == port-1) { //recibe datos de backup
 				
 			    	 try {
-						socketUPD.receive(entrada); //Esta linea es ilegal
-						socketUPD.setSoTimeout(0);
+						//socketUPD.receive(entrada); //Esta linea es ilegal
+						//socketUPD.setSoTimeout(0);
 				    	 // Deserializar bytes recibidos en objeto Estadisticas
 				    	 ByteArrayInputStream byteStream = new ByteArrayInputStream(entrada.getData());
 				    	 ObjectInputStream objectStream = new ObjectInputStream(byteStream);
