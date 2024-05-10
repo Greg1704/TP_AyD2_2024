@@ -59,6 +59,9 @@ public class ControladorVentanaTotem implements ActionListener{
 			this.ventanaTotem.setControlador(this);
 			this.ventanaTotem.setActionListener(this);
 			
+			
+			esperandoNotificaciones(socketUPD);
+			
 		}catch (SocketTimeoutException e2) {
 			JOptionPane.showMessageDialog(null, "Servidor fuera de linea"); 
         }  
@@ -92,18 +95,20 @@ public class ControladorVentanaTotem implements ActionListener{
 	}
 	
 	
-	public void esperandoNotificaciones(DatagramSocket socketUDP) {
+	public void esperandoNotificaciones(DatagramSocket socketUDP) {  //TENGO QUE UNIFICAR TODOS LOS RECEIVE(ENTRADA ACA PORQUE SINO SE ROMPE TODO)
 		// TODO Auto-generated method stub
 		while(true) {
 			byte[] buffer2 = new byte[2048];
 			DatagramPacket entrada = new DatagramPacket(buffer2, buffer2.length);
 			try {
 				socketUDP.receive(entrada);
+				socketUPD.setSoTimeout(0);
 				String mensaje = new String(entrada.getData());
 				mensaje = mensaje.trim();
 				int puertoEntrada = entrada.getPort();
 				//InetAddress direccion = entrada.getAddress();
 				//System.out.println(t);
+				
 				
 				if(mensaje.equals("cambio")){
 					System.out.println("Se actualizo el puerto :D");
