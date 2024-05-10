@@ -9,18 +9,18 @@ public class GestionServidor implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public HashMap<Integer, String> conexiones;
-	public GestionDeTurnos gdt;
-	public HashMap<Integer, Integer> boxesOcupados; //<N Box,Puerto Box>
-	public ArrayList<Turno> turnosEnPantalla;
-	public Estadisticas estadisticas;
+	private HashMap<Integer, String> conexiones;
+	private GestionDeTurnos gdt;
+	private HashMap<Integer, Integer> boxesOcupados; //<N Box,Puerto Box>
+	private ArrayList<Turno> turnosEnPantalla;
+	private Estadisticas estadisticas;
 	private static GestionServidor instancia = null;
 
 	
 	
 	private GestionServidor()  {
 		super();
-		this.estadisticas = Estadisticas.getInstance();
+		this.estadisticas = new Estadisticas();
 		this.conexiones = new HashMap<>();
 		this.gdt = new GestionDeTurnos();
 		this.boxesOcupados = new HashMap<>();  //<N Box,Puerto Box>
@@ -50,6 +50,14 @@ public class GestionServidor implements Serializable{
 	}
 	public void setTurnosEnPantalla(ArrayList<Turno> turnosEnPantalla) {
 		this.turnosEnPantalla = turnosEnPantalla;
+	}
+
+	public Estadisticas getEstadisticas() {
+		return estadisticas;
+	}
+
+	public void setEstadisticas(Estadisticas estadisticas) {
+		this.estadisticas = estadisticas;
 	}
 
 	public static GestionServidor getInstance() {

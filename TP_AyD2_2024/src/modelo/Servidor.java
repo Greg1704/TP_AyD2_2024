@@ -127,7 +127,7 @@ public class Servidor {
 
 						
 					}else if(mensaje.equals("acepto")){ //Caso confirmacion de llegada del cliente al box
-						Estadisticas e = Estadisticas.getInstance();
+						Estadisticas e = gestionServidor.getEstadisticas();
 						e.agregarClienteAtendidos();
 						e.agregarTiempos(tiempoEspera);
 						
@@ -208,7 +208,7 @@ public class Servidor {
 					  
 					  System.out.println("Envio estadisticas (en conexion)");
 					  
-					  Estadisticas e = Estadisticas.getInstance();
+					  Estadisticas e = gestionServidor.getEstadisticas();
 					  ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
 				      ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
 				      objectStream.writeObject(e);
@@ -220,7 +220,7 @@ public class Servidor {
 					}
 					else {
 					 	if (mensaje.equals("trueActualizar")){
-							Estadisticas e = Estadisticas.getInstance();
+							Estadisticas e = gestionServidor.getEstadisticas();
 							System.out.println(e.cantCliAtentidos + "   " + e.tiempoEsperaProm + "   " + e.tiempoEsperaMin + "   " + e.tiempoEsperaMax + "   ");
 							ByteArrayOutputStream byteStream_Est = new ByteArrayOutputStream();
 				        	ObjectOutputStream objectStream_Est = new ObjectOutputStream(byteStream_Est);

@@ -22,11 +22,10 @@ public class Estadisticas implements Serializable{
 	public float tiempoEsperaProm;
 	public float tiempoEsperaMin;
 	public float tiempoEsperaMax;
-	private static Estadisticas instancia = null;
 	private LocalDate fechaActual;
 	
 	
-	private Estadisticas() {
+	public Estadisticas() {
 		super();
 		this.cantCliAtentidos = 0;
 		this.tiempoEsperaProm =0.0f;
@@ -35,12 +34,6 @@ public class Estadisticas implements Serializable{
 		this.fechaActual = LocalDate.now();
 	}
 	
-	
-	public static Estadisticas getInstance() {
-		if (instancia == null) 
-			instancia = new Estadisticas();
-		return instancia;
-	}
 
 	public List<Long> getTiempos() {
 		return tiemposEspera;
