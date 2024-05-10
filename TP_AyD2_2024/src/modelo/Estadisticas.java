@@ -26,7 +26,7 @@ public class Estadisticas implements Serializable{
 	private LocalDate fechaActual;
 	
 	
-	public Estadisticas() {
+	private Estadisticas() {
 		super();
 		this.cantCliAtentidos = 0;
 		this.tiempoEsperaProm =0.0f;

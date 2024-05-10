@@ -65,7 +65,7 @@ public class Servidor {
 										
 			
 			while(true) {
-				byte[] buffer = new byte[1024];	
+				byte[] buffer = new byte[5120];	
 				byte[] buffer_Est = new byte[5120];	
 				
 				DatagramPacket entrada = new DatagramPacket(buffer, buffer.length);

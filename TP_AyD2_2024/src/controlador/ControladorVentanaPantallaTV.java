@@ -110,21 +110,24 @@ public class ControladorVentanaPantallaTV{
 			try {
 				socketUDP.receive(entrada);
 				
-				ByteArrayInputStream byteStream = new ByteArrayInputStream(entrada.getData());
-	            ObjectInputStream objectStream = new ObjectInputStream(byteStream);
-	            Turno t = (Turno) objectStream.readObject();
-				
-				/*String mensaje = new String(entrada.getData());
-				mensaje = mensaje.trim();*/
+				String mensaje = new String(entrada.getData());
+				mensaje = mensaje.trim();
 				int puertoEntrada = entrada.getPort();
-				//InetAddress direccion = entrada.getAddress();
-				//System.out.println(t);
 				
-				if(puertoEntrada == portServidor) {
-					this.ventanaPantallaTV.actualizaTurnos(t);
-				}else if(puertoEntrada>portServidor && puertoEntrada <10011){
-					this.portServidor = puertoEntrada;
+				if(mensaje.equals("cambio")) {
+					if(puertoEntrada>portServidor && puertoEntrada <10011){
+						this.portServidor = puertoEntrada;
+					}
+				}else {
+					ByteArrayInputStream byteStream = new ByteArrayInputStream(entrada.getData());
+		            ObjectInputStream objectStream = new ObjectInputStream(byteStream);
+		            Turno t = (Turno) objectStream.readObject();				
+					if(puertoEntrada == portServidor) {
+						this.ventanaPantallaTV.actualizaTurnos(t);
+					}
 				}
+				
+				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

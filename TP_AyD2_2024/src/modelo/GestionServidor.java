@@ -13,12 +13,14 @@ public class GestionServidor implements Serializable{
 	public GestionDeTurnos gdt;
 	public HashMap<Integer, Integer> boxesOcupados; //<N Box,Puerto Box>
 	public ArrayList<Turno> turnosEnPantalla;
+	public Estadisticas estadisticas;
 	private static GestionServidor instancia = null;
 
 	
 	
 	private GestionServidor()  {
 		super();
+		this.estadisticas = Estadisticas.getInstance();
 		this.conexiones = new HashMap<>();
 		this.gdt = new GestionDeTurnos();
 		this.boxesOcupados = new HashMap<>();  //<N Box,Puerto Box>
