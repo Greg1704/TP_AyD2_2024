@@ -48,8 +48,9 @@ public class ControladorVentanaOperador implements ActionListener{
 		try {
 			puerto = 10300;
 			
-			direccion = InetAddress.getByName("localHost");
 			
+			
+			direccion = InetAddress.getByName("localHost");
 			
 			while(!puertoDisponible(puerto))
 				puerto++;
@@ -58,10 +59,13 @@ public class ControladorVentanaOperador implements ActionListener{
 			String reg = ingresarNumeroDeBox();
 			
 			buffer = reg.getBytes();
-			DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 			
+		
+			DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 			socketUPD.send(salida);
 			socketUPD.setSoTimeout(1000);
+			
+			
 			
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
