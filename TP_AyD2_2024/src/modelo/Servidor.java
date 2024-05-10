@@ -95,7 +95,7 @@ public class Servidor {
 						gestionServidor.getConexiones().put(puertoEntrada,"Totem");
 					 
 						
-						reg = "confirmacion";
+						reg = "Registrado";
 						buffer = reg.getBytes();
 						salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 						socketUDP.send(salida);
@@ -104,7 +104,7 @@ public class Servidor {
 						gestionServidor.getGdt().añadirTurno(mensaje);
 						gestionServidor.getGdt().mostrarCola(); 
 						
-						reg = "confirmacion";
+						reg = "Recibido";
 						buffer = reg.getBytes();
 						salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 						socketUDP.send(salida);

@@ -113,8 +113,12 @@ public class ControladorVentanaTotem implements ActionListener{
 				if(mensaje.equals("cambio")){
 					System.out.println("Se actualizo el puerto :D");
 					this.portServidor = puertoEntrada;
+				}else if(mensaje.equals("Recibido")) {
+					JOptionPane.showMessageDialog(null, "DNI recibido"); 
 				}
-			} catch (IOException e) {
+			}catch (SocketTimeoutException e2) {
+				JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
+	        } catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} 
@@ -137,12 +141,7 @@ public class ControladorVentanaTotem implements ActionListener{
 					buffer = dni.getBytes();
 					DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 					socketUPD.send(salida);
-					socketUPD.setSoTimeout(1000);
-					
-					DatagramPacket entrada = new DatagramPacket(buffer,buffer.length);
-					socketUPD.receive(entrada);
-					socketUPD.setSoTimeout(0);
-					JOptionPane.showMessageDialog(null, "DNI recibido"); 
+					socketUPD.setSoTimeout(2000);
 
 				}catch (SocketTimeoutException e2) {
 					JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
