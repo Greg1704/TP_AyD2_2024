@@ -101,7 +101,7 @@ public class Servidor {
 						
 					}else { //Caso en el que se este enviando un turno para el subsistema de gestion de turnos
 						gestionServidor.getGdt().añadirTurno(mensaje);
-						gestionServidor.getGdt().mostrarCola(); //No funciona el metodo :(
+						gestionServidor.getGdt().mostrarCola(); 
 						
 						reg = "confirmacion";
 						buffer = reg.getBytes();
@@ -246,6 +246,7 @@ public class Servidor {
 					if(mensaje.equals("ping")) {  //Caso heartbeat
 						reg = "pong";
 						buffer = reg.getBytes();
+						System.out.println("Milanesa frita:  " + buffer.length);
 						salida = new DatagramPacket(buffer, buffer.length,direccion,portMonitor);
 						socketUDP.send(salida);
 						
@@ -256,6 +257,8 @@ public class Servidor {
 					    objectStream.writeObject(e);
 				        objectStream.flush();
 				        buffer = byteStream.toByteArray();
+				        System.out.println("Chipa prefrito:  " + byteStream.toByteArray().length);
+				        System.out.println("Chipa frito:  " + buffer.length);
 				        
 				        
 				        int puertoServidorNext = port+1;
