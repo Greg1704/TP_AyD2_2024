@@ -99,15 +99,14 @@ public class ControladorVentanaTotem implements ActionListener{
 			DatagramPacket entrada = new DatagramPacket(buffer2, buffer2.length);
 			try {
 				socketUDP.receive(entrada);
-				/*String mensaje = new String(entrada.getData());
-				mensaje = mensaje.trim();*/
+				String mensaje = new String(entrada.getData());
+				mensaje = mensaje.trim();
 				int puertoEntrada = entrada.getPort();
 				//InetAddress direccion = entrada.getAddress();
 				//System.out.println(t);
 				
-				if(puertoEntrada == 10000) {
-					
-				}else if(puertoEntrada>10000 && puertoEntrada <10011){
+				if(mensaje.equals("cambio")){
+					System.out.println("Se actualizo el puerto :D");
 					this.portServidor = puertoEntrada;
 				}
 			} catch (IOException e) {

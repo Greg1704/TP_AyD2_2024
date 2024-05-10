@@ -247,7 +247,6 @@ public class Servidor {
 					if(mensaje.equals("ping")) {  //Caso heartbeat
 						reg = "pong";
 						buffer = reg.getBytes();
-						System.out.println("Milanesa frita:  " + buffer.length);
 						salida = new DatagramPacket(buffer, buffer.length,direccion,portMonitor);
 						socketUDP.send(salida);
 						
@@ -258,17 +257,24 @@ public class Servidor {
 					    objectStream.writeObject(e);
 				        objectStream.flush();
 				        buffer = byteStream.toByteArray();
-				        System.out.println("Chipa prefrito:  " + byteStream.toByteArray().length);
-				        System.out.println("Chipa frito:  " + buffer.length);
 				        
 				        
 				        int puertoServidorNext = port+1;
 				        
 				        salida = new DatagramPacket(buffer, buffer.length,direccion,puertoServidorNext);
 				        socketUDP.send(salida);
+				        
+				        gestionServidor.getGdt().mostrarCola();
 						
 						
 					}else if(mensaje.equals("cambio")) { //Caso en el que un servidor secundario pasa a ser el principal
+						
+						reg = "reemplazo";
+						buffer = reg.getBytes();
+						salida = new DatagramPacket(buffer, buffer.length,direccion,portMonitor);
+						socketUDP.send(salida);
+						//Mandarle al monitor que soy el nuevo jefe
+						
 						for (Map.Entry<Integer,String> entry : gestionServidor.getConexiones().entrySet()) {
 							reg = "cambio";
 							buffer = reg.getBytes();
@@ -285,7 +291,7 @@ public class Servidor {
 				    	 ObjectInputStream objectStream = new ObjectInputStream(byteStream);
 				    	 gestionServidor = (GestionServidor) objectStream.readObject();
 				    	 //System.out.println("Recibo estadisticas");
-				    	 gestionServidor.getGdt().mostrarCola();
+				    	 //gestionServidor.getGdt().mostrarCola();
 				    	 
 					} catch (Exception e) {
 						// TODO Auto-generated catch block

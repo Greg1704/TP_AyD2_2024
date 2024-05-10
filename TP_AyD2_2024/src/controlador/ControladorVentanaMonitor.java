@@ -22,7 +22,7 @@ import ventana.VentanaOperador;
 
 public class ControladorVentanaMonitor {
 
-	private static final int puertoServerPrincipal = 10000;
+	private int puertoServerPrincipal = 10000;
 	private InetAddress direccion; 
 	private DatagramSocket socketUDP;
 	static byte[] buffer = new byte[1024];
@@ -84,10 +84,12 @@ public class ControladorVentanaMonitor {
 						}else if(mensaje.equals("pong")){
 							this.estaVivo = true;
 							socketUDP.setSoTimeout(6000);
-							System.out.println("*Ruido de latido*");
+							//System.out.println("*Ruido de latido*");
 						}else if(mensaje.equals("reemplazo")) {
 							this.estaVivo = true;
 							this.servidoresDisp.put(puertoServerPrincipal, true);
+							this.vm.actualizaServDisp(servidoresDisp);
+
 						}
 					}else {
 						//System.out.println("Puerto no habilitado");
@@ -148,7 +150,7 @@ public class ControladorVentanaMonitor {
 			        	DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoServerPrincipal);
 						socketUDP.send(salida);
 						estaVivo = false;
-						System.out.println("¿Late o no late?");
+						//System.out.println("¿Late o no late?");
 	        		}
 	
 				} catch (IOException e) {
@@ -170,10 +172,11 @@ public class ControladorVentanaMonitor {
 				InetAddress direccion = InetAddress.getByName("localHost");
 				byte[] buffer = new byte[1024];
 				buffer = reg.getBytes();
+				System.out.println(keys[0]);
 		    	DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,keys[0]);
+		    	this.puertoServerPrincipal = keys[0];
 				socketUDP.send(salida);
 				socketUDP.setSoTimeout(6000);
-				this.servidoresDisp.remove(keys[0]);
 			}
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
