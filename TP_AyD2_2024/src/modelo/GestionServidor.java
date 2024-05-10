@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import controlador.ControladorVentanaMonitor;
-
 public class GestionServidor implements Serializable{
 	/**
 	 * 
@@ -19,7 +17,7 @@ public class GestionServidor implements Serializable{
 
 	
 	
-	public GestionServidor()  {
+	private GestionServidor()  {
 		super();
 		this.conexiones = new HashMap<>();
 		this.gdt = new GestionDeTurnos();

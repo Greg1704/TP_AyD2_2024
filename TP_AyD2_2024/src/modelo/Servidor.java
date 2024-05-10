@@ -11,6 +11,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -32,7 +33,7 @@ public class Servidor {
 		//HashMap<Integer, Integer> boxesOcupados;
 		//ArrayList<Turno> turnosEnPantalla;
 		
-		gestionServidor =  new GestionServidor(); 
+		gestionServidor = GestionServidor.getInstance(); 
 		
 		
 		
@@ -250,8 +251,8 @@ public class Servidor {
 						salida = new DatagramPacket(buffer, buffer.length,direccion,portMonitor);
 						socketUDP.send(salida);
 						
-						
 						GestionServidor e = GestionServidor.getInstance();
+					
 						ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
 					    ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
 					    objectStream.writeObject(e);
