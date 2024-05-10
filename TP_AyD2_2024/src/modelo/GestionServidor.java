@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import controlador.ControladorVentanaMonitor;
+
 public class GestionServidor implements Serializable{
 	/**
 	 * 
@@ -13,6 +15,8 @@ public class GestionServidor implements Serializable{
 	public GestionDeTurnos gdt;
 	public HashMap<Integer, Integer> boxesOcupados; //<N Box,Puerto Box>
 	public ArrayList<Turno> turnosEnPantalla;
+	private static GestionServidor instancia = null;
+
 	
 	
 	public GestionServidor()  {
@@ -49,8 +53,9 @@ public class GestionServidor implements Serializable{
 	}
 
 	public static GestionServidor getInstance() {
-		// TODO Auto-generated method stub
-		return null;
+		if (instancia == null)
+			instancia = new GestionServidor();
+		return instancia;
 	}
 	
 }

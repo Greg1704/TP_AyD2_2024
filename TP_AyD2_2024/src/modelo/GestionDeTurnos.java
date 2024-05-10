@@ -1,10 +1,15 @@
 package modelo;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class GestionDeTurnos {
-    private Queue<Turno> colaDeTurnos;
+public class GestionDeTurnos implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Queue<Turno> colaDeTurnos;
 
     public GestionDeTurnos() {
         this.colaDeTurnos = new LinkedList<>(); 

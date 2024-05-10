@@ -275,13 +275,13 @@ public class Servidor {
 				} else if(puertoEntrada == port-1) { //recibe datos de backup
 				
 			    	 try {
-						//socketUPD.receive(entrada); //Esta linea es ilegal
-						//socketUPD.setSoTimeout(0);
+			    		 
 				    	 // Deserializar bytes recibidos en objeto Estadisticas
 				    	 ByteArrayInputStream byteStream = new ByteArrayInputStream(entrada.getData());
 				    	 ObjectInputStream objectStream = new ObjectInputStream(byteStream);
 				    	 gestionServidor = (GestionServidor) objectStream.readObject();
 				    	 //System.out.println("Recibo estadisticas");
+				    	 gestionServidor.getGdt().mostrarCola();
 				    	 
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
