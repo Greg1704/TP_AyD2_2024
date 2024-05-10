@@ -50,15 +50,7 @@ public class ControladorVentanaTotem implements ActionListener{
 		String reg = "Soy un totem y me quiero conectar con el servidor";
 		
 		Arrays.fill(buffer, (byte) 0);
-		buffer = reg.getBytes();
-		DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
-		socketUDP.send(salida);
-		socketUDP.setSoTimeout(1000);
-		
-		DatagramPacket entrada = new DatagramPacket(buffer,buffer.length);
-		socketUDP.receive(entrada);
-		socketUDP.setSoTimeout(0);
-		JOptionPane.showMessageDialog(null, "Conectado al servidor"); 
+		this.verificaServidor();
 		
 		
 		this.ventanaTotem = new VentanaTotem();
@@ -68,13 +60,6 @@ public class ControladorVentanaTotem implements ActionListener{
 		
 		esperandoNotificaciones(socketUDP);
 		
-	}catch (SocketTimeoutException e2) {
-		int result = JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
-		if (result == 0) { 
-			System.out.println("Reintentando conexión..."); 
-			EstableceConexion(puerto);
-		}
-		//JOptionPane.showMessageDialog(null, "Servidor fuera de linea"); 
     }
 	catch (UnknownHostException e) {
 		// TODO Auto-generated catch block
@@ -128,10 +113,10 @@ public class ControladorVentanaTotem implements ActionListener{
 				}
 			}catch (SocketTimeoutException e2) {
 				int result = JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
-				if (result == 0) { 
+				/*if (result == 0) { 
 					System.out.println("Reintentando conexión..."); 
 					EstableceConexion(puerto);
-				}
+				}*/
 	        } catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -157,13 +142,14 @@ public class ControladorVentanaTotem implements ActionListener{
 					socketUDP.send(salida);
 					socketUDP.setSoTimeout(1000);
 					//System.out.println(socketUDP.getSoTimeout()); 
+					
 
 				}catch (SocketTimeoutException e2) {
 					int result = JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
-					if (result == 0) { 
+					/*if (result == 0) { 
 						System.out.println("Reintentando conexión..."); 
 						EstableceConexion(puerto);
-					}
+					}*/
 		        } 
 				catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -174,6 +160,40 @@ public class ControladorVentanaTotem implements ActionListener{
 			}
 		}
 		Arrays.fill(buffer, (byte) 0);
+	}
+	
+	
+	public void verificaServidor() {
+		boolean conseguimosServidor = false;
+		String reg = "Hello there";
+		InetAddress direccion;
+		
+			while(!conseguimosServidor && portServidor<10011) {
+				try {
+					conseguimosServidor = true;
+					direccion = InetAddress.getByName("localHost");
+					buffer = reg.getBytes();
+					DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
+					socketUDP.send(salida);
+					socketUDP.setSoTimeout(1000);
+					
+					DatagramPacket entrada = new DatagramPacket(buffer,buffer.length);
+					socketUDP.receive(entrada);
+					socketUDP.setSoTimeout(0);
+					JOptionPane.showMessageDialog(null, "Conectado al servidor"); 
+				}catch (SocketTimeoutException e2) {
+					System.out.println("Servidor no disponible");
+					conseguimosServidor = false;
+					portServidor++;
+				} catch (UnknownHostException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		
 	}
 
 }

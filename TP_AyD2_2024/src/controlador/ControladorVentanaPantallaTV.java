@@ -21,7 +21,7 @@ public class ControladorVentanaPantallaTV{
 	private VentanaPantallaTV ventanaPantallaTV; 
 	int portServidor = 10000;
 	static byte[] buffer = new byte[1024]; 
-	private DatagramSocket socketUPD;
+	private DatagramSocket socketUDP;
 	private static ControladorVentanaPantallaTV instancia = null;
 
 	private ControladorVentanaPantallaTV() {
@@ -35,28 +35,18 @@ public class ControladorVentanaPantallaTV{
 			
 			while(!puertoDisponible(puerto))
 				puerto++;
-			socketUPD = new DatagramSocket(puerto); 
+			socketUDP = new DatagramSocket(puerto); 
 			String reg = "Soy un televisor y me quiero conectar con el servidor";
 			
 			Arrays.fill(buffer, (byte) 0);
-			buffer = reg.getBytes();
-			DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
-			socketUPD.send(salida);
-			socketUPD.setSoTimeout(1000);
-			
-			DatagramPacket entrada = new DatagramPacket(buffer, buffer.length);
-			socketUPD.receive(entrada);
-			socketUPD.setSoTimeout(0);
+			this.verificaServidor();
 			
 			this.ventanaPantallaTV = new VentanaPantallaTV();
 			this.ventanaPantallaTV.setControlador(this);
-			this.esperandoNotificaciones(socketUPD);
+			this.esperandoNotificaciones(socketUDP);
 		
 			
-		}catch (SocketTimeoutException e2) {
-			JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
-			this.socketUPD.close();
-        } 
+		} 
 		catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -90,7 +80,7 @@ public class ControladorVentanaPantallaTV{
 		try {
 			buffer = dni.getBytes();
 			DatagramPacket entrada = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
-			socketUPD.receive(entrada);
+			socketUDP.receive(entrada);
 			
 			//Turno turno = entrada.getClass(); 
 			
@@ -141,6 +131,39 @@ public class ControladorVentanaPantallaTV{
 	public void muestraTurno(Turno turno) {
 		this.ventanaPantallaTV.actualizaTurnos(turno);
 
+	}
+	
+	public void verificaServidor() {
+		boolean conseguimosServidor = false;
+		String reg = "Hello there";
+		InetAddress direccion;
+		
+			while(!conseguimosServidor && portServidor<10011) {
+				try {
+					conseguimosServidor = true;
+					direccion = InetAddress.getByName("localHost");
+					buffer = reg.getBytes();
+					DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
+					socketUDP.send(salida);
+					socketUDP.setSoTimeout(1000);
+					
+					DatagramPacket entrada = new DatagramPacket(buffer,buffer.length);
+					socketUDP.receive(entrada);
+					socketUDP.setSoTimeout(0);
+					JOptionPane.showMessageDialog(null, "Conectado al servidor"); 
+				}catch (SocketTimeoutException e2) {
+					System.out.println("Servidor no disponible");
+					conseguimosServidor = false;
+					portServidor++;
+				} catch (UnknownHostException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		
 	}
 	
 	

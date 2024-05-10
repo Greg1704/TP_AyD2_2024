@@ -23,7 +23,7 @@ public class ControladorVentanaOperador implements ActionListener{
 	private VentanaLogin vl;
 	private String siguiente = "false";
 	private InetAddress direccion; 
-	private DatagramSocket socketUPD;
+	private DatagramSocket socketUDP;
 	static byte[] buffer = new byte[1024];
 	int portServidor = 10000;
 	private static ControladorVentanaOperador instancia = null;
@@ -54,16 +54,9 @@ public class ControladorVentanaOperador implements ActionListener{
 			
 			while(!puertoDisponible(puerto))
 				puerto++;
-			socketUPD = new DatagramSocket(puerto); 
+			socketUDP = new DatagramSocket(puerto); 
 			
-			String reg = ingresarNumeroDeBox();
-			
-			buffer = reg.getBytes();
-			
-		
-			DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
-			socketUPD.send(salida);
-			socketUPD.setSoTimeout(1000);
+			this.verificaServidor();
 			
 			
 			
@@ -80,7 +73,7 @@ public class ControladorVentanaOperador implements ActionListener{
 		//op = new Operador(1);
 		Arrays.fill(buffer, (byte) 0);
 
-		this.esperandoNotificaciones(socketUPD);
+		this.esperandoNotificaciones(socketUDP);
 		
 	}
 	
@@ -136,8 +129,8 @@ public class ControladorVentanaOperador implements ActionListener{
 				buffer = siguiente.getBytes();
 				DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 				
-				socketUPD.send(salida);		
-				socketUPD.setSoTimeout(1000);
+				socketUDP.send(salida);		
+				socketUDP.setSoTimeout(1000);
 			
 			} catch (UnknownHostException e1) {
 				// TODO Auto-generated catch block
@@ -161,7 +154,7 @@ public class ControladorVentanaOperador implements ActionListener{
 					buffer = new byte[1024];
 					DatagramPacket entrada = new DatagramPacket(buffer, buffer.length);
 					socketUDP.receive(entrada);
-					socketUPD.setSoTimeout(0);
+					socketUDP.setSoTimeout(0);
 					
 					String mensaje = new String(entrada.getData());
 					mensaje = mensaje.trim();
@@ -183,7 +176,7 @@ public class ControladorVentanaOperador implements ActionListener{
 									Arrays.fill(buffer, (byte) 0);
 									buffer = acepto.getBytes();
 									DatagramPacket salidaSi = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
-									socketUPD.send(salidaSi);
+									socketUDP.send(salidaSi);
 						        }
 								
 								this.ventanaOperador.setVisible(true);
@@ -197,7 +190,7 @@ public class ControladorVentanaOperador implements ActionListener{
 				}
 			}catch (SocketTimeoutException e2) {
 				JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
-				this.socketUPD.close();
+				this.socketUDP.close();
 				this.ventanaOperador.dispose();
 	        } 
 			catch (IOException e) {
@@ -210,6 +203,39 @@ public class ControladorVentanaOperador implements ActionListener{
 	
 	public void setNumeroBox(String box) {
 		this.ventanaOperador.setBox(box);
+	}
+	
+	public void verificaServidor() {
+		boolean conseguimosServidor = false;
+		String reg = ingresarNumeroDeBox();
+		InetAddress direccion;
+		
+			while(!conseguimosServidor && portServidor<10011) {
+				try {
+					conseguimosServidor = true;
+					direccion = InetAddress.getByName("localHost");
+					buffer = reg.getBytes();
+					DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
+					socketUDP.send(salida);
+					socketUDP.setSoTimeout(1000);
+					
+					DatagramPacket entrada = new DatagramPacket(buffer,buffer.length);
+					socketUDP.receive(entrada);
+					socketUDP.setSoTimeout(0);
+					JOptionPane.showMessageDialog(null, "Conectado al servidor"); 
+				}catch (SocketTimeoutException e2) {
+					System.out.println("Servidor no disponible");
+					conseguimosServidor = false;
+					portServidor++;
+				} catch (UnknownHostException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		
 	}
 	
 }

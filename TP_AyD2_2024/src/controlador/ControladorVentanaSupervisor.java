@@ -27,7 +27,7 @@ public class ControladorVentanaSupervisor implements ActionListener{
 	public boolean admin = true;
 	private static ControladorVentanaSupervisor instancia = null;
 	private InetAddress direccion; 
-	private DatagramSocket socketUPD; 
+	private DatagramSocket socketUDP; 
 	static byte[] buffer = new byte[1024];
 	int portServidor = 10000;
 	private Estadisticas estadisticas; 
@@ -57,14 +57,10 @@ public class ControladorVentanaSupervisor implements ActionListener{
 			
 			while(!puertoDisponible(puerto))
 				puerto++;
-			socketUPD = new DatagramSocket(puerto); 
+			socketUDP = new DatagramSocket(puerto); 
 			String reg = "Soy supervisor y me quiero conectar con el servidor";
 			
-			buffer = reg.getBytes();
-			DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
-			
-			socketUPD.send(salida);
-			socketUPD.setSoTimeout(1000);
+			this.verificaServidor();
 	
 			
 		} catch (UnknownHostException e) {
@@ -77,7 +73,7 @@ public class ControladorVentanaSupervisor implements ActionListener{
 		this.vl.dispose();
 		this.ventanasupervisor = new VentanaSupervisor();
 		this.ventanasupervisor.setControlador(this);
-		recibeEstadisticas(socketUPD);
+		recibeEstadisticas(socketUDP);
 		
 	}
 	
@@ -99,14 +95,14 @@ public class ControladorVentanaSupervisor implements ActionListener{
 	}
 	
 
-	public void recibeEstadisticas(DatagramSocket socketUPD) {
+	public void recibeEstadisticas(DatagramSocket socketUDP) {
 		
 		    try {
 		    	while (true) {
 						 buffer = new byte[4096]; // Reservar buffer para recibir objeto //VER: chequear  valor buffer
 						 DatagramPacket entrada = new DatagramPacket(buffer, buffer.length, direccion, portServidor);
-				    	 socketUPD.receive(entrada);
-				    	 socketUPD.setSoTimeout(0);
+				    	 socketUDP.receive(entrada);
+				    	 socketUDP.setSoTimeout(0);
 				    	 int puertoEntrada = entrada.getPort();
 						InetAddress direccion = entrada.getAddress();
 						
@@ -125,7 +121,7 @@ public class ControladorVentanaSupervisor implements ActionListener{
 		    	}	 
 		  } catch (SocketTimeoutException e2) {
 			  JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
-			  this.socketUPD.close();
+			  this.socketUDP.close();
 			  this.ventanasupervisor.dispose();
 				
 	        } 
@@ -145,8 +141,8 @@ public class ControladorVentanaSupervisor implements ActionListener{
 				buffer = actualizar.getBytes();
 				DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 				
-				socketUPD.send(salida);				
-				socketUPD.setSoTimeout(1000);
+				socketUDP.send(salida);				
+				socketUDP.setSoTimeout(1000);
 			} catch (UnknownHostException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -159,7 +155,38 @@ public class ControladorVentanaSupervisor implements ActionListener{
 		Arrays.fill(buffer, (byte) 0);
 	}
 	
-	
+	public void verificaServidor() {
+		boolean conseguimosServidor = false;
+		String reg = "Hello there";
+		InetAddress direccion;
+		
+			while(!conseguimosServidor && portServidor<10011) {
+				try {
+					conseguimosServidor = true;
+					direccion = InetAddress.getByName("localHost");
+					buffer = reg.getBytes();
+					DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
+					socketUDP.send(salida);
+					socketUDP.setSoTimeout(1000);
+					
+					DatagramPacket entrada = new DatagramPacket(buffer,buffer.length);
+					socketUDP.receive(entrada);
+					socketUDP.setSoTimeout(0);
+					JOptionPane.showMessageDialog(null, "Conectado al servidor"); 
+				}catch (SocketTimeoutException e2) {
+					System.out.println("Servidor no disponible");
+					conseguimosServidor = false;
+					portServidor++;
+				} catch (UnknownHostException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		
+	}
 	
 }
 
