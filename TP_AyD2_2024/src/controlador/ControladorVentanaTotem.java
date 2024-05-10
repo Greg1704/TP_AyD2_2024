@@ -109,7 +109,7 @@ public class ControladorVentanaTotem implements ActionListener{
 			byte[] buffer2 = new byte[2048];
 			DatagramPacket entrada = new DatagramPacket(buffer2, buffer2.length);
 			try {
-				System.out.println(socketUDP.getSoTimeout()); 
+				//System.out.println(socketUDP.getSoTimeout()); 
 				socketUDP.receive(entrada);
 				socketUDP.setSoTimeout(0);
 				
@@ -156,7 +156,7 @@ public class ControladorVentanaTotem implements ActionListener{
 					DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 					socketUDP.send(salida);
 					socketUDP.setSoTimeout(1000);
-					System.out.println(socketUDP.getSoTimeout()); 
+					//System.out.println(socketUDP.getSoTimeout()); 
 
 				}catch (SocketTimeoutException e2) {
 					int result = JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
