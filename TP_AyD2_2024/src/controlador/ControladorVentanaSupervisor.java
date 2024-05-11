@@ -33,7 +33,7 @@ public class ControladorVentanaSupervisor implements ActionListener{
 	private Estadisticas estadisticas; 
 	private String actualizar = "false";
 	boolean envio = false;
-
+	private int reintento = 2;
 	
 
 	
@@ -154,6 +154,18 @@ public class ControladorVentanaSupervisor implements ActionListener{
 		    	this.ventanasupervisor.CargaEstadistica(estadisticas);
 			}catch (SocketTimeoutException e2) {
 				int result = JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
+				if (result == 0) {
+					if (this.reintento > 0) {
+						reintento = reintento - 1;
+						ActionEvent eventoSimulado = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Actualizar");
+						actionPerformed(eventoSimulado);
+						 
+					}else {
+						reintento = 2;
+						envio = false;
+						JOptionPane.showMessageDialog(null, "Reintentos fallidos, vuelva a reintentar en unos segundos o cierre la ventana"); 
+					}
+				}
 
   	        } catch (UnknownHostException e1) {
 				// TODO Auto-generated catch block
