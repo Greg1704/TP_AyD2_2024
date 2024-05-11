@@ -25,6 +25,7 @@ public class ControladorVentanaOperador implements ActionListener{
 	private InetAddress direccion; 
 	private DatagramSocket socketUDP;
 	static byte[] buffer = new byte[1024];
+	boolean envio = false;
 	int portServidor = 10000;
 	private static ControladorVentanaOperador instancia = null;
 	int puerto;
@@ -112,7 +113,6 @@ public class ControladorVentanaOperador implements ActionListener{
         return input;
     }
 	
-	
 	public static ControladorVentanaOperador getInstancia() {
 		if (instancia == null)
 			instancia = new ControladorVentanaOperador();
@@ -130,19 +130,43 @@ public class ControladorVentanaOperador implements ActionListener{
 				DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 				
 				socketUDP.send(salida);		
-				socketUDP.setSoTimeout(1000);
-				
+				socketUDP.setSoTimeout(2000);
+				envio = true;
 				
 				DatagramPacket entrada = new DatagramPacket(buffer, buffer.length);
 				socketUDP.receive(entrada);
+				String mensaje = new String(entrada.getData());
+				mensaje = mensaje.trim();
+				envio = false;
+				System.out.println(mensaje);
+				
 				socketUDP.setSoTimeout(0);
+				if(mensaje.equals("hay turno")) {
+					this.ventanaOperador.setVisible(false);
+					
+					int siOno = JOptionPane.showConfirmDialog(null,"Se presento el cliente?",null, JOptionPane.YES_NO_OPTION);
+					
+					if (siOno == JOptionPane.YES_OPTION) {
+						String acepto = "acepto";
+						Arrays.fill(buffer, (byte) 0);
+						buffer = acepto.getBytes();
+						DatagramPacket salidaSi = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
+						socketUDP.send(salidaSi);
+			        }
+					
+					this.ventanaOperador.setVisible(true);
+				}else {
+					JOptionPane.showMessageDialog(null, "No hay turnos en espera en la cola");
+				}
+				
+				
 			} catch (UnknownHostException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}catch (SocketTimeoutException e2) {
 				int result = JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
-				this.socketUDP.close();
-				this.ventanaOperador.dispose();
+				//this.socketUDP.close();
+				//this.ventanaOperador.dispose();
 				if (result == 0) { 
 					System.out.println("Reintentando conexión..."); 
 					ActionEvent eventoSimulado = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Llamar siguiente");
@@ -161,57 +185,43 @@ public class ControladorVentanaOperador implements ActionListener{
 	public void esperandoNotificaciones(DatagramSocket socketUDP) {
 		// TODO Auto-generated method stub
 
-		
-			try {
-				while(true) {
-					buffer = new byte[1024];
-					DatagramPacket entrada = new DatagramPacket(buffer, buffer.length);
-					socketUDP.receive(entrada);
-					socketUDP.setSoTimeout(0);
+			while(true) {
+				if (!envio) {
+					try {
 					
-					String mensaje = new String(entrada.getData());
-					mensaje = mensaje.trim();
-					int puertoEntrada = entrada.getPort();
-					InetAddress direccion = entrada.getAddress();
-					
-					if(puertoEntrada == portServidor) {
-						if (mensaje.matches("\\d+")) {
-							//System.out.println("Soy un operador y mi numero de box es " + mensaje);
-							this.setNumeroBox(mensaje);
-						}else {
-							if(mensaje.equals("hay turno")) {
-								this.ventanaOperador.setVisible(false);
-								
-								int siOno = JOptionPane.showConfirmDialog(null,"Se presento el cliente?",null, JOptionPane.YES_NO_OPTION);
-								
-								if (siOno == JOptionPane.YES_OPTION) {
-									String acepto = "acepto";
-									Arrays.fill(buffer, (byte) 0);
-									buffer = acepto.getBytes();
-									DatagramPacket salidaSi = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
-									socketUDP.send(salidaSi);
-						        }
-								
-								this.ventanaOperador.setVisible(true);
-							}else {
-								JOptionPane.showMessageDialog(null, "No hay turnos en espera en la cola");
+						buffer = new byte[1024];
+						DatagramPacket entrada = new DatagramPacket(buffer, buffer.length);
+						socketUDP.setSoTimeout(1000);
+						socketUDP.receive(entrada);
+						socketUDP.setSoTimeout(0);
+						
+						String mensaje = new String(entrada.getData());
+						mensaje = mensaje.trim();
+						int puertoEntrada = entrada.getPort();
+						InetAddress direccion = entrada.getAddress();
+						
+						if(puertoEntrada == portServidor) {
+							if (mensaje.matches("\\d+")) {
+								//System.out.println("Soy un operador y mi numero de box es " + mensaje);
+								this.setNumeroBox(mensaje);
+							}else if(mensaje.equals("cambio")){
+								System.out.println("Se actualizo el puerto :D");
+								this.portServidor = puertoEntrada;
 							}
 						}
-					}else if(puertoEntrada >portServidor && puertoEntrada <10011){
-						this.portServidor = puertoEntrada;
 					}
+					catch (SocketTimeoutException e2) {
+						int result = JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, null , null);						
+			
+			        } 
+					catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					Arrays.fill(buffer, (byte) 0);
 				}
-			}catch (SocketTimeoutException e2) {
-				int result = JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, null , null);
-				this.socketUDP.close();
-				this.ventanaOperador.dispose();
-	
-	        } 
-			catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			Arrays.fill(buffer, (byte) 0);
+			} 
+			
 		
 	}
 	

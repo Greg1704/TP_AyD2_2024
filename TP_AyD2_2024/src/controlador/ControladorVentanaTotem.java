@@ -26,6 +26,7 @@ public class ControladorVentanaTotem implements ActionListener{
 	private static ControladorVentanaTotem instancia = null;
 	DatagramSocket socketUDP;
 	int puerto = 10100;
+	boolean envio = false;
 	
 	//hay que poner un action listener para que cuando se apriere el solicitar turno se mande esto al servidor
 	//tambien habria que ver para que el servidor no se cierre y abra cada vez que se apriete el boton
@@ -93,29 +94,32 @@ public class ControladorVentanaTotem implements ActionListener{
 		while(true) {
 			byte[] buffer2 = new byte[2048];
 			DatagramPacket entrada = new DatagramPacket(buffer2, buffer2.length);
-			try {
-				//System.out.println(socketUDP.getSoTimeout()); 
-				socketUDP.receive(entrada);
-				socketUDP.setSoTimeout(0);
-				
-				String mensaje = new String(entrada.getData());
-				mensaje = mensaje.trim();
-				int puertoEntrada = entrada.getPort();
-				//InetAddress direccion = entrada.getAddress();
-				System.out.println("carambola");
-				
-				
-				if(mensaje.equals("cambio")){
-					System.out.println("Se actualizo el puerto :D");
-					this.portServidor = puertoEntrada;
-				}
-			}catch (SocketTimeoutException e2) {
-				JOptionPane.showMessageDialog(null, "ODIO EL COMUNISMO"); 
-				this.esperandoNotificaciones();
-	        } catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} 
+			if (!envio) {
+				try {
+					//System.out.println(socketUDP.getSoTimeout());
+					socketUDP.setSoTimeout(1000);
+					socketUDP.receive(entrada);
+					socketUDP.setSoTimeout(0);
+					
+					String mensaje = new String(entrada.getData());
+					mensaje = mensaje.trim();
+					int puertoEntrada = entrada.getPort();
+					//InetAddress direccion = entrada.getAddress();
+					
+					System.out.println("carambola");
+					
+					
+					if(mensaje.equals("cambio")){
+						System.out.println("Se actualizo el puerto :D");
+						this.portServidor = puertoEntrada;
+					}
+				}catch (SocketTimeoutException e2) {
+					//this.esperandoNotificaciones();
+		        } catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+			}	
 		}
 	}
 	
@@ -136,11 +140,14 @@ public class ControladorVentanaTotem implements ActionListener{
 					DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 					socketUDP.send(salida);
 					socketUDP.setSoTimeout(2000);
+					envio = true; 
 					//System.out.println(socketUDP.getSoTimeout()); 
 					DatagramPacket entrada = new DatagramPacket(buffer, buffer.length);
 					socketUDP.receive(entrada);
 					socketUDP.setSoTimeout(0);
+					envio = false;
 					JOptionPane.showMessageDialog(null, "DNI recibido"); 
+					
 
 				}catch (SocketTimeoutException e2) {
 					int result = JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");

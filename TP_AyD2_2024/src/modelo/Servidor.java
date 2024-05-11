@@ -94,7 +94,8 @@ public class Servidor {
 						System.out.println("se establecio la conexion con: " + puertoEntrada);
 						gestionServidor.getConexiones().put(puertoEntrada,"Totem");
 					 
-						
+		 
+						 
 						reg = "Registrado";
 						buffer = reg.getBytes();
 						salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
@@ -103,6 +104,8 @@ public class Servidor {
 					}else { //Caso en el que se este enviando un turno para el subsistema de gestion de turnos
 						gestionServidor.getGdt().añadirTurno(mensaje);
 						gestionServidor.getGdt().mostrarCola(); 
+						
+						Thread.sleep(1500);
 						
 						reg = "Recibido";
 						buffer = reg.getBytes();
@@ -132,6 +135,7 @@ public class Servidor {
 						e.agregarTiempos(tiempoEspera);
 						
 					}else{ //Caso en el que el operador solicita un nuevo cliente para que vaya al box
+						Thread.sleep(1500);
 						if(!gestionServidor.getGdt().isColaTurnosVacia()) {
 							reg = "hay turno";
 							buffer = reg.getBytes();
@@ -311,7 +315,7 @@ public class Servidor {
 				Arrays.fill(buffer, (byte) 0);
 				System.out.println("----------------------------------------");
 				}
-		} catch (IOException e) {
+		} catch (IOException | InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
