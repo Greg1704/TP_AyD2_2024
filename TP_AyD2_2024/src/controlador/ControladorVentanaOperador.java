@@ -131,10 +131,23 @@ public class ControladorVentanaOperador implements ActionListener{
 				
 				socketUDP.send(salida);		
 				socketUDP.setSoTimeout(1000);
-			
+				
+				
+				DatagramPacket entrada = new DatagramPacket(buffer, buffer.length);
+				socketUDP.receive(entrada);
+				socketUDP.setSoTimeout(0);
 			} catch (UnknownHostException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
+			}catch (SocketTimeoutException e2) {
+				int result = JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
+				this.socketUDP.close();
+				this.ventanaOperador.dispose();
+				if (result == 0) { 
+					System.out.println("Reintentando conexión..."); 
+					ActionEvent eventoSimulado = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Llamar siguiente");
+					actionPerformed(eventoSimulado);
+				}
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -189,9 +202,10 @@ public class ControladorVentanaOperador implements ActionListener{
 					}
 				}
 			}catch (SocketTimeoutException e2) {
-				JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
+				int result = JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, null , null);
 				this.socketUDP.close();
 				this.ventanaOperador.dispose();
+	
 	        } 
 			catch (IOException e) {
 				// TODO Auto-generated catch block
