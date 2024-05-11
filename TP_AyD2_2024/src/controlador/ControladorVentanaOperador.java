@@ -129,7 +129,7 @@ public class ControladorVentanaOperador implements ActionListener{
 				DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 				
 				socketUDP.send(salida);		
-				socketUDP.setSoTimeout(2000);
+				socketUDP.setSoTimeout(1000);
 				envio = true;
 				
 				buffer = new byte[1024];
@@ -191,7 +191,7 @@ public class ControladorVentanaOperador implements ActionListener{
 					
 						buffer = new byte[1024];
 						DatagramPacket entrada = new DatagramPacket(buffer, buffer.length);
-						socketUDP.setSoTimeout(1000);
+						socketUDP.setSoTimeout(500);
 						socketUDP.receive(entrada);
 						socketUDP.setSoTimeout(0);
 						

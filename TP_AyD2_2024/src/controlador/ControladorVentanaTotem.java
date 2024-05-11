@@ -97,7 +97,7 @@ public class ControladorVentanaTotem implements ActionListener{
 			if (!envio) {
 				try {
 					//System.out.println(socketUDP.getSoTimeout());
-					socketUDP.setSoTimeout(1000);
+					socketUDP.setSoTimeout(500);
 					socketUDP.receive(entrada);
 					socketUDP.setSoTimeout(0);
 					
@@ -139,7 +139,7 @@ public class ControladorVentanaTotem implements ActionListener{
 					buffer = dni.getBytes();
 					DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 					socketUDP.send(salida);
-					socketUDP.setSoTimeout(2000);
+					socketUDP.setSoTimeout(1000);
 					envio = true; 
 					//System.out.println(socketUDP.getSoTimeout()); 
 					DatagramPacket entrada = new DatagramPacket(buffer, buffer.length);

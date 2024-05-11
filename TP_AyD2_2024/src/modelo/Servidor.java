@@ -105,7 +105,7 @@ public class Servidor {
 						gestionServidor.getGdt().añadirTurno(mensaje);
 						gestionServidor.getGdt().mostrarCola(); 
 						
-						Thread.sleep(1500);
+						Thread.sleep(750);
 						
 						reg = "Recibido";
 						buffer = reg.getBytes();
@@ -135,7 +135,7 @@ public class Servidor {
 						e.agregarTiempos(tiempoEspera);
 						
 					}else{ //Caso en el que el operador solicita un nuevo cliente para que vaya al box
-						Thread.sleep(1500);
+						Thread.sleep(750);
 						if(!gestionServidor.getGdt().isColaTurnosVacia()) {
 							reg = "hay turno";
 							buffer = reg.getBytes();
