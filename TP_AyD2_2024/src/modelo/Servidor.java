@@ -245,7 +245,7 @@ public class Servidor {
 						}
 					}
 				}else if(puertoEntrada == 11000) {  //Entrada del Monitor
-					if(mensaje.equals("ping")) {  //Caso heartbeat
+					if(mensaje.equals("ping")) {  //Caso pingEcho
 						reg = "pong";
 						buffer = reg.getBytes();
 						salida = new DatagramPacket(buffer, buffer.length,direccion,portMonitor);
