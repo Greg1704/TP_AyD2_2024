@@ -267,6 +267,11 @@ public class Servidor {
 				        
 				        gestionServidor.getGdt().mostrarCola();
 						
+				        
+				        /**for(int i = 1;i<11;i++) {
+				        	salida = new DatagramPacket(buffer, buffer.length,direccion,port + i);
+					        socketUDP.send(salida);
+				        }**/
 						
 					}else if(mensaje.equals("cambio")) { //Caso en el que un servidor secundario pasa a ser el principal
 						
