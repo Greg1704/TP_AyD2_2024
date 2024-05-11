@@ -68,9 +68,7 @@ public class ControladorVentanaOperador implements ActionListener{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.vl.dispose();
-		this.ventanaOperador = new VentanaOperador();
-		this.ventanaOperador.setControlador(this);
+		
 		//op = new Operador(1);
 		Arrays.fill(buffer, (byte) 0);
 
@@ -125,6 +123,7 @@ public class ControladorVentanaOperador implements ActionListener{
 			siguiente = "true";
 			try {
 				
+				byte[] buffer = new byte[1024];
 				Arrays.fill(buffer, (byte) 0);
 				buffer = siguiente.getBytes();
 				DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
@@ -133,6 +132,7 @@ public class ControladorVentanaOperador implements ActionListener{
 				socketUDP.setSoTimeout(2000);
 				envio = true;
 				
+				buffer = new byte[1024];
 				DatagramPacket entrada = new DatagramPacket(buffer, buffer.length);
 				socketUDP.receive(entrada);
 				String mensaje = new String(entrada.getData());
@@ -201,17 +201,14 @@ public class ControladorVentanaOperador implements ActionListener{
 						InetAddress direccion = entrada.getAddress();
 						
 						if(puertoEntrada == portServidor) {
-							if (mensaje.matches("\\d+")) {
-								//System.out.println("Soy un operador y mi numero de box es " + mensaje);
-								this.setNumeroBox(mensaje);
-							}else if(mensaje.equals("cambio")){
+							if(mensaje.equals("cambio")){
 								System.out.println("Se actualizo el puerto :D");
 								this.portServidor = puertoEntrada;
 							}
 						}
 					}
 					catch (SocketTimeoutException e2) {
-						int result = JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, null , null);						
+						//int result = JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, null , null);						
 			
 			        } 
 					catch (IOException e) {
@@ -246,6 +243,15 @@ public class ControladorVentanaOperador implements ActionListener{
 					DatagramPacket entrada = new DatagramPacket(buffer,buffer.length);
 					socketUDP.receive(entrada);
 					socketUDP.setSoTimeout(0);
+					
+					String mensaje = new String(entrada.getData());
+					mensaje = mensaje.trim();
+					
+					this.vl.dispose();
+					this.ventanaOperador = new VentanaOperador();
+					this.ventanaOperador.setControlador(this);
+					this.setNumeroBox(mensaje);
+					
 					JOptionPane.showMessageDialog(null, "Conectado al servidor"); 
 				}catch (SocketTimeoutException e2) {
 					System.out.println("Servidor no disponible");
