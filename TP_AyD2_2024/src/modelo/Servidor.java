@@ -133,6 +133,12 @@ public class Servidor {
 						
 					}else{ //Caso en el que el operador solicita un nuevo cliente para que vaya al box
 						if(!gestionServidor.getGdt().isColaTurnosVacia()) {
+							reg = "hay turno";
+							buffer = reg.getBytes();
+				            System.out.println("Largo buffer = " + buffer.length);
+							salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
+							socketUDP.send(salida);
+							
 							Turno t = gestionServidor.getGdt().extraerPrimerTurno();
 							//Estadisticas e = Estadisticas.getInstance();
 							tiempoEspera = t.getCronometro().getTiempoFin();
@@ -160,11 +166,7 @@ public class Servidor {
 				                }
 				            }
 				            
-				            reg = "hay turno";
-							buffer = reg.getBytes();
-				            System.out.println("Largo buffer = " + buffer.length);
-							salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
-							socketUDP.send(salida);
+				           
 					            
 					       
 						}else { //Entra si no hay turnos disponibles
