@@ -32,6 +32,8 @@ public class ControladorVentanaSupervisor implements ActionListener{
 	int portServidor = 10000;
 	private Estadisticas estadisticas; 
 	private String actualizar = "false";
+	boolean envio = false;
+
 	
 
 	
@@ -97,37 +99,30 @@ public class ControladorVentanaSupervisor implements ActionListener{
 
 	public void recibeEstadisticas(DatagramSocket socketUDP) {
 		
-		    try {
 		    	while (true) {
-						 buffer = new byte[4096]; // Reservar buffer para recibir objeto //VER: chequear  valor buffer
-						 DatagramPacket entrada = new DatagramPacket(buffer, buffer.length, direccion, portServidor);
-				    	 socketUDP.receive(entrada);
-				    	 socketUDP.setSoTimeout(0);
-				    	 int puertoEntrada = entrada.getPort();
-						InetAddress direccion = entrada.getAddress();
-						
-						if(puertoEntrada == portServidor) {
-					    	 // Deserializar bytes recibidos en objeto Estadisticas
-					    	 ByteArrayInputStream byteStream = new ByteArrayInputStream(entrada.getData());
-					    	 ObjectInputStream objectStream = new ObjectInputStream(byteStream);
-					    	 estadisticas = (Estadisticas) objectStream.readObject();
-					    	 //System.out.println("Recibo estadisticas");
-					    	 
-					    	 this.ventanasupervisor.CargaEstadistica(estadisticas);
-						}else if(puertoEntrada>portServidor && puertoEntrada <10011){
-							this.portServidor = puertoEntrada;
-						}
+		    		if(!envio) {
+			    		try {
+							 buffer = new byte[4096]; // Reservar buffer para recibir objeto //VER: chequear  valor buffer
+							 DatagramPacket entrada = new DatagramPacket(buffer, buffer.length, direccion, portServidor);
+							 socketUDP.setSoTimeout(500);
+					    	 socketUDP.receive(entrada);
+					    	 socketUDP.setSoTimeout(0);
+					    	 int puertoEntrada = entrada.getPort();
+							InetAddress direccion = entrada.getAddress();
+							
+							if(puertoEntrada>portServidor && puertoEntrada <10011){
+								this.portServidor = puertoEntrada;
+							}
+			    		}
+			    		catch (SocketTimeoutException e2) {
+							//int result = JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
+
+			  	        }catch (IOException e) {
+			  		    	e.printStackTrace();
+			  		    }
+		    		}
 		    	 
 		    	}	 
-		  } catch (SocketTimeoutException e2) {
-			  JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
-			  this.socketUDP.close();
-			  this.ventanasupervisor.dispose();
-				
-	        } 
-		    catch (IOException | ClassNotFoundException e) {
-		    e.printStackTrace();
-		  }
 		
 	}
 	
@@ -143,10 +138,32 @@ public class ControladorVentanaSupervisor implements ActionListener{
 				
 				socketUDP.send(salida);				
 				socketUDP.setSoTimeout(1000);
-			} catch (UnknownHostException e1) {
+				
+				envio = true;
+				
+				buffer = new byte[4096]; // Reservar buffer para recibir objeto //VER: chequear  valor buffer
+				DatagramPacket entrada = new DatagramPacket(buffer, buffer.length, direccion, portServidor);
+				socketUDP.receive(entrada);
+		    	socketUDP.setSoTimeout(0);
+		    	
+		    	envio = false;
+		    	
+		    	JOptionPane.showMessageDialog(null, "Estadisticas actualizadas");
+		    	
+		    	ByteArrayInputStream byteStream = new ByteArrayInputStream(entrada.getData());
+		    	ObjectInputStream objectStream = new ObjectInputStream(byteStream);
+		    	estadisticas = (Estadisticas) objectStream.readObject();
+		    	this.ventanasupervisor.CargaEstadistica(estadisticas);
+			}catch (SocketTimeoutException e2) {
+				int result = JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
+
+  	        } catch (UnknownHostException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (ClassNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}

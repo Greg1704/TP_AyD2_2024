@@ -200,12 +200,11 @@ public class ControladorVentanaOperador implements ActionListener{
 						int puertoEntrada = entrada.getPort();
 						InetAddress direccion = entrada.getAddress();
 						
-						if(puertoEntrada == portServidor) {
-							if(mensaje.equals("cambio")){
-								System.out.println("Se actualizo el puerto :D");
-								this.portServidor = puertoEntrada;
-							}
+						if(mensaje.equals("cambio")){
+							System.out.println("Se actualizo el puerto :D");
+							this.portServidor = puertoEntrada;
 						}
+						
 					}
 					catch (SocketTimeoutException e2) {
 						//int result = JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, null , null);						

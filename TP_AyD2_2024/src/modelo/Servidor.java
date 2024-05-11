@@ -225,6 +225,7 @@ public class Servidor {
 			          socketUDP.send(salida);
 					}
 					else {
+						Thread.sleep(750);
 					 	if (mensaje.equals("trueActualizar")){
 							Estadisticas e = gestionServidor.getEstadisticas();
 							System.out.println(e.cantCliAtentidos + "   " + e.tiempoEsperaProm + "   " + e.tiempoEsperaMin + "   " + e.tiempoEsperaMax + "   ");
