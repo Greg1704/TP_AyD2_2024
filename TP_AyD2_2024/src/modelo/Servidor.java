@@ -218,7 +218,7 @@ public class Servidor {
 			          salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 			          socketUDP.send(salida);
 					}
-					else {
+					else if(mensaje.equals("trueActualizar")){  //Caso en el que se actualizan las estadisticas
 						Thread.sleep(750);
 					 	if (mensaje.equals("trueActualizar")){
 							Estadisticas e = gestionServidor.getEstadisticas();
