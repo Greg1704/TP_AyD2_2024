@@ -101,7 +101,6 @@ public class ControladorVentanaTotem implements ActionListener{
 					int puertoEntrada = entrada.getPort();
 					//InetAddress direccion = entrada.getAddress();
 					
-					System.out.println("carambola");
 					
 					
 					if(mensaje.equals("cambio")){
@@ -124,7 +123,7 @@ public class ControladorVentanaTotem implements ActionListener{
 		if (e.getActionCommand().equalsIgnoreCase("Confirmar")) {
 			String dni = this.ventanaTotem.getDni();
 			if (dni.length() == 8) {
-				this.ventanaTotem.setDni("");
+				
 				InetAddress direccion;
 				try {
 					direccion = InetAddress.getByName("localHost");
@@ -142,17 +141,22 @@ public class ControladorVentanaTotem implements ActionListener{
 					socketUDP.setSoTimeout(0);
 					envio = false;
 					JOptionPane.showMessageDialog(null, "DNI recibido"); 
-					
+					this.ventanaTotem.setDni("");
 
 				}catch (SocketTimeoutException e2) {
 					int result = JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
-					if (result == 0 && this.reintento != 0) { 
-						 ActionEvent eventoSimulado = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Confirmar");
-						 actionPerformed(eventoSimulado);
-						 this.reintento = this.reintento - 1;
-					}else {
-						envio = false;
-						JOptionPane.showMessageDialog(null, "Reintentos fallidos, vuelva a reintentar en unos segundos o cierre la ventana"); 
+					if (result == 0) {
+						if (this.reintento > 0) {
+							reintento = reintento - 1;
+							ActionEvent eventoSimulado = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Confirmar");
+							actionPerformed(eventoSimulado);
+							 
+						}else {
+							reintento = 2;
+							this.ventanaTotem.setDni("");
+							envio = false;
+							JOptionPane.showMessageDialog(null, "Reintentos fallidos, vuelva a reintentar en unos segundos o cierre la ventana"); 
+						}
 					}
 		        } 
 				catch (IOException e1) {
