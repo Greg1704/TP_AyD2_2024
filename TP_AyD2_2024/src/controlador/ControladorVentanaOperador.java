@@ -28,7 +28,8 @@ public class ControladorVentanaOperador implements ActionListener{
 	boolean envio = false;
 	int portServidor = 10000;
 	private static ControladorVentanaOperador instancia = null;
-	int puerto;
+	private int puerto;
+	private int reintento = 2;
 	//Operador op;
 	
 	
@@ -165,12 +166,18 @@ public class ControladorVentanaOperador implements ActionListener{
 				e1.printStackTrace();
 			}catch (SocketTimeoutException e2) {
 				int result = JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
-				//this.socketUDP.close();
-				//this.ventanaOperador.dispose();
-				if (result == 0) { 
-					System.out.println("Reintentando conexión..."); 
-					ActionEvent eventoSimulado = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Llamar siguiente");
-					actionPerformed(eventoSimulado);
+				if (result == 0) {
+					if (this.reintento > 0) {
+						reintento = reintento - 1;
+						ActionEvent eventoSimulado = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Llamar siguiente");
+						actionPerformed(eventoSimulado);
+						 
+					}else {
+						reintento = 2;
+						envio = false;
+						JOptionPane.showMessageDialog(null, "Reintentos fallidos, vuelva a reintentar en unos segundos o cierre la ventana"); 
+					}
+				
 				}
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
@@ -253,7 +260,7 @@ public class ControladorVentanaOperador implements ActionListener{
 					
 					JOptionPane.showMessageDialog(null, "Conectado al servidor"); 
 				}catch (SocketTimeoutException e2) {
-					System.out.println("Servidor no disponible");
+					System.out.println("Servidor no disponible"); 
 					conseguimosServidor = false;
 					portServidor++;
 				} catch (UnknownHostException e) {
