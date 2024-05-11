@@ -251,13 +251,14 @@ public class Servidor {
 						salida = new DatagramPacket(buffer, buffer.length,direccion,portMonitor);
 						socketUDP.send(salida);
 						
-						GestionServidor e = GestionServidor.getInstance();
 					
 						ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
 					    ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
-					    objectStream.writeObject(e);
+					    objectStream.writeObject(gestionServidor);
 				        objectStream.flush();
 				        buffer = byteStream.toByteArray();
+				        
+				        System.out.println("Largo del buffer" + buffer.length);
 				        
 				        
 				        int puertoServidorNext = port+1;
