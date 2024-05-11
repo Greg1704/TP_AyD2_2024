@@ -201,6 +201,10 @@ public class ControladorVentanaTotem implements ActionListener{
 					e.printStackTrace();
 				}
 			}
+			if(portServidor == 10011) {
+				JOptionPane.showMessageDialog(null, "No hay servidores disponibles a los que conectarse"); 
+				System.exit(0);
+			}
 		
 	}
 

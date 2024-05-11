@@ -229,7 +229,8 @@ public class ControladorVentanaOperador implements ActionListener{
 		boolean conseguimosServidor = false;
 		String reg = ingresarNumeroDeBox();
 		InetAddress direccion;
-		
+		this.vl.dispose();
+
 			while(!conseguimosServidor && portServidor<10011) {
 				try {
 					conseguimosServidor = true;
@@ -246,7 +247,6 @@ public class ControladorVentanaOperador implements ActionListener{
 					String mensaje = new String(entrada.getData());
 					mensaje = mensaje.trim();
 					
-					this.vl.dispose();
 					this.ventanaOperador = new VentanaOperador();
 					this.ventanaOperador.setControlador(this);
 					this.setNumeroBox(mensaje);
@@ -263,6 +263,10 @@ public class ControladorVentanaOperador implements ActionListener{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			}
+			if(portServidor == 10011) {
+				JOptionPane.showMessageDialog(null, "No hay servidores disponibles a los que conectarse"); 
+				System.exit(0);
 			}
 		
 	}

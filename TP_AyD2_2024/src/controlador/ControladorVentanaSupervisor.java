@@ -72,9 +72,7 @@ public class ControladorVentanaSupervisor implements ActionListener{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.vl.dispose();
-		this.ventanasupervisor = new VentanaSupervisor();
-		this.ventanasupervisor.setControlador(this);
+		
 		recibeEstadisticas(socketUDP);
 		
 	}
@@ -176,6 +174,7 @@ public class ControladorVentanaSupervisor implements ActionListener{
 		boolean conseguimosServidor = false;
 		String reg = "Hello there";
 		InetAddress direccion;
+		this.vl.dispose();
 		
 			while(!conseguimosServidor && portServidor<10011) {
 				try {
@@ -190,6 +189,8 @@ public class ControladorVentanaSupervisor implements ActionListener{
 					socketUDP.receive(entrada);
 					socketUDP.setSoTimeout(0);
 					JOptionPane.showMessageDialog(null, "Conectado al servidor"); 
+					this.ventanasupervisor = new VentanaSupervisor();
+					this.ventanasupervisor.setControlador(this);
 				}catch (SocketTimeoutException e2) {
 					System.out.println("Servidor no disponible");
 					conseguimosServidor = false;
@@ -201,6 +202,10 @@ public class ControladorVentanaSupervisor implements ActionListener{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			}
+			if(portServidor == 10011) {
+				JOptionPane.showMessageDialog(null, "No hay servidores disponibles a los que conectarse"); 
+				System.exit(0);
 			}
 		
 	}
