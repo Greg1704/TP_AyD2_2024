@@ -95,7 +95,7 @@ public class Servidor {
 						salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 						socketUDP.send(salida);
 						
-					}else { //Caso en el que se este enviando un turno para el subsistema de gestion de turnos
+					}else if (mensaje.matches("\\d+")){ //Caso en el que se este enviando un turno para el subsistema de gestion de turnos
 						gestionServidor.getGdt().añadirTurno(mensaje);
 						gestionServidor.getGdt().mostrarCola(); 
 						
