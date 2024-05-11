@@ -81,9 +81,11 @@ public class ControladorVentanaTotem implements ActionListener{
 		while(true) {
 			byte[] buffer2 = new byte[2048];
 			DatagramPacket entrada = new DatagramPacket(buffer2, buffer2.length);
+			System.out.println(envio);
 			if (!envio) {
 				try {
 					//System.out.println(socketUDP.getSoTimeout());
+					System.out.println("Estoy entrando");
 					socketUDP.setSoTimeout(500);
 					socketUDP.receive(entrada);
 					socketUDP.setSoTimeout(0);

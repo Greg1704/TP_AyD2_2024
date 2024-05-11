@@ -193,6 +193,7 @@ public class ControladorVentanaOperador implements ActionListener{
 		// TODO Auto-generated method stub
 
 			while(true) {
+				System.out.println(envio);
 				if (!envio) {
 					try {
 					

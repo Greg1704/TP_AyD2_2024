@@ -97,6 +97,7 @@ public class ControladorVentanaSupervisor implements ActionListener{
 	public void recibeEstadisticas(DatagramSocket socketUDP) {
 		
 		    	while (true) {
+					System.out.println(envio);
 		    		if(!envio) {
 			    		try {
 							 buffer = new byte[4096]; // Reservar buffer para recibir objeto //VER: chequear  valor buffer
