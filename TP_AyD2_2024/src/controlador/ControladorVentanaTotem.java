@@ -27,48 +27,43 @@ public class ControladorVentanaTotem implements ActionListener{
 	DatagramSocket socketUDP;
 	int puerto = 10100;
 	boolean envio = false;
+	int reintento = 2;
 	
 	//hay que poner un action listener para que cuando se apriere el solicitar turno se mande esto al servidor
 	//tambien habria que ver para que el servidor no se cierre y abra cada vez que se apriete el boton
 	
 	private ControladorVentanaTotem() { 
 		
-		EstableceConexion(puerto);
-
-		
-	}
-	
-	private void EstableceConexion(int puerto) {
-		
 		try {
 			
-		InetAddress direccion = InetAddress.getByName("localHost");
+			InetAddress direccion = InetAddress.getByName("localHost");
+			
 		
-	
-		while(!puertoDisponible(puerto))
-			puerto++;
-		socketUDP = new DatagramSocket(puerto); 
-		String reg = "Soy un totem y me quiero conectar con el servidor";
+			while(!puertoDisponible(puerto))
+				puerto++;
+			socketUDP = new DatagramSocket(puerto); 
+			String reg = "Soy un totem y me quiero conectar con el servidor";
+			
+			Arrays.fill(buffer, (byte) 0);
+			this.verificaServidor();
+			
+			
+			this.ventanaTotem = new VentanaTotem();
+			this.ventanaTotem.setControlador(this);
+			this.ventanaTotem.setActionListener(this);
+			
+			
+			esperandoNotificaciones();
 		
-		Arrays.fill(buffer, (byte) 0);
-		this.verificaServidor();
+	    }catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		
-		
-		this.ventanaTotem = new VentanaTotem();
-		this.ventanaTotem.setControlador(this);
-		this.ventanaTotem.setActionListener(this);
-		
-		
-		esperandoNotificaciones();
-		
-    }
-	catch (UnknownHostException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
 	}
 		
 
@@ -151,10 +146,14 @@ public class ControladorVentanaTotem implements ActionListener{
 
 				}catch (SocketTimeoutException e2) {
 					int result = JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
-					/*if (result == 0) { 
-						System.out.println("Reintentando conexión..."); 
-						EstableceConexion(puerto);
-					}*/
+					if (result == 0 && this.reintento != 0) { 
+						 ActionEvent eventoSimulado = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Confirmar");
+						 actionPerformed(eventoSimulado);
+						 this.reintento = this.reintento - 1;
+					}else {
+						envio = false;
+						JOptionPane.showMessageDialog(null, "Reintentos fallidos, vuelva a reintentar en unos segundos o cierre la ventana"); 
+					}
 		        } 
 				catch (IOException e1) {
 					// TODO Auto-generated catch block
