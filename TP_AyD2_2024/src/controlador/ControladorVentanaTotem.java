@@ -58,7 +58,7 @@ public class ControladorVentanaTotem implements ActionListener{
 		this.ventanaTotem.setActionListener(this);
 		
 		
-		esperandoNotificaciones(socketUDP);
+		esperandoNotificaciones();
 		
     }
 	catch (UnknownHostException e) {
@@ -88,7 +88,7 @@ public class ControladorVentanaTotem implements ActionListener{
 	}
 	
 	
-	public void esperandoNotificaciones(DatagramSocket socketUDP) {  //TENGO QUE UNIFICAR TODOS LOS RECEIVE(ENTRADA ACA PORQUE SINO SE ROMPE TODO)
+	public void esperandoNotificaciones() {  //TENGO QUE UNIFICAR TODOS LOS RECEIVE(ENTRADA ACA PORQUE SINO SE ROMPE TODO)
 		// TODO Auto-generated method stub
 		while(true) {
 			byte[] buffer2 = new byte[2048];
@@ -102,21 +102,16 @@ public class ControladorVentanaTotem implements ActionListener{
 				mensaje = mensaje.trim();
 				int puertoEntrada = entrada.getPort();
 				//InetAddress direccion = entrada.getAddress();
-				//System.out.println(t);
+				System.out.println("carambola");
 				
 				
 				if(mensaje.equals("cambio")){
 					System.out.println("Se actualizo el puerto :D");
 					this.portServidor = puertoEntrada;
-				}else if(mensaje.equals("Recibido")) {
-					JOptionPane.showMessageDialog(null, "DNI recibido"); 
 				}
 			}catch (SocketTimeoutException e2) {
-				int result = JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
-				/*if (result == 0) { 
-					System.out.println("Reintentando conexión..."); 
-					EstableceConexion(puerto);
-				}*/
+				JOptionPane.showMessageDialog(null, "ODIO EL COMUNISMO"); 
+				this.esperandoNotificaciones();
 	        } catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -140,9 +135,12 @@ public class ControladorVentanaTotem implements ActionListener{
 					buffer = dni.getBytes();
 					DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 					socketUDP.send(salida);
-					socketUDP.setSoTimeout(1000);
+					socketUDP.setSoTimeout(2000);
 					//System.out.println(socketUDP.getSoTimeout()); 
-					
+					DatagramPacket entrada = new DatagramPacket(buffer, buffer.length);
+					socketUDP.receive(entrada);
+					socketUDP.setSoTimeout(0);
+					JOptionPane.showMessageDialog(null, "DNI recibido"); 
 
 				}catch (SocketTimeoutException e2) {
 					int result = JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
