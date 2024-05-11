@@ -136,20 +136,29 @@ public class ControladorVentanaTotem implements ActionListener{
 					envio = false;
 					JOptionPane.showMessageDialog(null, "DNI recibido"); 
 					this.ventanaTotem.setDni("");
+					this.reintento = 2;
 
 				}catch (SocketTimeoutException e2) {
 					int result = JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
 					if (result == 0) {
 						if (this.reintento > 0) {
 							reintento = reintento - 1;
+							envio = false;
+							try {
+								Thread.sleep(1000);
+							} catch (InterruptedException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 							ActionEvent eventoSimulado = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Confirmar");
 							actionPerformed(eventoSimulado);
 							 
 						}else {
 							reintento = 2;
 							this.ventanaTotem.setDni("");
-							envio = false;
 							JOptionPane.showMessageDialog(null, "Reintentos fallidos, vuelva a reintentar en unos segundos o cierre la ventana"); 
+							this.verificaServidor();
+							envio = false;
 						}
 					}
 		        } 
@@ -169,13 +178,13 @@ public class ControladorVentanaTotem implements ActionListener{
 		boolean conseguimosServidor = false;
 		String reg = "Hello there";
 		InetAddress direccion;
-		
-			while(!conseguimosServidor && portServidor<10011) {
+		this.portServidor = 10000;
+			while(!conseguimosServidor && this.portServidor<10011) {
 				try {
 					conseguimosServidor = true;
 					direccion = InetAddress.getByName("localHost");
 					buffer = reg.getBytes();
-					DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
+					DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,this.portServidor);
 					socketUDP.send(salida);
 					socketUDP.setSoTimeout(1000);
 					
@@ -186,7 +195,7 @@ public class ControladorVentanaTotem implements ActionListener{
 				}catch (SocketTimeoutException e2) {
 					System.out.println("Servidor no disponible");
 					conseguimosServidor = false;
-					portServidor++;
+					this.portServidor++;
 				} catch (UnknownHostException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -195,7 +204,7 @@ public class ControladorVentanaTotem implements ActionListener{
 					e.printStackTrace();
 				}
 			}
-			if(portServidor == 10011) {
+			if(this.portServidor == 10011) {
 				JOptionPane.showMessageDialog(null, "No hay servidores disponibles a los que conectarse"); 
 				System.exit(0);
 			}

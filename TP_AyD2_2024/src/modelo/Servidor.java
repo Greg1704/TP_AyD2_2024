@@ -128,7 +128,7 @@ public class Servidor {
 						e.agregarClienteAtendidos();
 						e.agregarTiempos(tiempoEspera);
 						
-					}else{ //Caso en el que el operador solicita un nuevo cliente para que vaya al box
+					}else if(mensaje.equals("Solicito un turno")){ //Caso en el que el operador solicita un nuevo cliente para que vaya al box
 						Thread.sleep(750);
 						if(!gestionServidor.getGdt().isColaTurnosVacia()) {
 							reg = "hay turno";

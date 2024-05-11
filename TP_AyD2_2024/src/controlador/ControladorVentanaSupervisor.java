@@ -152,11 +152,21 @@ public class ControladorVentanaSupervisor implements ActionListener{
 		    	ObjectInputStream objectStream = new ObjectInputStream(byteStream);
 		    	estadisticas = (Estadisticas) objectStream.readObject();
 		    	this.ventanasupervisor.CargaEstadistica(estadisticas);
+				this.reintento = 2;
+
+		    	
 			}catch (SocketTimeoutException e2) {
 				int result = JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
 				if (result == 0) {
 					if (this.reintento > 0) {
 						reintento = reintento - 1;
+						envio = false;
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 						ActionEvent eventoSimulado = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Actualizar");
 						actionPerformed(eventoSimulado);
 						 
@@ -164,6 +174,8 @@ public class ControladorVentanaSupervisor implements ActionListener{
 						reintento = 2;
 						envio = false;
 						JOptionPane.showMessageDialog(null, "Reintentos fallidos, vuelva a reintentar en unos segundos o cierre la ventana"); 
+						this.verificaServidor();
+						envio = false;
 					}
 				}
 

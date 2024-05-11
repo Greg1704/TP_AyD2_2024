@@ -30,6 +30,7 @@ public class ControladorVentanaOperador implements ActionListener{
 	private static ControladorVentanaOperador instancia = null;
 	private int puerto;
 	private int reintento = 2;
+	private String nBox;
 	//Operador op;
 	
 	
@@ -58,8 +59,13 @@ public class ControladorVentanaOperador implements ActionListener{
 				puerto++;
 			socketUDP = new DatagramSocket(puerto); 
 			
-			this.verificaServidor();
+			this.nBox = this.ingresarNumeroDeBox();
 			
+			this.nBox = this.verificaServidor();
+			
+			this.ventanaOperador = new VentanaOperador();
+			this.ventanaOperador.setControlador(this);
+			this.setNumeroBox(this.nBox);
 			
 			
 		} catch (UnknownHostException e) {
@@ -121,7 +127,7 @@ public class ControladorVentanaOperador implements ActionListener{
 	public void actionPerformed(ActionEvent e) { //deberia conectarse con el servidor y enviar un "true" (hay que ver como sacar el string y poner un boolean o algo) diciendo que hay siguiente.
 		if (e.getActionCommand().equalsIgnoreCase("Llamar siguiente")) { 
 			//byte[] buffer = new byte[1024]; 
-			siguiente = "true";
+			siguiente = "Solicito un turno";
 			try {
 				
 				byte[] buffer = new byte[1024];
@@ -160,6 +166,8 @@ public class ControladorVentanaOperador implements ActionListener{
 					JOptionPane.showMessageDialog(null, "No hay turnos en espera en la cola");
 				}
 				
+				this.reintento = 2;
+				
 				
 			} catch (UnknownHostException e1) {
 				// TODO Auto-generated catch block
@@ -169,13 +177,21 @@ public class ControladorVentanaOperador implements ActionListener{
 				if (result == 0) {
 					if (this.reintento > 0) {
 						reintento = reintento - 1;
+						envio = false;
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 						ActionEvent eventoSimulado = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Llamar siguiente");
 						actionPerformed(eventoSimulado);
 						 
 					}else {
 						reintento = 2;
-						envio = false;
 						JOptionPane.showMessageDialog(null, "Reintentos fallidos, vuelva a reintentar en unos segundos o cierre la ventana"); 
+						this.verificaServidor();
+						envio = false;
 					}
 				
 				}
@@ -232,11 +248,12 @@ public class ControladorVentanaOperador implements ActionListener{
 		this.ventanaOperador.setBox(box);
 	}
 	
-	public void verificaServidor() {
+	public String verificaServidor() {
 		boolean conseguimosServidor = false;
-		String reg = ingresarNumeroDeBox();
+		String reg = this.nBox;
 		InetAddress direccion;
 		this.vl.dispose();
+		String mensaje ="";
 
 			while(!conseguimosServidor && portServidor<10011) {
 				try {
@@ -251,12 +268,9 @@ public class ControladorVentanaOperador implements ActionListener{
 					socketUDP.receive(entrada);
 					socketUDP.setSoTimeout(0);
 					
-					String mensaje = new String(entrada.getData());
+					mensaje = new String(entrada.getData());
 					mensaje = mensaje.trim();
-					
-					this.ventanaOperador = new VentanaOperador();
-					this.ventanaOperador.setControlador(this);
-					this.setNumeroBox(mensaje);
+										
 					
 					JOptionPane.showMessageDialog(null, "Conectado al servidor"); 
 				}catch (SocketTimeoutException e2) {
@@ -275,6 +289,8 @@ public class ControladorVentanaOperador implements ActionListener{
 				JOptionPane.showMessageDialog(null, "No hay servidores disponibles a los que conectarse"); 
 				System.exit(0);
 			}
+			
+			return mensaje;
 		
 	}
 	
