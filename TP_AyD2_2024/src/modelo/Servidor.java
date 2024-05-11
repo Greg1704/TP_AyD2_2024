@@ -10,19 +10,13 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Servidor {
 	private static long tiempoEspera;
 	static int portMonitor = 11000;
-	private static DatagramSocket socketUPD; 
 	public static GestionServidor gestionServidor; 
 	public static void main(String[] args) { 
 		//ServerSocket servidor = null; 

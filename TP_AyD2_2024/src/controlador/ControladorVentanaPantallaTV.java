@@ -29,14 +29,11 @@ public class ControladorVentanaPantallaTV{
 		try {
 			
 			int puerto = 10500;
-			
-			InetAddress direccion = InetAddress.getByName("localHost");
-			
+						
 			
 			while(!puertoDisponible(puerto))
 				puerto++;
 			socketUDP = new DatagramSocket(puerto); 
-			String reg = "Soy un televisor y me quiero conectar con el servidor";
 			
 			Arrays.fill(buffer, (byte) 0);
 			this.verificaServidor();
@@ -46,11 +43,7 @@ public class ControladorVentanaPantallaTV{
 			this.esperandoNotificaciones(socketUDP);
 		
 			
-		} 
-		catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
+		}catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

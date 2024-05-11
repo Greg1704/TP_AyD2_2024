@@ -205,7 +205,6 @@ public class ControladorVentanaOperador implements ActionListener{
 						String mensaje = new String(entrada.getData());
 						mensaje = mensaje.trim();
 						int puertoEntrada = entrada.getPort();
-						InetAddress direccion = entrada.getAddress();
 						
 						if(mensaje.equals("cambio")){
 							System.out.println("Se actualizo el puerto :D");

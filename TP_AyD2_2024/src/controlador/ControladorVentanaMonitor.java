@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
@@ -15,15 +14,11 @@ import java.util.TimerTask;
 
 import javax.swing.JOptionPane;
 
-import modelo.Monitor;
-import ventana.VentanaLogin;
 import ventana.VentanaMonitor;
-import ventana.VentanaOperador;
 
 public class ControladorVentanaMonitor {
 
 	private int puertoServerPrincipal = 10000;
-	private InetAddress direccion; 
 	private DatagramSocket socketUDP;
 	static byte[] buffer = new byte[1024];
 	final int portMonitor = 11000;
@@ -70,13 +65,12 @@ public class ControladorVentanaMonitor {
 					String mensaje = new String(entrada.getData());
 					mensaje = mensaje.trim();
 					int puertoEntrada = entrada.getPort();
-					InetAddress direccion = entrada.getAddress();
 					
 					if(puertoEntrada >= puertoServerPrincipal && puertoEntrada <= 10010) {
 						if(!this.servidoresDisp.containsKey(puertoEntrada)) {
 							if(puertoEntrada == puertoServerPrincipal) {
 								this.servidoresDisp.put(puertoEntrada, true);
-								this.heartbeat(portMonitor, socketUDP);
+								this.pingEcho(portMonitor, socketUDP);
 							}else
 								this.servidoresDisp.put(puertoEntrada, false);
 							
@@ -111,29 +105,10 @@ public class ControladorVentanaMonitor {
 			System.out.println("Murio el while");
 	}
 	
-	
-	/**private void heartbeat(int puertoServidor, DatagramSocket socketUDP) throws UnknownHostException,SocketTimeoutException {
-		
-    	try {
-    		String reg = "heartbeat";
-    		InetAddress direccion = InetAddress.getByName("localHost");
-    		byte[] buffer = new byte[1024];
-			buffer = reg.getBytes();
-        	DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,puertoServerPrincipal);
-			socketUDP.send(salida);
-			socketUDP.setSoTimeout(5000);
-			System.out.println("¿Late o no late?");
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 	
-	}**/
 	
-	
-	private void heartbeat(int puertoServidor, DatagramSocket socketUDP) throws UnknownHostException,SocketTimeoutException {
+	private void pingEcho (int puertoServidor, DatagramSocket socketUDP) throws UnknownHostException,SocketTimeoutException {
 		
 		Timer t = new Timer();
 		String reg = "ping";

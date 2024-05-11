@@ -2,9 +2,7 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -15,7 +13,6 @@ import java.util.Arrays;
 
 import javax.swing.JOptionPane;
 
-import modelo.Turno;
 import ventana.VentanaTotem;
 
 
@@ -36,13 +33,11 @@ public class ControladorVentanaTotem implements ActionListener{
 		
 		try {
 			
-			InetAddress direccion = InetAddress.getByName("localHost");
 			
 		
 			while(!puertoDisponible(puerto))
 				puerto++;
 			socketUDP = new DatagramSocket(puerto); 
-			String reg = "Soy un totem y me quiero conectar con el servidor";
 			
 			Arrays.fill(buffer, (byte) 0);
 			this.verificaServidor();
@@ -55,10 +50,7 @@ public class ControladorVentanaTotem implements ActionListener{
 			
 			esperandoNotificaciones();
 		
-	    }catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}catch (IOException e) {
+	    }catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

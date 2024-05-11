@@ -60,7 +60,6 @@ public class ControladorVentanaSupervisor implements ActionListener{
 			while(!puertoDisponible(puerto))
 				puerto++;
 			socketUDP = new DatagramSocket(puerto); 
-			String reg = "Soy supervisor y me quiero conectar con el servidor";
 			
 			this.verificaServidor();
 	
@@ -106,9 +105,9 @@ public class ControladorVentanaSupervisor implements ActionListener{
 					    	 socketUDP.receive(entrada);
 					    	 socketUDP.setSoTimeout(0);
 					    	 int puertoEntrada = entrada.getPort();
-							InetAddress direccion = entrada.getAddress();
 							
 							if(puertoEntrada>portServidor && puertoEntrada <10011){
+								System.out.println("Vi el nuevo server");
 								this.portServidor = puertoEntrada;
 							}
 			    		}

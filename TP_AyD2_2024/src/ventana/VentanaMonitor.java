@@ -12,10 +12,8 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.util.HashMap;
 
-import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.border.LineBorder;
-import javax.swing.table.TableModel;
 
 import java.awt.Color;
 import javax.swing.JScrollPane;
