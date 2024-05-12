@@ -63,6 +63,8 @@ public class ControladorVentanaSupervisor implements ActionListener{
 			
 			this.verificaServidor();
 	
+			this.ventanasupervisor = new VentanaSupervisor();
+			this.ventanasupervisor.setControlador(this);
 			
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
@@ -175,7 +177,6 @@ public class ControladorVentanaSupervisor implements ActionListener{
 						 
 					}else {
 						reintento = 2;
-						envio = false;
 						JOptionPane.showMessageDialog(null, "Reintentos fallidos, vuelva a reintentar en unos segundos o cierre la ventana"); 
 						this.verificaServidor();
 						envio = false;
@@ -217,8 +218,6 @@ public class ControladorVentanaSupervisor implements ActionListener{
 					socketUDP.receive(entrada);
 					socketUDP.setSoTimeout(0);
 					JOptionPane.showMessageDialog(null, "Conectado al servidor"); 
-					this.ventanasupervisor = new VentanaSupervisor();
-					this.ventanasupervisor.setControlador(this);
 				}catch (SocketTimeoutException e2) {
 					System.out.println("Servidor no disponible");
 					conseguimosServidor = false;

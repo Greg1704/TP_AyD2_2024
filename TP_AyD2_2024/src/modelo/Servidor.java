@@ -106,6 +106,11 @@ public class Servidor {
 						buffer = reg.getBytes();
 						salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 						socketUDP.send(salida);
+					}else if(mensaje.equals("Hello there")) {  //Caso reintentos fallidos
+						reg = "Reconectado";
+						buffer = reg.getBytes();
+						salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
+						socketUDP.send(salida);
 					}
 				}else if(puertoEntrada >= 10300 && puertoEntrada <=10400 && principal) { //Entrada de Operadores/Boxs
 					if (!gestionServidor.getConexiones().containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
@@ -175,6 +180,11 @@ public class Servidor {
 							salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 							socketUDP.send(salida);
 						}
+					}else if(mensaje.matches("\\d+")) {  //Caso reintentos fallidos
+						reg = "Reconectado";
+						buffer = reg.getBytes();
+						salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
+						socketUDP.send(salida);
 					}
 				}else if(puertoEntrada >= 10500 && puertoEntrada <=10600  && principal) { //Entrada de las Pantallas TV
 					if (!gestionServidor.getConexiones().containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
@@ -244,6 +254,11 @@ public class Servidor {
 							socketUDP.send(salida_Est);
 							**/
 						}
+					}else if(mensaje.equals("Hello there")) {  //Caso reintentos fallidos
+						reg = "Reconectado";
+						buffer = reg.getBytes();
+						salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
+						socketUDP.send(salida);
 					}
 				}else if(puertoEntrada == 11000) {  //Entrada del Monitor
 					if(mensaje.equals("ping")) {  //Caso pingEcho
