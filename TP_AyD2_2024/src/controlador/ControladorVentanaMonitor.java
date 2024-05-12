@@ -66,7 +66,7 @@ public class ControladorVentanaMonitor {
 					mensaje = mensaje.trim();
 					int puertoEntrada = entrada.getPort();
 					
-					if(puertoEntrada >= puertoServerPrincipal && puertoEntrada <= 10010) {
+					if(puertoEntrada >= 10000 && puertoEntrada <= 10010) {
 						if(!this.servidoresDisp.containsKey(puertoEntrada)) {
 							if(puertoEntrada == puertoServerPrincipal) {
 								this.servidoresDisp.put(puertoEntrada, true);
