@@ -98,9 +98,7 @@ public class ControladorVentanaPantallaTV{
 				int puertoEntrada = entrada.getPort();
 				
 				if(mensaje.equals("cambio")) {
-					if(puertoEntrada>portServidor && puertoEntrada <10011){
-						this.portServidor = puertoEntrada;
-					}
+					this.portServidor = puertoEntrada;
 				}else {
 					ByteArrayInputStream byteStream = new ByteArrayInputStream(entrada.getData());
 		            ObjectInputStream objectStream = new ObjectInputStream(byteStream);
@@ -130,13 +128,14 @@ public class ControladorVentanaPantallaTV{
 		boolean conseguimosServidor = false;
 		String reg = "Hello there";
 		InetAddress direccion;
+		this.portServidor = 10000;
 		
-			while(!conseguimosServidor && portServidor<10011) {
+			while(!conseguimosServidor && this.portServidor<10011) {
 				try {
 					conseguimosServidor = true;
 					direccion = InetAddress.getByName("localHost");
 					buffer = reg.getBytes();
-					DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
+					DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,this.portServidor);
 					socketUDP.send(salida);
 					socketUDP.setSoTimeout(1000);
 					
@@ -147,7 +146,7 @@ public class ControladorVentanaPantallaTV{
 				}catch (SocketTimeoutException e2) {
 					System.out.println("Servidor no disponible");
 					conseguimosServidor = false;
-					portServidor++;
+					this.portServidor++;
 				} catch (UnknownHostException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -156,7 +155,7 @@ public class ControladorVentanaPantallaTV{
 					e.printStackTrace();
 				}
 			}
-			if(portServidor == 10011) {
+			if(this.portServidor == 10011) {
 				JOptionPane.showMessageDialog(null, "No hay servidores disponibles a los que conectarse"); 
 				System.exit(0);
 			}

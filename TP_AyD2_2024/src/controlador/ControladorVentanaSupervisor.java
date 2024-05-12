@@ -106,8 +106,11 @@ public class ControladorVentanaSupervisor implements ActionListener{
 					    	 socketUDP.receive(entrada);
 					    	 socketUDP.setSoTimeout(0);
 					    	 int puertoEntrada = entrada.getPort();
+					    	 
+					    	 String mensaje = new String(entrada.getData());
+							 mensaje = mensaje.trim();
 							
-							if(puertoEntrada>portServidor && puertoEntrada <10011){
+							 if(mensaje.equals("cambio")){
 								System.out.println("Vi el nuevo server");
 								this.portServidor = puertoEntrada;
 							}
@@ -199,13 +202,14 @@ public class ControladorVentanaSupervisor implements ActionListener{
 		String reg = "Hello there";
 		InetAddress direccion;
 		this.vl.dispose();
+		this.portServidor = 10000;
 		
-			while(!conseguimosServidor && portServidor<10011) {
+			while(!conseguimosServidor && this.portServidor<10011) {
 				try {
 					conseguimosServidor = true;
 					direccion = InetAddress.getByName("localHost");
 					buffer = reg.getBytes();
-					DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
+					DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,this.portServidor);
 					socketUDP.send(salida);
 					socketUDP.setSoTimeout(1000);
 					
@@ -218,7 +222,7 @@ public class ControladorVentanaSupervisor implements ActionListener{
 				}catch (SocketTimeoutException e2) {
 					System.out.println("Servidor no disponible");
 					conseguimosServidor = false;
-					portServidor++;
+					this.portServidor++;
 				} catch (UnknownHostException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -227,7 +231,7 @@ public class ControladorVentanaSupervisor implements ActionListener{
 					e.printStackTrace();
 				}
 			}
-			if(portServidor == 10011) {
+			if(this.portServidor == 10011) {
 				JOptionPane.showMessageDialog(null, "No hay servidores disponibles a los que conectarse"); 
 				System.exit(0);
 			}

@@ -57,6 +57,7 @@ public class Servidor {
 				
 			System.out.println("Servidor iniciado");
 										
+			boolean principal = false;
 			
 			while(true) {
 				byte[] buffer = new byte[5120];	
@@ -83,7 +84,7 @@ public class Servidor {
 				//Supervisor: 10700 - 10800
 				//Monitor: 11000
 				
-				if(puertoEntrada >= 10100 && puertoEntrada <=10200) { //Entrada de Totems
+				if(puertoEntrada >= 10100 && puertoEntrada <=10200  && principal) { //Entrada de Totems
 					if (!gestionServidor.getConexiones().containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
 						System.out.println("se establecio la conexion con: " + puertoEntrada);
 						gestionServidor.getConexiones().put(puertoEntrada,"Totem");
@@ -106,7 +107,7 @@ public class Servidor {
 						salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 						socketUDP.send(salida);
 					}
-				}else if(puertoEntrada >= 10300 && puertoEntrada <=10400) { //Entrada de Operadores/Boxs
+				}else if(puertoEntrada >= 10300 && puertoEntrada <=10400 && principal) { //Entrada de Operadores/Boxs
 					if (!gestionServidor.getConexiones().containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
 						System.out.println("se establecio la conexion con: " + puertoEntrada);
 						gestionServidor.getConexiones().put(puertoEntrada,"Operador");
@@ -175,7 +176,7 @@ public class Servidor {
 							socketUDP.send(salida);
 						}
 					}
-				}else if(puertoEntrada >= 10500 && puertoEntrada <=10600) { //Entrada de las Pantallas TV
+				}else if(puertoEntrada >= 10500 && puertoEntrada <=10600  && principal) { //Entrada de las Pantallas TV
 					if (!gestionServidor.getConexiones().containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
 						System.out.println("se establecio la conexion con: " + puertoEntrada);
 						gestionServidor.getConexiones().put(puertoEntrada,"TV"); 
@@ -201,7 +202,7 @@ public class Servidor {
 						}
 					}
 				}
-				else if (puertoEntrada >= 10700 && puertoEntrada <=10800) { //Entrada de Supervisores
+				else if (puertoEntrada >= 10700 && puertoEntrada <=10800  && principal) { //Entrada de Supervisores
 					if (!gestionServidor.getConexiones().containsKey(puertoEntrada)) {
 					  System.out.println("se establecio la conexion con: " + puertoEntrada);
 					  gestionServidor.getConexiones().put(puertoEntrada, "Supervisor");
@@ -246,6 +247,8 @@ public class Servidor {
 					}
 				}else if(puertoEntrada == 11000) {  //Entrada del Monitor
 					if(mensaje.equals("ping")) {  //Caso pingEcho
+						
+						principal = true;
 						reg = "pong";
 						buffer = reg.getBytes();
 						salida = new DatagramPacket(buffer, buffer.length,direccion,portMonitor);
@@ -258,24 +261,22 @@ public class Servidor {
 				        objectStream.flush();
 				        buffer = byteStream.toByteArray();
 				        
-				        System.out.println("Largo del buffer" + buffer.length);
+				        System.out.println("Largo del buffer " + buffer.length);
 				        
+						
 				        
-				        int puertoServidorNext = port+1;
-				        
-				        salida = new DatagramPacket(buffer, buffer.length,direccion,puertoServidorNext);
-				        socketUDP.send(salida);
+				        for(int i = 10000;i<10011;i++) {
+				        	if(i != port) {
+					        	salida = new DatagramPacket(buffer, buffer.length,direccion,i);
+						        socketUDP.send(salida);
+				        	}
+				        }
 				        
 				        gestionServidor.getGdt().mostrarCola();
 						
-				        
-				        /**for(int i = 1;i<11;i++) {
-				        	salida = new DatagramPacket(buffer, buffer.length,direccion,port + i);
-					        socketUDP.send(salida);
-				        }**/
-						
 					}else if(mensaje.equals("cambio")) { //Caso en el que un servidor secundario pasa a ser el principal
 						
+						principal = true;
 						reg = "reemplazo";
 						buffer = reg.getBytes();
 						salida = new DatagramPacket(buffer, buffer.length,direccion,portMonitor);
@@ -289,7 +290,7 @@ public class Servidor {
 							socketUDP.send(salida);
 						}
 					}
-				} else if(puertoEntrada == port-1) { //recibe datos de backup
+				} else if(puertoEntrada>= 10000 && puertoEntrada <10011 && puertoEntrada != port) { //recibe datos de backup
 				
 			    	 try {
 			    		 
