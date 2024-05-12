@@ -25,6 +25,7 @@ public class ControladorVentanaTotem implements ActionListener{
 	int puerto = 10100;
 	boolean envio = false;
 	int reintento = 2;
+	boolean falloReintento = false;
 	
 	//hay que poner un action listener para que cuando se apriere el solicitar turno se mande esto al servidor
 	//tambien habria que ver para que el servidor no se cierre y abra cada vez que se apriete el boton
@@ -154,11 +155,14 @@ public class ControladorVentanaTotem implements ActionListener{
 							actionPerformed(eventoSimulado);
 							 
 						}else {
-							reintento = 2;
+							this.reintento = 2;
 							this.ventanaTotem.setDni("");
 							JOptionPane.showMessageDialog(null, "Reintentos fallidos, vuelva a reintentar en unos segundos o cierre la ventana"); 
+							this.falloReintento = true;
 							this.verificaServidor();
-							envio = false;
+							this.envio = false;
+							this.falloReintento = false;
+							
 						}
 					}
 		        } 
@@ -178,8 +182,14 @@ public class ControladorVentanaTotem implements ActionListener{
 		boolean conseguimosServidor = false;
 		String reg = "Hello there";
 		InetAddress direccion;
-		this.portServidor = 10000;
-			while(!conseguimosServidor && this.portServidor<10011) {
+		int servidorAevadir = 9999;
+		if(falloReintento) {
+			 servidorAevadir = this.portServidor;
+			 this.portServidor = 10000;
+		}
+		
+		while(!conseguimosServidor && this.portServidor<10011) {
+			if(portServidor != servidorAevadir) {
 				try {
 					conseguimosServidor = true;
 					direccion = InetAddress.getByName("localHost");
@@ -191,7 +201,7 @@ public class ControladorVentanaTotem implements ActionListener{
 					DatagramPacket entrada = new DatagramPacket(buffer,buffer.length);
 					socketUDP.receive(entrada);
 					socketUDP.setSoTimeout(0);
-					JOptionPane.showMessageDialog(null, "Conectado al servidor"); 
+					JOptionPane.showMessageDialog(null, "Conectado al servidor  "); 
 				}catch (SocketTimeoutException e2) {
 					System.out.println("Servidor no disponible");
 					conseguimosServidor = false;
@@ -203,11 +213,14 @@ public class ControladorVentanaTotem implements ActionListener{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			}else {
+				this.portServidor++;
 			}
-			if(this.portServidor == 10011) {
-				JOptionPane.showMessageDialog(null, "No hay servidores disponibles a los que conectarse"); 
-				System.exit(0);
-			}
+		}
+		if(this.portServidor == 10011) {
+			JOptionPane.showMessageDialog(null, "No hay servidores disponibles a los que conectarse"); 
+			System.exit(0);
+		}
 		
 	}
 

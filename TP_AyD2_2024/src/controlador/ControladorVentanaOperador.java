@@ -31,6 +31,8 @@ public class ControladorVentanaOperador implements ActionListener{
 	private int puerto;
 	private int reintento = 2;
 	private String nBox;
+	boolean falloReintento = false;
+
 	//Operador op;
 	
 	
@@ -190,8 +192,10 @@ public class ControladorVentanaOperador implements ActionListener{
 					}else {
 						reintento = 2;
 						JOptionPane.showMessageDialog(null, "Reintentos fallidos, vuelva a reintentar en unos segundos o cierre la ventana"); 
+						this.falloReintento = true;
 						this.verificaServidor();
 						envio = false;
+						this.falloReintento = false;
 					}
 				
 				}
@@ -254,9 +258,14 @@ public class ControladorVentanaOperador implements ActionListener{
 		InetAddress direccion;
 		this.vl.dispose();
 		String mensaje ="";
-		this.portServidor = 10000;
+		int servidorAevadir = 9999;
+		if(falloReintento) {
+			 servidorAevadir = this.portServidor;
+			 this.portServidor = 10000;
+		}
 
-			while(!conseguimosServidor && this.portServidor<10011) {
+		while(!conseguimosServidor && this.portServidor<10011) {
+			if(portServidor != servidorAevadir) {
 				try {
 					conseguimosServidor = true;
 					direccion = InetAddress.getByName("localHost");
@@ -285,13 +294,16 @@ public class ControladorVentanaOperador implements ActionListener{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			}else {
+				this.portServidor++;
 			}
-			if(portServidor == 10011) {
-				JOptionPane.showMessageDialog(null, "No hay servidores disponibles a los que conectarse"); 
-				System.exit(0);
-			}
-			
-			return mensaje;
+		}
+		if(portServidor == 10011) {
+			JOptionPane.showMessageDialog(null, "No hay servidores disponibles a los que conectarse"); 
+			System.exit(0);
+		}
+		
+		return mensaje;
 		
 	}
 	

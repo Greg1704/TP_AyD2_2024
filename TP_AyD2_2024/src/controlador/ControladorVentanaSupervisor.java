@@ -34,6 +34,8 @@ public class ControladorVentanaSupervisor implements ActionListener{
 	private String actualizar = "false";
 	boolean envio = false;
 	private int reintento = 2;
+	boolean falloReintento = false;
+
 	
 
 	
@@ -178,8 +180,10 @@ public class ControladorVentanaSupervisor implements ActionListener{
 					}else {
 						reintento = 2;
 						JOptionPane.showMessageDialog(null, "Reintentos fallidos, vuelva a reintentar en unos segundos o cierre la ventana"); 
+						falloReintento = true;
 						this.verificaServidor();
 						envio = false;
+						falloReintento = false;
 					}
 				}
 
@@ -203,9 +207,14 @@ public class ControladorVentanaSupervisor implements ActionListener{
 		String reg = "Hello there";
 		InetAddress direccion;
 		this.vl.dispose();
-		this.portServidor = 10000;
+		int servidorAevadir = 9999;
+		if(falloReintento) {
+			 servidorAevadir = this.portServidor;
+			 this.portServidor = 10000;
+		}
 		
-			while(!conseguimosServidor && this.portServidor<10011) {
+		while(!conseguimosServidor && this.portServidor<10011) {
+			if(portServidor != servidorAevadir) {
 				try {
 					conseguimosServidor = true;
 					direccion = InetAddress.getByName("localHost");
@@ -229,11 +238,14 @@ public class ControladorVentanaSupervisor implements ActionListener{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			}else {
+				this.portServidor++;
 			}
-			if(this.portServidor == 10011) {
-				JOptionPane.showMessageDialog(null, "No hay servidores disponibles a los que conectarse"); 
-				System.exit(0);
-			}
+		}
+		if(this.portServidor == 10011) {
+			JOptionPane.showMessageDialog(null, "No hay servidores disponibles a los que conectarse"); 
+			System.exit(0);
+		}
 		
 	}
 	
