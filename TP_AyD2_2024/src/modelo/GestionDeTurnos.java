@@ -4,14 +4,18 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import interfaces.StrategyColas;
+
 public class GestionDeTurnos implements Serializable{
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private Queue<Turno> colaDeTurnos;
+	private StrategyColas strategy;
 
-    public GestionDeTurnos() {
+    public GestionDeTurnos(StrategyColas strategy) {
+    	this.strategy = strategy;
         this.colaDeTurnos = new LinkedList<>(); 
     }
 
@@ -27,9 +31,7 @@ public class GestionDeTurnos implements Serializable{
     }
 
     public Turno extraerPrimerTurno() {  //Esto debería ser modificado para que funcione en cuestión del Patron Strategy)
-        Turno turno = colaDeTurnos.poll();
-        turno.getCronometro().detener();
-		return turno; 
+		return this.strategy.devolverTurno(this); 
     }
     
     public boolean isColaTurnosVacia() {
@@ -49,6 +51,14 @@ public class GestionDeTurnos implements Serializable{
 
 	public void setColaDeTurnos(Queue<Turno> colaDeTurnos) {
 		this.colaDeTurnos = colaDeTurnos;
+	}
+
+	public StrategyColas getStrategy() {
+		return strategy;
+	}
+
+	public void setStrategy(StrategyColas strategy) {
+		this.strategy = strategy;
 	}
     
     

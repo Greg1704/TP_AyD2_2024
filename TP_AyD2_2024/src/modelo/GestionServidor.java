@@ -22,7 +22,7 @@ public class GestionServidor implements Serializable{
 		super();
 		this.estadisticas = new Estadisticas();
 		this.conexiones = new HashMap<>();
-		this.gdt = new GestionDeTurnos();
+		this.gdt = new GestionDeTurnos(new StrategyLlegada()); //Se podria implementar factory para embellecer esto
 		this.boxesOcupados = new HashMap<>();  //<N Box,Puerto Box>
 		this.turnosEnPantalla = new ArrayList<Turno>();
 	}
