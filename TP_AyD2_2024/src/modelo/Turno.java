@@ -10,6 +10,8 @@ public class Turno implements Serializable{
 	private String dni;
 	private String numeroDeBox;
 	private Cronometro cronometro;
+	private String afinidad;//Normal, Gold, Platinum, Black(Si nos sentimos muy importantes)
+	private int edad; //SUJETO A CAMBIOS, NO ESTAMOS SEGUROS DE COMO TOMAR EN CUENTA EL RANGO ETARIO ACTUALMENTE
 	
 	
 	public Turno(String dni) {
@@ -47,5 +49,15 @@ public class Turno implements Serializable{
 	public Cronometro getCronometro() {
 		return cronometro;
     }
+
+
+	public String getAfinidad() {
+		return afinidad;
+	}
+
+
+	public void setAfinidad(String afinidad) {
+		this.afinidad = afinidad;
+	}
 	
 }
