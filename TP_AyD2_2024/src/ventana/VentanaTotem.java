@@ -1,22 +1,26 @@
 package ventana;
 
 import java.awt.Color;
+import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.MaskFormatter;
 
 import controlador.ControladorVentanaTotem;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 
 public class VentanaTotem extends JFrame {
 
@@ -36,11 +40,24 @@ public class VentanaTotem extends JFrame {
 	private JButton btnConfirmarDni;
 	private JButton btnBorrar;
 	private ControladorVentanaTotem controladorVentanaTotem;
+	
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					VentanaTotem frame = new VentanaTotem();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
 	public VentanaTotem() { 
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 337, 277);
+		setBounds(100, 100, 359, 277);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -48,16 +65,16 @@ public class VentanaTotem extends JFrame {
 		contentPane.setLayout(null);
 		
 		textField = new JTextField();
-		textField.setBounds(108, 53, 100, 20);
+		textField.setBounds(32, 49, 100, 20);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
 		JLabel lblDni = new JLabel("Ingrese DNI:");
-		lblDni.setBounds(128, 33, 80, 14);
+		lblDni.setBounds(41, 30, 80, 14);
 		contentPane.add(lblDni);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(89, 87, 140, 78);
+		panel.setBounds(10, 87, 140, 78);
 		contentPane.add(panel);
 		panel.setLayout(new GridLayout(3, 3, 0, 0));
 		
@@ -89,18 +106,38 @@ public class VentanaTotem extends JFrame {
 		panel.add(btn9);
 		
 		btnBorrar = new JButton("←");
-		btnBorrar.setBounds(89, 187, 45, 23);
+		btnBorrar.setBounds(10, 187, 45, 23);
 		contentPane.add(btnBorrar);
 		
 		btnConfirmarDni = new JButton("Confirmar");
-		btnConfirmarDni.setBounds(134, 187, 95, 23);
+		btnConfirmarDni.setBounds(55, 187, 95, 23);
 		contentPane.add(btnConfirmarDni);
 		
 		
 		
 		btn0 = new JButton("0");
-		btn0.setBounds(89, 165, 140, 23);
+		btn0.setBounds(10, 165, 140, 23);
 		contentPane.add(btn0);
+		
+		JFormattedTextField formattedTextFieldFechaNacimiento = new JFormattedTextField();
+		try {
+            MaskFormatter dateFormatter = new MaskFormatter("##/##/####");
+            dateFormatter.setPlaceholderCharacter('x');
+            formattedTextFieldFechaNacimiento = new JFormattedTextField(dateFormatter);
+            formattedTextFieldFechaNacimiento.setColumns(10);  // Establece el ancho del campo de texto
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+		formattedTextFieldFechaNacimiento.setBounds(182, 49, 100, 20);
+		contentPane.add(formattedTextFieldFechaNacimiento);
+		
+		JLabel lblFechaNacimiento = new JLabel("Ingrese fecha de nacimiento:");
+		lblFechaNacimiento.setBounds(162, 11, 171, 14);
+		contentPane.add(lblFechaNacimiento);
+		
+		JLabel lblDiaMesAño = new JLabel("(dia/mes/año)");
+		lblDiaMesAño.setBounds(193, 30, 80, 14);
+		contentPane.add(lblDiaMesAño);
 		
 		
 		btn1.addActionListener(new ActionListener() { //boton 1
