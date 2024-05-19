@@ -26,7 +26,7 @@ public class GestionDeTurnos implements Serializable{
         colaDeTurnos.removeIf(turno -> turno.getDni().equals(dni));
     }
 
-    public Turno extraerPrimerTurno() {
+    public Turno extraerPrimerTurno() {  //Esto debería ser modificado para que funcione en cuestión del Patron Strategy)
         Turno turno = colaDeTurnos.poll();
         turno.getCronometro().detener();
 		return turno; 
@@ -42,4 +42,14 @@ public class GestionDeTurnos implements Serializable{
             System.out.println(elemento.getDni() + " " + elemento.getNumeroDeBox() + "---");
         }
     }
+
+	public Queue<Turno> getColaDeTurnos() {
+		return colaDeTurnos;
+	}
+
+	public void setColaDeTurnos(Queue<Turno> colaDeTurnos) {
+		this.colaDeTurnos = colaDeTurnos;
+	}
+    
+    
 }
