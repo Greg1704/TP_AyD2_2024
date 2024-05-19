@@ -13,8 +13,9 @@ public class StrategyLlegada implements StrategyColas{
 
 	@Override
 	public Turno devolverTurno(GestionDeTurnos gdt) {
-		// TODO Auto-generated method stub
-		return gdt.extraerPrimerTurno();
+		Turno turno = gdt.getColaDeTurnos().poll();
+        turno.getCronometro().detener();
+		return turno; 
 	}
 
 }
