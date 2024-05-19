@@ -10,12 +10,13 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Map;
 
 public class Servidor {
 	private static long tiempoEspera;
+	private static LocalTime tiempoAtendido;
 	static int portMonitor = 11000;
 	public static GestionServidor gestionServidor; 
 	public static void main(String[] args) { 
@@ -138,7 +139,7 @@ public class Servidor {
 						e.agregarClienteAtendidos();
 						e.agregarTiempos(tiempoEspera);
 						
-						//Hacer el tema relacionado con la persistencia que nahue dijo
+						//Hacer el tema relacionado con la persistencia que nahue dijo con la variable tiempoAtendido
 						
 						
 					}else if(mensaje.equals("Solicito un turno")){ //Caso en el que el operador solicita un nuevo cliente para que vaya al box
@@ -154,8 +155,7 @@ public class Servidor {
 							//Estadisticas e = Estadisticas.getInstance();
 							tiempoEspera = t.getCronometro().getTiempoFin();
 							
-							
-							//Poner algo aca para que una variable global agarre el tiempo actual en el formato normal
+							tiempoAtendido = t.getCronometro().getTiempoAtendido();
 							
 							System.out.println(tiempoEspera);
 							
