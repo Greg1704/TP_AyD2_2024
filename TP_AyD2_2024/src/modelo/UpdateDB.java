@@ -1,9 +1,11 @@
 package modelo;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,18 +17,41 @@ public class UpdateDB {
 	
 	
 	
-	public void cargaDB() { 
+	
+	public void cargaDB(Cliente cliente) {
 		
-	    
-	      
+		if (!existeDB(cliente.getDni())); { 
+			try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePathDB, true))) {
+				
+	            bw.write(cliente.getDni() + "," + cliente.getGrupo() + "," + cliente.getFecha());
+	            bw.newLine();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+		}
+	}
+	
+	public boolean existeDB(String dni) {
+		try (BufferedReader br = new BufferedReader(new FileReader(filePathDB))) { 
+			String line;
+			while ((line = br.readLine()) != null) {
+	            // Suponiendo que los datos están separados por comas
+	            String[] parts = line.split(",");
+	            if (parts.length == 3 && parts[0].trim().equals(dni)) {
+	            	return true;
+	            }
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false; 
+		
 	}
 	
 	
-	
 	public Cliente solicitaDB(String dni) {
-		Scanner inputFile;
 		Cliente cliente = null;
-		List<String[]> infoCliente = new ArrayList<>();
 		
 		 try (BufferedReader br = new BufferedReader(new FileReader(filePathDB))) { 
 	            String line;
@@ -49,7 +74,7 @@ public class UpdateDB {
 	}
 	
 	
-	public void reinicia() { //esto es solo para pruebas, borrar despues  
+	public void reiniciaDB() { //esto es solo para pruebas, borrar despues  
 		
 	}
 }

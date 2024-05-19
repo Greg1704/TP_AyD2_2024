@@ -13,6 +13,7 @@ public class GestionDeTurnos implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private Queue<Turno> colaDeTurnos;
 	private StrategyColas strategy;
+	private Cliente cliente;
 
     public GestionDeTurnos(StrategyColas strategy) {
     	this.strategy = strategy;
