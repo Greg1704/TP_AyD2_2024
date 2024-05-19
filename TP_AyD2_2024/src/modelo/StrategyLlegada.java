@@ -1,10 +1,18 @@
 package modelo;
 
+import java.io.Serializable;
+import java.util.Queue;
+
 import interfaces.StrategyColas;
 
-public class StrategyLlegada implements StrategyColas{
+public class StrategyLlegada implements StrategyColas,Serializable{
 	
 	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public StrategyLlegada() {
 		super();
@@ -16,6 +24,12 @@ public class StrategyLlegada implements StrategyColas{
 		Turno turno = gdt.getColaDeTurnos().poll();
         turno.getCronometro().detener();
 		return turno; 
+	}
+
+	@Override
+	public Turno extraerElementoConCondicion(Queue<Turno> cola) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

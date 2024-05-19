@@ -1,12 +1,17 @@
 package modelo;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Queue;
 
 import interfaces.StrategyColas;
 
-public class StrategyAfinidad implements StrategyColas{
+public class StrategyAfinidad implements StrategyColas,Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String afinidad;
 	
 
@@ -30,7 +35,7 @@ public class StrategyAfinidad implements StrategyColas{
         while (!cola.isEmpty()) {
             Turno actual = cola.poll();
             
-            if (elementoExtraido == null && actual.getAfinidad().equals(this.afinidad)) {
+            if (elementoExtraido == null && actual.getAfinidad().equalsIgnoreCase(this.afinidad)) {
                 // Si encontramos el elemento que cumple la condición, lo extraemos
                 elementoExtraido = actual;
             } else {
