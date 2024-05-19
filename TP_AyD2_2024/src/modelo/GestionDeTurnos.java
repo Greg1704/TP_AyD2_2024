@@ -19,6 +19,7 @@ public class GestionDeTurnos implements Serializable{
         Turno t = new Turno(dni);
         colaDeTurnos.add(t);
         t.getCronometro().iniciar();  
+        
     }
 
     public void removerTurno(String dni) {
