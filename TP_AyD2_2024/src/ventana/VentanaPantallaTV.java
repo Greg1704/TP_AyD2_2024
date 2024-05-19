@@ -163,18 +163,18 @@ public class VentanaPantallaTV extends JFrame {
 	
 	public void actualizaPantalla() { 
 		this.lblPantallaBox1.setText(turnosMuestra.get(1).getNumeroDeBox());
-		this.lblPantallaDni1.setText(turnosMuestra.get(1).getDni());
+		this.lblPantallaDni1.setText(turnosMuestra.get(1).getCliente().getDni());
 		if(turnosMuestra.containsKey(2)) {
 			this.lblPantallaBox2.setText(turnosMuestra.get(2).getNumeroDeBox());
-			this.lblPantallaDni2.setText(turnosMuestra.get(2).getDni());
+			this.lblPantallaDni2.setText(turnosMuestra.get(2).getCliente().getDni());
 		}
 		if(turnosMuestra.containsKey(3)) {
 			this.lblPantallaBox3.setText(turnosMuestra.get(3).getNumeroDeBox());
-			this.lblPantallaDni3.setText(turnosMuestra.get(3).getDni());
+			this.lblPantallaDni3.setText(turnosMuestra.get(3).getCliente().getDni());
 		}
 		if(turnosMuestra.containsKey(4)) {
 			this.lblPantallaBox4.setText(turnosMuestra.get(4).getNumeroDeBox());
-			this.lblPantallaDni4.setText(turnosMuestra.get(4).getDni());
+			this.lblPantallaDni4.setText(turnosMuestra.get(4).getCliente().getDni());
 
 		}
 		Toolkit.getDefaultToolkit().beep();

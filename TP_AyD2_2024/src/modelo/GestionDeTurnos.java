@@ -13,22 +13,21 @@ public class GestionDeTurnos implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private Queue<Turno> colaDeTurnos;
 	private StrategyColas strategy;
-	private Cliente cliente;
 
     public GestionDeTurnos(StrategyColas strategy) {
     	this.strategy = strategy;
         this.colaDeTurnos = new LinkedList<>(); 
     }
 
-    public void añadirTurno(String dni) {
-        Turno t = new Turno(dni);
+    public void añadirTurno(Cliente cliente) {
+        Turno t = new Turno(cliente.getDni(),cliente);
         colaDeTurnos.add(t);
         t.getCronometro().iniciar();  
         
     }
 
     public void removerTurno(String dni) {
-        colaDeTurnos.removeIf(turno -> turno.getDni().equals(dni));
+        colaDeTurnos.removeIf(turno -> turno.getCliente().getDni().equals(dni));
     }
 
     public Turno extraerPrimerTurno() {  //Esto debería ser modificado para que funcione en cuestión del Patron Strategy)
@@ -42,7 +41,7 @@ public class GestionDeTurnos implements Serializable{
     public void mostrarCola() {
         System.out.println("Tamaño de la cola = " + colaDeTurnos.size());
         for (Turno elemento : colaDeTurnos) {
-            System.out.println(elemento.getDni() + " " + elemento.getNumeroDeBox() + "---");
+            System.out.println(elemento.getCliente().getDni() + " " + elemento.getNumeroDeBox() + "---");
         }
     }
 

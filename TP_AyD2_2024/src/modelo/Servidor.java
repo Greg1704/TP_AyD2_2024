@@ -89,15 +89,19 @@ public class Servidor {
 						System.out.println("se establecio la conexion con: " + puertoEntrada);
 						gestionServidor.getConexiones().put(puertoEntrada,"Totem");
 					 
-		 
-						 
 						reg = "Registrado";
 						buffer = reg.getBytes();
 						salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 						socketUDP.send(salida);
 						
 					}else if (mensaje.matches("\\d+")){ //Caso en el que se este enviando un turno para el subsistema de gestion de turnos
-						gestionServidor.getGdt().añadirTurno(mensaje);
+						
+						//Extraer de mensaje un objeto Cliente
+						ByteArrayInputStream byteStream = new ByteArrayInputStream(entrada.getData());
+				    	ObjectInputStream objectStream = new ObjectInputStream(byteStream);
+				    	Cliente cliente = (Cliente) objectStream.readObject();
+						
+						gestionServidor.getGdt().añadirTurno(cliente);
 						gestionServidor.getGdt().mostrarCola(); 
 						
 						Thread.sleep(750);
@@ -134,6 +138,9 @@ public class Servidor {
 						e.agregarClienteAtendidos();
 						e.agregarTiempos(tiempoEspera);
 						
+						//Hacer el tema relacionado con la persistencia que nahue dijo
+						
+						
 					}else if(mensaje.equals("Solicito un turno")){ //Caso en el que el operador solicita un nuevo cliente para que vaya al box
 						Thread.sleep(750);
 						if(!gestionServidor.getGdt().isColaTurnosVacia()) {
@@ -146,6 +153,10 @@ public class Servidor {
 							Turno t = gestionServidor.getGdt().extraerPrimerTurno();
 							//Estadisticas e = Estadisticas.getInstance();
 							tiempoEspera = t.getCronometro().getTiempoFin();
+							
+							
+							//Poner algo aca para que una variable global agarre el tiempo actual en el formato normal
+							
 							System.out.println(tiempoEspera);
 							
 					        t.setNumeroDeBox(String.valueOf(gestionServidor.getBoxesOcupados().get(puertoEntrada)));
@@ -333,6 +344,9 @@ public class Servidor {
 				System.out.println("----------------------------------------");
 				}
 		} catch (IOException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

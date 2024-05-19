@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class Cronometro implements Serializable {
 	 private long tiempoInicio;
 	 private long tiempoFin;
+	 //Agregar variable inicio y fin pero con el tiempo en el formato correcto
 	 
 	    public void iniciar() {
 	        this.tiempoInicio = System.currentTimeMillis();

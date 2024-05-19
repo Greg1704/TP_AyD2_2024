@@ -6,10 +6,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class Cliente {
-	String Fecha; //ver si es string
-	String RangoEtario;
-	String Grupo; 
-	String Dni;
+	private String Fecha; //ver si es string
+	private String RangoEtario;
+	private String Grupo; //Afinidad
+	private String Dni;
 	public Cliente(String dni, String grupo, String fecha) {
 		super();
 		this.Fecha = fecha;

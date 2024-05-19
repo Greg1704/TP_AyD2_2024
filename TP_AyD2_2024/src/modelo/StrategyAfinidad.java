@@ -35,7 +35,7 @@ public class StrategyAfinidad implements StrategyColas,Serializable{
         while (!cola.isEmpty()) {
             Turno actual = cola.poll();
             
-            if (elementoExtraido == null && actual.getAfinidad().equalsIgnoreCase(this.afinidad)) {
+            if (elementoExtraido == null && actual.getCliente().getGrupo().equalsIgnoreCase(this.afinidad)) {
                 // Si encontramos el elemento que cumple la condición, lo extraemos
                 elementoExtraido = actual;
             } else {

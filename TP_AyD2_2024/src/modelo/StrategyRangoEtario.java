@@ -36,7 +36,7 @@ public class StrategyRangoEtario implements StrategyColas,Serializable{
         while (!cola.isEmpty()) {
             Turno actual = cola.poll();
             
-            if (elementoExtraido == null && actual.getAfinidad().equalsIgnoreCase(this.rangoEtario)) {
+            if (elementoExtraido == null && actual.getCliente().getRangoEtario().equalsIgnoreCase(this.rangoEtario)) {
                 // Si encontramos el elemento que cumple la condición, lo extraemos
                 elementoExtraido = actual;
             } else {
