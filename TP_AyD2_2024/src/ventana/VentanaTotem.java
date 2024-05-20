@@ -2,31 +2,38 @@ package ventana;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
+import javax.swing.text.DateFormatter;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.MaskFormatter;
-
 import controlador.ControladorVentanaTotem;
 
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.ParseException;
-
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
+import javax.swing.SwingConstants;
+
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.MaskFormatter;
+
+import java.text.ParseException;
+
 
 public class VentanaTotem extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField textFieldDNI;
 	private JButton btn1;
 	private JButton btn2;
 	private JButton btn3;
@@ -40,6 +47,10 @@ public class VentanaTotem extends JFrame {
 	private JButton btnConfirmarDni;
 	private JButton btnBorrar;
 	private ControladorVentanaTotem controladorVentanaTotem;
+	private JTextField textFieldSeleccionado;
+	private JLabel lblDdmmaaaa;
+	private JFormattedTextField formattedTextFieldFechaNac;
+
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -53,28 +64,28 @@ public class VentanaTotem extends JFrame {
 			}
 		});
 	}
-
+	
 	public VentanaTotem() { 
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 359, 277);
+		setBounds(100, 100, 488, 277);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		textField = new JTextField();
-		textField.setBounds(32, 49, 100, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		textFieldDNI= new JTextField();
+		textFieldDNI.setBounds(108, 53, 100, 20);
+		contentPane.add(textFieldDNI);
+		textFieldDNI.setColumns(10);
 		
 		JLabel lblDni = new JLabel("Ingrese DNI:");
-		lblDni.setBounds(41, 30, 80, 14);
+		lblDni.setBounds(128, 28, 80, 14);
 		contentPane.add(lblDni);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 87, 140, 78);
+		panel.setBounds(89, 87, 140, 78);
 		contentPane.add(panel);
 		panel.setLayout(new GridLayout(3, 3, 0, 0));
 		
@@ -106,118 +117,92 @@ public class VentanaTotem extends JFrame {
 		panel.add(btn9);
 		
 		btnBorrar = new JButton("←");
-		btnBorrar.setBounds(10, 187, 45, 23);
+		btnBorrar.setBounds(89, 187, 45, 23);
 		contentPane.add(btnBorrar);
 		
 		btnConfirmarDni = new JButton("Confirmar");
-		btnConfirmarDni.setBounds(55, 187, 95, 23);
+		btnConfirmarDni.setBounds(134, 187, 95, 23);
 		contentPane.add(btnConfirmarDni);
 		
 		
-		
 		btn0 = new JButton("0");
-		btn0.setBounds(10, 165, 140, 23);
+		btn0.setBounds(89, 165, 140, 23);
 		contentPane.add(btn0);
 		
-		JFormattedTextField formattedTextFieldFechaNacimiento = new JFormattedTextField();
+		JLabel lblIngreseSuFecha = new JLabel("Ingrese su fecha de nacimiento");
+		lblIngreseSuFecha.setHorizontalAlignment(SwingConstants.CENTER);
+		lblIngreseSuFecha.setBounds(269, 11, 176, 20);
+		contentPane.add(lblIngreseSuFecha);
+
 		try {
             MaskFormatter dateFormatter = new MaskFormatter("##/##/####");
             dateFormatter.setPlaceholderCharacter('x');
-            formattedTextFieldFechaNacimiento = new JFormattedTextField(dateFormatter);
-            formattedTextFieldFechaNacimiento.setColumns(10);  // Establece el ancho del campo de texto
+            formattedTextFieldFechaNac = new JFormattedTextField(dateFormatter);
+            formattedTextFieldFechaNac.setText("  /  / ");
+            formattedTextFieldFechaNac.setBounds(311, 53, 100, 20);
+            contentPane.add(formattedTextFieldFechaNac);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-		formattedTextFieldFechaNacimiento.setBounds(182, 49, 100, 20);
-		contentPane.add(formattedTextFieldFechaNacimiento);
-		
-		JLabel lblFechaNacimiento = new JLabel("Ingrese fecha de nacimiento:");
-		lblFechaNacimiento.setBounds(162, 11, 171, 14);
-		contentPane.add(lblFechaNacimiento);
-		
-		JLabel lblDiaMesAño = new JLabel("(dia/mes/año)");
-		lblDiaMesAño.setBounds(193, 30, 80, 14);
-		contentPane.add(lblDiaMesAño);
-		
-		
-		btn1.addActionListener(new ActionListener() { //boton 1
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				textField.setText(textField.getText() + '1');
-			}
-		});
-		btn2.addActionListener(new ActionListener() { //boton 2
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				textField.setText(textField.getText() + '2');
-			}
-		});
-		btn3.addActionListener(new ActionListener() { //boton 3
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				textField.setText(textField.getText() + '3');
-			}
-		});
-		btn4.addActionListener(new ActionListener() { //boton 4
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				textField.setText(textField.getText() + '4');
-			}
-		});
-		btn5.addActionListener(new ActionListener() { //boton 5
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				textField.setText(textField.getText() + '5');
-			}
-		});
-		btn6.addActionListener(new ActionListener() { //boton 6
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				textField.setText(textField.getText() + '6');
-			}
-		});
-		btn7.addActionListener(new ActionListener() { //boton 7
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				textField.setText(textField.getText() + '7');
-			}
-		});
-		btn8.addActionListener(new ActionListener() { //boton 8
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				textField.setText(textField.getText() + '8');
-			}
-		});
-		btn9.addActionListener(new ActionListener() { //boton 9
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				textField.setText(textField.getText() + '9');
-			}
-		});
-		btn0.addActionListener(new ActionListener() { //boton 0
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				textField.setText(textField.getText() + '0');
-			}
-		});
-		
-		
-		btnBorrar.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				 if (textField.getText().length() > 0) {
-					 String text = textField.getText().substring(0, textField.getText().length() - 1); 
-					 textField.setText(text);
-				 }
-			}
-		});
-		
-		textField.getDocument().addDocumentListener(new DocumentListener() { 
+        
+		FocusAdapter focusListener = new FocusAdapter() {
+            public void focusGained(FocusEvent e) {
+                textFieldSeleccionado = (JTextField) e.getSource();
+            }
+        };
+        
+        textFieldDNI.addFocusListener(new FocusAdapter() {
+            public void focusGained(FocusEvent e) {
+                textFieldSeleccionado = textFieldDNI;
+            }
+        });
+
+        formattedTextFieldFechaNac.addFocusListener(new FocusAdapter() {
+            public void focusGained(FocusEvent e) {
+                formattedTextFieldFechaNac.setEditable(true); // Habilita la edición del campo de texto
+                formattedTextFieldFechaNac.selectAll(); // Selecciona todo el texto en el campo de texto al obtener el foco
+            }
+        });
+        
+        lblDdmmaaaa = new JLabel("(dd/mm/aaaa):");
+        lblDdmmaaaa.setVerticalAlignment(SwingConstants.TOP);
+        lblDdmmaaaa.setHorizontalAlignment(SwingConstants.CENTER);
+        lblDdmmaaaa.setBounds(269, 28, 176, 23);
+        contentPane.add(lblDdmmaaaa);
+
+        ActionListener numberListener = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JButton source = (JButton) e.getSource();
+                textFieldSeleccionado.setText(textFieldSeleccionado.getText() + source.getText());
+            }
+        };
+        
+        btn1.addActionListener(numberListener);
+        btn2.addActionListener(numberListener);
+        btn3.addActionListener(numberListener);
+        btn4.addActionListener(numberListener);
+        btn5.addActionListener(numberListener);
+        btn6.addActionListener(numberListener);
+        btn7.addActionListener(numberListener);
+        btn8.addActionListener(numberListener);
+        btn9.addActionListener(numberListener);
+        btn0.addActionListener(numberListener);
+
+        btnBorrar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (textFieldSeleccionado.getText().length() > 0) {
+                    String text = textFieldSeleccionado.getText().substring(0, textFieldSeleccionado.getText().length() - 1);
+                    textFieldSeleccionado.setText(text);
+                }
+            }
+        });
+        
+        	textFieldDNI.getDocument().addDocumentListener(new DocumentListener() { 
 			
 			@Override
 			public void insertUpdate(DocumentEvent e) {
-				textField.setForeground(Color.BLACK);
+				textFieldDNI.setForeground(Color.BLACK);
 			}
 			@Override
 			public void changedUpdate(DocumentEvent e) {
@@ -229,9 +214,9 @@ public class VentanaTotem extends JFrame {
 			}
 		});
 		
-		
-		this.setVisible(true);
-	}
+
+        this.setVisible(true);
+    }
 		
 	public void setControlador(ControladorVentanaTotem controladorVentanaTotem) {
 		this.controladorVentanaTotem = controladorVentanaTotem;
@@ -240,19 +225,19 @@ public class VentanaTotem extends JFrame {
 	public void setActionListener(ActionListener actionListener) {
 		this.btnConfirmarDni.addActionListener(actionListener);
 		this.btnBorrar.addActionListener(actionListener);
-		this.textField.addActionListener(actionListener);
+		this.textFieldDNI.addActionListener(actionListener);
 	}
 	
 	
 	public String getDni() { 
-		return this.textField.getText();
+		return this.textFieldDNI.getText();
 	}
 	
 	public void setDni(String dniNuevo) { 
-		this.textField.setText(dniNuevo);
+		this.textFieldDNI.setText(dniNuevo);
 	}
 	
 	public void errorLargo () { 
-		this.textField.setForeground(Color.RED);
+	   textFieldDNI.setForeground(Color.RED);   
 	}
-	}
+}
