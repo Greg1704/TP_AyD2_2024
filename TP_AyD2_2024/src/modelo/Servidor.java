@@ -28,7 +28,7 @@ public class Servidor {
 		//HashMap<Integer, Integer> boxesOcupados;
 		//ArrayList<Turno> turnosEnPantalla;
 		
-		gestionServidor = GestionServidor.getInstance(); 
+		gestionServidor = new GestionServidor("Llegada",null); 
 		
 		
 		
