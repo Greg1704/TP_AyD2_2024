@@ -1,12 +1,14 @@
-package modelo;
+package Strategy;
 
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import interfaces.StrategyColas;
+import interfaces.IStrategyColas;
+import modelo.GestionDeTurnos;
+import modelo.Turno;
 
-public class StrategyAfinidad implements StrategyColas,Serializable{
+public class StrategyAfinidad implements IStrategyColas,Serializable{
 	
 	/**
 	 * 

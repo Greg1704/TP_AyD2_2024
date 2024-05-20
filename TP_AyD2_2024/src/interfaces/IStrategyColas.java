@@ -4,7 +4,7 @@ import java.util.Queue;
 
 import modelo.*;
 
-public interface StrategyColas {
+public interface IStrategyColas {
 	public Turno devolverTurno(GestionDeTurnos gdt);
 	public Turno extraerElementoConCondicion(Queue<Turno> cola);
 

@@ -1,10 +1,10 @@
-package modelo;
+package Strategy;
 
-import interfaces.StrategyColas;
+import interfaces.IStrategyColas;
 
 public class FactoryStrategy {
 	
-	public StrategyColas getStrategy(String strategy) {
+	public IStrategyColas getStrategy(String strategy) {
 		if(strategy.equalsIgnoreCase("Llegada")) {
 			return (StrategyLlegada) new StrategyLlegada();
 		}else if(strategy.equalsIgnoreCase("Afinidad")) {
