@@ -20,9 +20,11 @@ public class GestionServidor implements Serializable{
 	
 	private GestionServidor()  {
 		super();
+		FactoryStrategy fs = new FactoryStrategy();
+		
 		this.estadisticas = new Estadisticas();
 		this.conexiones = new HashMap<>();
-		this.gdt = new GestionDeTurnos(new StrategyLlegada()); //Se podria implementar factory para embellecer esto
+		this.gdt = new GestionDeTurnos(fs.getStrategy("Llegada", null)); //Se podria implementar factory para embellecer esto
 		this.boxesOcupados = new HashMap<>();  //<N Box,Puerto Box>
 		this.turnosEnPantalla = new ArrayList<Turno>();
 	}

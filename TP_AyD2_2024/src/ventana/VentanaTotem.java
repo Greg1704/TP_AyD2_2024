@@ -131,7 +131,7 @@ public class VentanaTotem extends JFrame {
 		
 		JLabel lblIngreseSuFecha = new JLabel("Ingrese su fecha de nacimiento");
 		lblIngreseSuFecha.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIngreseSuFecha.setBounds(269, 11, 176, 20);
+		lblIngreseSuFecha.setBounds(269, 11, 193, 20);
 		contentPane.add(lblIngreseSuFecha);
 
 		try {

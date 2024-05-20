@@ -24,8 +24,9 @@ public class StrategyRangoEtario implements StrategyColas,Serializable{
 
 	@Override
 	public Turno devolverTurno(GestionDeTurnos gdt) {
-		// TODO Auto-generated method stub
-		return null;
+		Turno turno = this.extraerElementoConCondicion(gdt.getColaDeTurnos());
+        turno.getCronometro().detener();
+		return turno;
 	}
 	
 	public Turno extraerElementoConCondicion(Queue<Turno> cola) {

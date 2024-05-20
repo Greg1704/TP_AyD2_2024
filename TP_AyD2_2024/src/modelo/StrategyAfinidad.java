@@ -24,7 +24,9 @@ public class StrategyAfinidad implements StrategyColas,Serializable{
 	@Override
 	public Turno devolverTurno(GestionDeTurnos gdt) {
 		// TODO Auto-generated method stub
-		return this.extraerElementoConCondicion(gdt.getColaDeTurnos());
+		Turno turno = this.extraerElementoConCondicion(gdt.getColaDeTurnos());
+        turno.getCronometro().detener();
+		return turno;
 	}
 	
 	public Turno extraerElementoConCondicion(Queue<Turno> cola) {
