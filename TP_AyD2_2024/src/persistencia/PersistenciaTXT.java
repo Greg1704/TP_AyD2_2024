@@ -17,8 +17,12 @@ public class PersistenciaTXT implements IPersistencia{
 
 	@Override
 	public void saveLog(String log) {
-		
-		
+		try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePathDB, true))) {
+            bw.write(log); //hay que ver donde acomodar el log
+            bw.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 	}
 
 	
