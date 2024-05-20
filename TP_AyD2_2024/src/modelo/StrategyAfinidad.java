@@ -12,19 +12,29 @@ public class StrategyAfinidad implements StrategyColas,Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String afinidad;
+	private String afinidad = ""; //Gold, Platinum, Black
 	
 
-	public StrategyAfinidad(String afinidad) {
+	public StrategyAfinidad() {
 		super();
-		this.afinidad = afinidad;
 	}
 
 
 	@Override
 	public Turno devolverTurno(GestionDeTurnos gdt) {
 		// TODO Auto-generated method stub
-		return this.extraerElementoConCondicion(gdt.getColaDeTurnos());
+		this.afinidad = "Black";
+		Turno turno = this.extraerElementoConCondicion(gdt.getColaDeTurnos());
+		if(turno == null) {
+			this.afinidad = "Platinum";
+			turno = this.extraerElementoConCondicion(gdt.getColaDeTurnos());
+			if(turno == null) {
+				this.afinidad = "Gold";
+				turno = this.extraerElementoConCondicion(gdt.getColaDeTurnos());
+			}
+		}
+        turno.getCronometro().detener();
+		return turno;
 	}
 	
 	public Turno extraerElementoConCondicion(Queue<Turno> cola) {

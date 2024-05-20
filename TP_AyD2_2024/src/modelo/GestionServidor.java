@@ -14,15 +14,16 @@ public class GestionServidor implements Serializable{
 	private HashMap<Integer, Integer> boxesOcupados; //<N Box,Puerto Box>
 	private ArrayList<Turno> turnosEnPantalla;
 	private Estadisticas estadisticas;
-	private static GestionServidor instancia = null;
 
 	
 	
-	private GestionServidor()  {
+	public GestionServidor(String strategy)  {
 		super();
+		FactoryStrategy fs = new FactoryStrategy();
+		
 		this.estadisticas = new Estadisticas();
 		this.conexiones = new HashMap<>();
-		this.gdt = new GestionDeTurnos(new StrategyLlegada()); //Se podria implementar factory para embellecer esto
+		this.gdt = new GestionDeTurnos(fs.getStrategy(strategy)); //Se podria implementar factory para embellecer esto
 		this.boxesOcupados = new HashMap<>();  //<N Box,Puerto Box>
 		this.turnosEnPantalla = new ArrayList<Turno>();
 	}
@@ -60,10 +61,5 @@ public class GestionServidor implements Serializable{
 		this.estadisticas = estadisticas;
 	}
 
-	public static GestionServidor getInstance() {
-		if (instancia == null)
-			instancia = new GestionServidor();
-		return instancia;
-	}
 	
 }

@@ -12,20 +12,29 @@ public class StrategyRangoEtario implements StrategyColas,Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String rangoEtario;
+	private String rangoEtario = ""; // Joven, Adulto, Adulto mayor
 	
 
-	public StrategyRangoEtario(String rangoEtario) {
+	public StrategyRangoEtario() {
 		super();
-		this.rangoEtario = rangoEtario;
 	}
 
 
 
 	@Override
 	public Turno devolverTurno(GestionDeTurnos gdt) {
-		// TODO Auto-generated method stub
-		return null;
+		this.rangoEtario = "Adulto mayor";
+		Turno turno = this.extraerElementoConCondicion(gdt.getColaDeTurnos());
+		if(turno == null) {
+			this.rangoEtario = "Adulto";
+			turno = this.extraerElementoConCondicion(gdt.getColaDeTurnos());
+			if(turno == null) {
+				this.rangoEtario = "Joven";
+				turno = this.extraerElementoConCondicion(gdt.getColaDeTurnos());
+			}
+		}
+        turno.getCronometro().detener();
+		return turno;
 	}
 	
 	public Turno extraerElementoConCondicion(Queue<Turno> cola) {

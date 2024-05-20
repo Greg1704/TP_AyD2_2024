@@ -50,6 +50,7 @@ public class VentanaTotem extends JFrame {
 	private JTextField textFieldSeleccionado;
 	private JLabel lblDdmmaaaa;
 	private JFormattedTextField formattedTextFieldFechaNac;
+	private MaskFormatter dateFormatter;
 
 	
 	public static void main(String[] args) {
@@ -131,11 +132,11 @@ public class VentanaTotem extends JFrame {
 		
 		JLabel lblIngreseSuFecha = new JLabel("Ingrese su fecha de nacimiento");
 		lblIngreseSuFecha.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIngreseSuFecha.setBounds(269, 11, 176, 20);
+		lblIngreseSuFecha.setBounds(269, 11, 193, 20);
 		contentPane.add(lblIngreseSuFecha);
 
 		try {
-            MaskFormatter dateFormatter = new MaskFormatter("##/##/####");
+            dateFormatter = new MaskFormatter("##/##/####");
             dateFormatter.setPlaceholderCharacter('x');
             formattedTextFieldFechaNac = new JFormattedTextField(dateFormatter);
             formattedTextFieldFechaNac.setText("  /  / ");
@@ -240,4 +241,14 @@ public class VentanaTotem extends JFrame {
 	public void errorLargo () { 
 	   textFieldDNI.setForeground(Color.RED);   
 	}
+
+	public MaskFormatter getDateFormatter() { //Esto habria que hacer que devuelva un String
+		return dateFormatter;
+	}
+
+	public void setDateFormatter(MaskFormatter dateFormatter) {
+		this.dateFormatter = dateFormatter;
+	}
+	
+	
 }
