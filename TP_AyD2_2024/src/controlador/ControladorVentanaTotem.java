@@ -117,6 +117,10 @@ public class ControladorVentanaTotem implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equalsIgnoreCase("Confirmar")) {
 			String dni = this.ventanaTotem.getDni();
+			String fechaNacimiento = this.ventanaTotem.getFechaNacimiento();
+			
+			//HABRIA QUE IMPLEMENTAR LA LOGICA EN EL IF PARA PASAR EL DATO Y LUEGO CREAR EL CLIENTE PARA ENVIARLO POR EL SOCKET
+			
 			if (dni.length() == 8) {
 				
 				InetAddress direccion;

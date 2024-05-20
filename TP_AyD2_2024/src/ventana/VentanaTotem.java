@@ -242,13 +242,10 @@ public class VentanaTotem extends JFrame {
 	   textFieldDNI.setForeground(Color.RED);   
 	}
 
-	public MaskFormatter getDateFormatter() { //Esto habria que hacer que devuelva un String
-		return dateFormatter;
+	public String getFechaNacimiento() { //Esto habria que hacer que devuelva un String
+		return dateFormatter.getMask();
 	}
 
-	public void setDateFormatter(MaskFormatter dateFormatter) {
-		this.dateFormatter = dateFormatter;
-	}
 	
 	
 }
