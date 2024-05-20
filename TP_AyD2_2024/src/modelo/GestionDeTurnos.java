@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import interfaces.StrategyColas;
+import interfaces.IStrategyColas;
 
 public class GestionDeTurnos implements Serializable{
     /**
@@ -12,9 +12,9 @@ public class GestionDeTurnos implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private Queue<Turno> colaDeTurnos;
-	private StrategyColas strategy;
+	private IStrategyColas strategy;
 
-    public GestionDeTurnos(StrategyColas strategy) {
+    public GestionDeTurnos(IStrategyColas strategy) {
     	this.strategy = strategy;
         this.colaDeTurnos = new LinkedList<>(); 
     }
@@ -53,11 +53,11 @@ public class GestionDeTurnos implements Serializable{
 		this.colaDeTurnos = colaDeTurnos;
 	}
 
-	public StrategyColas getStrategy() {
+	public IStrategyColas getStrategy() {
 		return strategy;
 	}
 
-	public void setStrategy(StrategyColas strategy) {
+	public void setStrategy(IStrategyColas strategy) {
 		this.strategy = strategy;
 	}
     
