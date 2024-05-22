@@ -154,8 +154,8 @@ public class ControladorVentanaTotem implements ActionListener{
 					this.reintento = 2;
 
 				}catch (SocketTimeoutException e2) {
-					int result = JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
-					if (result == 0) {
+					//int result = JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
+					if (this.reintento > 0) {
 						if (this.reintento > 0) {
 							reintento = reintento - 1;
 							envio = false;
@@ -171,7 +171,7 @@ public class ControladorVentanaTotem implements ActionListener{
 						}else {
 							this.reintento = 2;
 							this.ventanaTotem.setDni("");
-							JOptionPane.showMessageDialog(null, "Reintentos fallidos, vuelva a reintentar en unos segundos o cierre la ventana"); 
+							//JOptionPane.showMessageDialog(null, "Reintentos fallidos, vuelva a reintentar en unos segundos o cierre la ventana"); 
 							this.falloReintento = true;
 							this.verificaServidor();
 							this.envio = false;
