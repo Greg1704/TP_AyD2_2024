@@ -2,7 +2,9 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -13,6 +15,7 @@ import java.util.Arrays;
 
 import javax.swing.JOptionPane;
 
+import modelo.Cliente;
 import ventana.VentanaTotem;
 
 
@@ -121,7 +124,7 @@ public class ControladorVentanaTotem implements ActionListener{
 			
 			//HABRIA QUE IMPLEMENTAR LA LOGICA EN EL IF PARA PASAR EL DATO Y LUEGO CREAR EL CLIENTE PARA ENVIARLO POR EL SOCKET
 			
-			if (dni.length() == 8) {
+			if (dni.length() == 8 && fechaNacimiento != null) {
 				
 				InetAddress direccion;
 				try {
@@ -129,7 +132,14 @@ public class ControladorVentanaTotem implements ActionListener{
 					//DatagramSocket socketUDP = new DatagramSocket(); 
 					//dni = "DNIT " + dni;
 					//System.out.println(dni);
-					buffer = dni.getBytes();
+					//buffer = dni.getBytes();
+					Cliente cliente = new Cliente(dni,"Gold",fechaNacimiento);
+					ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+				    ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
+				    objectStream.writeObject(cliente);
+			        objectStream.flush();
+			        buffer = byteStream.toByteArray();
+					
 					DatagramPacket salida = new DatagramPacket(buffer, buffer.length,direccion,portServidor);
 					socketUDP.send(salida);
 					socketUDP.setSoTimeout(1000);
@@ -174,7 +184,7 @@ public class ControladorVentanaTotem implements ActionListener{
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			} else { 
+			} else if(dni.length() != 8){ 
 				this.ventanaTotem.errorLargo();
 			}
 		}
