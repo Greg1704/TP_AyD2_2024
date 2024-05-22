@@ -121,10 +121,10 @@ public class ControladorVentanaTotem implements ActionListener{
 		if (e.getActionCommand().equalsIgnoreCase("Confirmar")) {
 			String dni = this.ventanaTotem.getDni();
 			String fechaNacimiento = this.ventanaTotem.getFechaNacimiento();
-			
+			boolean containsChar = fechaNacimiento.indexOf("x") >= 0;
 			//HABRIA QUE IMPLEMENTAR LA LOGICA EN EL IF PARA PASAR EL DATO Y LUEGO CREAR EL CLIENTE PARA ENVIARLO POR EL SOCKET
 			
-			if (dni.length() == 8 && fechaNacimiento != null) {
+			if (dni.length() == 8 && !containsChar) {
 				
 				InetAddress direccion;
 				try {
@@ -186,6 +186,8 @@ public class ControladorVentanaTotem implements ActionListener{
 				}
 			} else if(dni.length() != 8){ 
 				this.ventanaTotem.errorLargo();
+			} else if(containsChar) {
+				this.ventanaTotem.errorLargoFechaNacimiento();
 			}
 		}
 		Arrays.fill(buffer, (byte) 0);

@@ -246,6 +246,8 @@ public class VentanaTotem extends JFrame {
 		return dateFormatter.getMask();
 	}
 
-	
+    public void errorLargoFechaNacimiento() {
+        this.formattedTextFieldFechaNac.setForeground(Color.RED);
+    }
 	
 }
