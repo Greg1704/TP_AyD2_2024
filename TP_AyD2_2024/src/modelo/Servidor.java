@@ -1,8 +1,10 @@
 package modelo;
 
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -27,11 +29,6 @@ public class Servidor {
 		//GestionDeTurnos gdt;
 		//HashMap<Integer, Integer> boxesOcupados;
 		//ArrayList<Turno> turnosEnPantalla;
-		
-		gestionServidor = new GestionServidor("Llegada"); 
-		
-		
-		
 		//Estadisticas estadisticas = new Estadisticas();
 		//ArrayList<Integer> boxesOcupados = new ArrayList<Integer>();
 		
@@ -59,6 +56,25 @@ public class Servidor {
 			System.out.println("Servidor iniciado");
 										
 			boolean principal = false;
+			
+			if(port == 10000) {
+				// Ruta del archivo
+		        String rutaArchivo = "ruta/del/archivo.txt";
+		        
+		        // Variables para guardar las palabras
+		        String strategy = null;
+		        String persistencia = null;
+
+		        try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
+		            // Leer la primera línea
+		            strategy = br.readLine();
+		            // Leer la segunda línea
+		            persistencia = br.readLine();
+		        } catch (IOException e) {
+		            e.printStackTrace();
+		        }
+				gestionServidor = new GestionServidor(strategy); 
+			}
 			
 			while(true) {
 				byte[] buffer = new byte[5120];	
