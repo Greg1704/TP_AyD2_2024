@@ -162,6 +162,7 @@ public class VentanaTotem extends JFrame {
             public void focusGained(FocusEvent e) {
                 formattedTextFieldFechaNac.setEditable(true); // Habilita la edición del campo de texto
                 formattedTextFieldFechaNac.selectAll(); // Selecciona todo el texto en el campo de texto al obtener el foco
+                textFieldSeleccionado = formattedTextFieldFechaNac;
             }
         });
         
@@ -214,6 +215,22 @@ public class VentanaTotem extends JFrame {
 				// TODO Auto-generated method stub
 			}
 		});
+        	
+        	formattedTextFieldFechaNac.getDocument().addDocumentListener(new DocumentListener() { 
+    			
+    			@Override
+    			public void insertUpdate(DocumentEvent e) {
+    				textFieldDNI.setForeground(Color.BLACK);
+    			}
+    			@Override
+    			public void changedUpdate(DocumentEvent e) {
+    				// TODO Auto-generated method stub
+    			}
+    			@Override
+    			public void removeUpdate(DocumentEvent e) {
+    				// TODO Auto-generated method stub
+    			}
+    		});
 		
 
         this.setVisible(true);
