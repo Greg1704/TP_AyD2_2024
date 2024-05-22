@@ -127,6 +127,7 @@ public class Servidor {
 						buffer = reg.getBytes();
 						salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 						socketUDP.send(salida);
+						
 					}else if(mensaje.equals("Hello there")) {  //Caso reintentos fallidos
 						reg = "Reconectado";
 						buffer = reg.getBytes();

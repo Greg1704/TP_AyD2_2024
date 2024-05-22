@@ -12,12 +12,13 @@ import interfaces.IPersistencia;
 import modelo.Cliente;
 
 public class PersistenciaTXT implements IPersistencia{
-	File file = new File("DB_Clientes.txt");
-	String filePathDB = "DB_clientes.txt"; //ver bien esto
+	private String LOG_FILE_PATH = "";
+	private String FILE_PATH = ""; //TODO:acomodar
+	
 
 	@Override
 	public void saveLog(String log) {
-		try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePathDB, true))) {
+		try (BufferedWriter bw = new BufferedWriter(new FileWriter(LOG_FILE_PATH, true))) {
             bw.write(log); //hay que ver donde acomodar el log
             bw.newLine();
         } catch (IOException e) {
@@ -29,7 +30,7 @@ public class PersistenciaTXT implements IPersistencia{
 	@Override
 	public void saveClientInfo(Cliente cliente) {
 		if (!existeDB(cliente.getDni())); { 
-			try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePathDB, true))) {
+			try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
 	            bw.write(cliente.getDni() + "," + cliente.getGrupo() + "," + cliente.getFecha());
 	            bw.newLine();
 	        } catch (IOException e) {
@@ -40,7 +41,7 @@ public class PersistenciaTXT implements IPersistencia{
 	}
 	
 	public boolean existeDB(String dni) {
-		try (BufferedReader br = new BufferedReader(new FileReader(filePathDB))) { 
+		try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) { 
 			String line;
 			while ((line = br.readLine()) != null) {
 	            // Suponiendo que los datos están separados por comas
