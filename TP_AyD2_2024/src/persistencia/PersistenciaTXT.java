@@ -25,7 +25,7 @@ public class PersistenciaTXT implements IPersistencia{
         }
 	}
 
-	
+
 	@Override
 	public void saveClientInfo(Cliente cliente) {
 		if (!existeDB(cliente.getDni())); { 

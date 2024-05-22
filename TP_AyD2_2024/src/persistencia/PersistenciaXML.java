@@ -14,8 +14,8 @@ public class PersistenciaXML implements IPersistencia{
 	}
 
 	@Override
-	public void saveClientInfo(List<Cliente> clients) {
-
+	public void saveClientInfo(Cliente cliente) {
+		
 		
 	}
 
