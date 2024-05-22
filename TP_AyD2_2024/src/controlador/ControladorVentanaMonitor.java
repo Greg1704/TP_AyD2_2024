@@ -91,7 +91,7 @@ public class ControladorVentanaMonitor {
 				}
 			}catch (SocketTimeoutException e) {
 				// TODO Auto-generated catch block
-				JOptionPane.showMessageDialog(null, "Se perdio el servidor principal, cambiando al servidor secundario"); 
+				//JOptionPane.showMessageDialog(null, "Se perdio el servidor principal, cambiando al servidor secundario"); 
 				this.servidoresDisp.remove(puertoServerPrincipal);
 				this.vm.actualizaServDisp(servidoresDisp);
 				this.secundarioAPrincipal();
