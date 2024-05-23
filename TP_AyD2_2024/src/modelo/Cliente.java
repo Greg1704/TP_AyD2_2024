@@ -52,7 +52,9 @@ public class Cliente {
         }
     }
     
-    
+    public void setDni(String Dni) {
+    	this.Dni=Dni;
+    }
 	
 	public void setGrupo(String grupo) {
 		Grupo = grupo;
@@ -69,7 +71,5 @@ public class Cliente {
 	public String getDni() {
 		return Dni;
 	} 
-	
-	
 
 }
