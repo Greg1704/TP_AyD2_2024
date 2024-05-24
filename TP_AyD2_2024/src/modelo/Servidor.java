@@ -26,6 +26,7 @@ public class Servidor {
 	private int portMonitor = 11000;
 	private GestionServidor gestionServidor; 
 	private IStateServidor estado;
+	private int port;
 	
 	
 	public Servidor() {
@@ -42,15 +43,13 @@ public class Servidor {
 		
 			InetAddress direccion = InetAddress.getByName("localHost");
 			byte[] bufferInicial = new byte[1024];
-			int port = 10000;
+			this.port = 10000;
 			String reg = "";
-			
-			direccion = InetAddress.getByName("localHost");
-			
-			while(!puertoDisponible(port))
-				port++;
+						
+			while(!puertoDisponible(this.port))
+				this.port++;
 								
-			DatagramSocket socketUDP = new DatagramSocket(port); 
+			DatagramSocket socketUDP = new DatagramSocket(this.port); 
 								
 			bufferInicial = reg.getBytes();
 			DatagramPacket salida = new DatagramPacket(bufferInicial, bufferInicial.length,direccion,portMonitor);
@@ -77,14 +76,13 @@ public class Servidor {
 			}
 			gestionServidor = new GestionServidor(strategy); 
 			while(true) {
-					byte[] buffer = new byte[5120];	
-					byte[] buffer_Est = new byte[5120];	
+					byte[] buffer = new byte[5120];		
 					
 					DatagramPacket entrada = new DatagramPacket(buffer, buffer.length);
 					socketUDP.receive(entrada); 
 					
 					
-					
+					this.estado.accion(socketUDP, entrada, buffer);
 	
 					
 					//System.out.println(referencia);
@@ -163,7 +161,16 @@ public class Servidor {
 	public void setGestionServidor(GestionServidor gestionServidor) {
 		this.gestionServidor = gestionServidor;
 	}
-	
+
+
+	public int getPort() {
+		return port;
+	}
+
+
+	public void setPort(int port) {
+		this.port = port;
+	}
 	
 	
 	
