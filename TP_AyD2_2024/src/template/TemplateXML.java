@@ -34,6 +34,6 @@ class TemplateXML extends TemplateMethod {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return infoCliente = null;
     }
 }

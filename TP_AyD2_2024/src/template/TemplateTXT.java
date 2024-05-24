@@ -14,32 +14,34 @@ class TemplateTXT extends TemplateMethod {
     void openArch(String filePath) {
         try {
             scanner = new Scanner(new File(filePath));
-            System.out.println("TXT File Opened: " + filePath);
+            System.out.println("TXT abrido: " + filePath);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
     InfoClienteArch BuscarClienteArch(String filePath,Cliente cliente) {
-    	int encontro = 0;
+    	boolean encontro = false;
     	openArch(filePath);
     	try {
-            while (scanner.hasNextLine() && encontro == 0) {
+            while (scanner.hasNextLine() && !encontro ) {
                 String line = scanner.nextLine(); 
                 if (line.contains(cliente.getDni()) && line.contains(cliente.getGrupo()) && line.contains(cliente.getFecha())) {
                 	System.out.println("Cliente: " + line);
-                	encontro = 1;
-                	infoCliente.setDni(cliente.getDni());
-                	infoCliente.setGrupo(cliente.getGrupo());
-                	infoCliente.setDni(cliente.getFecha());
+                	encontro = true;
+                	infoCliente = new InfoClienteArch(cliente.getDni(),cliente.getGrupo(), cliente.getFecha());
                 }
+            }
+            if (!encontro) {
+            	infoCliente = null;
             }
             return infoCliente;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+        	closeArch();
         }
-    	closeArch();
-        return infoCliente;
+    	return infoCliente;
     }
 
     @Override

@@ -10,6 +10,8 @@ public class Cliente {
 	private String RangoEtario;
 	private String Grupo; //Afinidad
 	private String Dni;
+	
+	
 	public Cliente(String dni, String grupo, String fecha) {
 		super();
 		this.Fecha = fecha;
@@ -17,6 +19,7 @@ public class Cliente {
 		this.Grupo = grupo;
 		this.Dni = dni;
 	}
+	
 	private String calculoRangoEtario(String fecha) {
 		
 		int edad =  calculateAge(fecha); //xx/xx/xxxx  

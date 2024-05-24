@@ -5,10 +5,11 @@ import modelo.Cliente;
 
 abstract  class TemplateMethod {
 	
-	public final void readFile(String filePath, Cliente cliente) {
+	public final InfoClienteArch readFile(String filePath, Cliente cliente) {
         openArch(filePath);
-		BuscarClienteArch(filePath,cliente);
+		InfoClienteArch info = BuscarClienteArch(filePath,cliente);
         closeArch();
+        return info;
     }
 
     abstract void openArch(String filePath);
