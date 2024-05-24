@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import Strategy.FactoryStrategy;
+import strategy.FactoryStrategy;
 
 public class GestionServidor implements Serializable{
 	/**
