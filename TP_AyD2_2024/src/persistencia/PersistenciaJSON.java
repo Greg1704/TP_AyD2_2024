@@ -17,7 +17,7 @@ public class PersistenciaJSON implements IPersistencia{
 	private static final ObjectMapper objectMapper = new ObjectMapper();
 	
 	
-	private String LOG_FILE_PATH = "";
+	private String LOG_FILE_PATH = "log/DB_Clientes_JSON.json";
 	private String FILE_PATH = "";
 	
 	

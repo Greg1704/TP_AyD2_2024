@@ -22,9 +22,8 @@ public class pruebaFalopaGrego {
 
 	    public void saveData() {
 	    	IPersistencia persistence = persistenceFactory.createPersistence();
-
 	        // Ejemplo de uso
-	        persistence.saveLog("Este es un log del sistema.");
+	        //persistence.saveLog("Este es un log del sistema.");
 	        List<Cliente> clients = new ArrayList<>();
 	        Cliente client = new Cliente("Grego", "gold", "17/04/2001");
 	        // Agregar clientes a la lista
