@@ -121,6 +121,8 @@ public class Servidor {
 						gestionServidor.getGdt().añadirTurno(cliente);
 						gestionServidor.getGdt().mostrarCola(); 
 						
+						
+						
 						Thread.sleep(750);
 						
 						reg = "Recibido";

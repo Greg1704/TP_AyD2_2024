@@ -3,28 +3,47 @@ package modelo;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import abstractFactory.AbstractFactoryJSON;
+import abstractFactory.AbstractFactoryTXT;
+import abstractFactory.AbstractFactoryXML;
+import interfaces.IAbstractFactory;
+import interfaces.IPersistencia;
+import persistencia.PersistenciaJSON;
 
 public class pruebaFalopaGrego {
-    public static void main(String[] args) {
-        // Ruta del archivo
-        String rutaArchivo = "Ejecutables/ArchivoConfiguracion.txt";
-        
-        // Variables para guardar las palabras
-        String strategy = null;
-        String persistencia = null;
+	 private IAbstractFactory persistenceFactory;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
-            // Leer la primera línea
-            strategy = br.readLine();
-            // Leer la segunda línea
-            persistencia = br.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+	    public pruebaFalopaGrego(IAbstractFactory persistenceFactory) {
+	        this.persistenceFactory = persistenceFactory;
+	    }
 
-        // Imprimir las palabras leídas
-        System.out.println("strategy: " + strategy);
-        System.out.println("persistencia: " + persistencia);
-    }
+	    public void saveData() {
+	    	IPersistencia persistence = persistenceFactory.createPersistence();
+
+	        // Ejemplo de uso
+	        persistence.saveLog("Este es un log del sistema.");
+	        List<Cliente> clients = new ArrayList<>();
+	        Cliente client = new Cliente("Grego", "gold", "17/04/2001");
+	        // Agregar clientes a la lista
+	        persistence.saveClientInfo(client);
+	    }
+
+	    public static void main(String[] args) {
+	    	IAbstractFactory factory = new AbstractFactoryJSON();
+	    	pruebaFalopaGrego app = new pruebaFalopaGrego(factory);
+	        app.saveData();
+
+	        // Puedes cambiar la fábrica según el formato deseado
+	        factory = new AbstractFactoryTXT();
+	        app = new pruebaFalopaGrego(factory);
+	        app.saveData();
+
+	        factory = new AbstractFactoryXML();
+	        app = new pruebaFalopaGrego(factory);
+	        app.saveData();
+	    }
 
 }
