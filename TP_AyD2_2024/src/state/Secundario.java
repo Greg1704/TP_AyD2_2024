@@ -1,12 +1,20 @@
 package state;
 
 import interfaces.IStateServidor;
+import modelo.Servidor;
 
 public class Secundario implements IStateServidor{
+	
+	Servidor servidor;
+	
+	public Secundario(Servidor s) {
+		this.servidor = s;
+	}
 
 	@Override
 	public void principal() {
 		// TODO Auto-generated method stub
+		this.servidor.setEstado(new Principal(this.servidor));
 		
 	}
 
