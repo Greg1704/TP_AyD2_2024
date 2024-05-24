@@ -12,7 +12,7 @@ public class InfoClienteArch {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
-	public String getDni() {
+	public String getDni() {	
         return dni;
     }
 

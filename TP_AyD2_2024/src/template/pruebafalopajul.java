@@ -1,37 +1,33 @@
 package template;
 import modelo.Cliente;
 
-public class pruebafalopajuli {
+public class pruebafalopajul {
 	public Cliente c;
 	public static InfoClienteArch info;
 	
 	public static void main (String args[]) {
-		String filePath = "Ejecutables/TemplateTXT.txt";
-		Cliente c = new Cliente("43456832","joven","210501");
+		/*String filePath = "C:\\Users\\July\\Documents\\GitHub\\TP_AyD2_2024\\TP_AyD2_2024\\Ejecutables/TemplateTXT.txt";
+		
 		TemplateMethod tm = new TemplateTXT();
 		
 		InfoClienteArch info = tm.readFile(filePath, c);
+		
         if (info != null) {
-            System.out.println("Información del cliente encontrada: " + info.getDni());
+            System.out.println("cliente encontradoooo: " + info.getDni());
         } else {
             System.out.println("Cliente no encontrado.");
         }
-        
+        */
 	
-	}
-		
-}		/*
+		Cliente c = new Cliente("43456832","joven","21/05/2001");
+
 		String[] filePaths = {
 	            "Ejecutables/TemplateTXT.txt",
 	            "Ejecutables/TemplateXML.xml",
 	            "Ejecutables/TemplateJSON.json"
 	        };
-		*/
 		
-		
-
-		
-		/* for (String filePath : filePaths) {
+		for (String filePath : filePaths) {
             TemplateMethod reader = getFileReader(filePath);
             if (reader != null) {
                 InfoClienteArch info = reader.readFile(filePath, c);
@@ -57,7 +53,7 @@ public class pruebafalopajuli {
 		}
 			return null;
 	}	
-	*/	
+}
 		
 	
 	
