@@ -2,10 +2,12 @@ package state;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.util.Map;
 
 import interfaces.IStateServidor;
@@ -37,10 +39,11 @@ public class Principal implements IStateServidor{
 	}
 
 	@Override
-	public void accion(DatagramSocket socketUDP, DatagramPacket entrada, byte[] buffer) {
+	public void accion(DatagramSocket socketUDP, DatagramPacket entrada, byte[] buffer) throws IOException, InterruptedException, ClassNotFoundException{
 		// TODO Auto-generated method stub
 		DatagramPacket salida;
 		String reg = "";
+		InetAddress direccion = InetAddress.getByName("localHost");
 		
 		String mensaje = new String(entrada.getData());
 		mensaje = mensaje.trim();
@@ -53,7 +56,7 @@ public class Principal implements IStateServidor{
 		//Supervisor: 10700 - 10800
 		//Monitor: 11000
 		
-		if(puertoEntrada >= 10100 && puertoEntrada <=10200  && principal) { //Entrada de Totems
+		if(puertoEntrada >= 10100 && puertoEntrada <=10200) { //Entrada de Totems
 			if (!this.servidor.getGestionServidor().getConexiones().containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
 				System.out.println("se establecio la conexion con: " + puertoEntrada);
 				this.servidor.getGestionServidor().getConexiones().put(puertoEntrada,"Totem");
@@ -86,7 +89,7 @@ public class Principal implements IStateServidor{
 				salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 				socketUDP.send(salida);
 			}
-		}else if(puertoEntrada >= 10300 && puertoEntrada <=10400 && principal) { //Entrada de Operadores/Boxs
+		}else if(puertoEntrada >= 10300 && puertoEntrada <=10400) { //Entrada de Operadores/Boxs
 			if (!this.servidor.getGestionServidor().getConexiones().containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
 				System.out.println("se establecio la conexion con: " + puertoEntrada);
 				this.servidor.getGestionServidor().getConexiones().put(puertoEntrada,"Operador");
@@ -166,7 +169,7 @@ public class Principal implements IStateServidor{
 				salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 				socketUDP.send(salida);
 			}
-		}else if(puertoEntrada >= 10500 && puertoEntrada <=10600  && principal) { //Entrada de las Pantallas TV
+		}else if(puertoEntrada >= 10500 && puertoEntrada <=10600) { //Entrada de las Pantallas TV
 			if (!this.servidor.getGestionServidor().getConexiones().containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
 				System.out.println("se establecio la conexion con: " + puertoEntrada);
 				this.servidor.getGestionServidor().getConexiones().put(puertoEntrada,"TV"); 
@@ -186,13 +189,13 @@ public class Principal implements IStateServidor{
 		        	ObjectOutputStream objectStream_Est = new ObjectOutputStream(byteStream_Est);
 					objectStream_Est.writeObject(turno);
 					objectStream_Est.flush();
-					buffer_Est = byteStream_Est.toByteArray();
-					DatagramPacket salida1 = new DatagramPacket(buffer_Est, buffer_Est.length,direccion,puertoEntrada);
+					buffer = byteStream_Est.toByteArray();
+					DatagramPacket salida1 = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 		          	socketUDP.send(salida1);
 				}
 			}
 		}
-		else if (puertoEntrada >= 10700 && puertoEntrada <=10800  && principal) { //Entrada de Supervisores
+		else if (puertoEntrada >= 10700 && puertoEntrada <=10800) { //Entrada de Supervisores
 			if (!this.servidor.getGestionServidor().getConexiones().containsKey(puertoEntrada)) {
 			  System.out.println("se establecio la conexion con: " + puertoEntrada);
 			  this.servidor.getGestionServidor().getConexiones().put(puertoEntrada, "Supervisor");
@@ -218,21 +221,15 @@ public class Principal implements IStateServidor{
 		        	ObjectOutputStream objectStream_Est = new ObjectOutputStream(byteStream_Est);
 					objectStream_Est.writeObject(e);
 					objectStream_Est.flush();
-					buffer_Est = byteStream_Est.toByteArray();
+					buffer = byteStream_Est.toByteArray();
 		        	for (Map.Entry<Integer,String> entry : this.servidor.getGestionServidor().getConexiones().entrySet()) {
 		        		if (entry.getValue().equals("Supervisor")) {
 				         	System.out.println("Envio Estadisticas (en Actualizar)");
-	                	  	DatagramPacket salida1 = new DatagramPacket(buffer_Est, buffer_Est.length,direccion,puertoEntrada);
+	                	  	DatagramPacket salida1 = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 				          	socketUDP.send(salida1);
 				        }
 			        }
-		        	/**
-					String reg_Est = "envio estadistica";
-					buffer_Est = reg_Est.getBytes();
-			        System.out.println("Largo buffer = " + buffer_Est.length);
-					DatagramPacket salida_Est = new DatagramPacket(buffer_Est, buffer_Est.length,direccion,puertoEntrada);
-					socketUDP.send(salida_Est);
-					**/
+
 				}
 			}else if(mensaje.equals("Hello there")) {  //Caso reintentos fallidos
 				reg = "Reconectado";
@@ -243,10 +240,10 @@ public class Principal implements IStateServidor{
 		}else if(puertoEntrada == 11000) {  //Entrada del Monitor
 			if(mensaje.equals("ping")) {  //Caso pingEcho
 				
-				this.estado.principal();
+				this.servidor.getEstado().principal();
 				reg = "pong";
 				buffer = reg.getBytes();
-				salida = new DatagramPacket(buffer, buffer.length,direccion,portMonitor);
+				salida = new DatagramPacket(buffer, buffer.length,direccion,this.servidor.getPortMonitor());
 				socketUDP.send(salida);
 				
 			
@@ -260,8 +257,8 @@ public class Principal implements IStateServidor{
 		        
 				
 		        
-		        for(int i = 10000;i<10011;i++) {
-		        	if(i != port) {
+		        for(int i = 10000;i<10005;i++) {
+		        	if(i != this.servidor.getPort()) {
 			        	salida = new DatagramPacket(buffer, buffer.length,direccion,i);
 				        socketUDP.send(salida);
 		        	}
@@ -269,39 +266,7 @@ public class Principal implements IStateServidor{
 		        
 		        this.servidor.getGestionServidor().getGdt().mostrarCola();
 				
-			}else if(mensaje.equals("cambio")) { //Caso en el que un servidor secundario pasa a ser el principal
-				
-				this.estado.principal();
-				reg = "reemplazo";
-				buffer = reg.getBytes();
-				salida = new DatagramPacket(buffer, buffer.length,direccion,portMonitor);
-				socketUDP.send(salida);
-				//Mandarle al monitor que soy el nuevo jefe
-				
-				for (Map.Entry<Integer,String> entry : this.servidor.getGestionServidor().getConexiones().entrySet()) {
-					reg = "cambio";
-					buffer = reg.getBytes();
-					salida = new DatagramPacket(buffer, buffer.length,direccion,entry.getKey());
-					socketUDP.send(salida);
-				}
 			}
-		} else if(puertoEntrada>= 10000 && puertoEntrada <10011 && puertoEntrada != port) { //recibe datos de backup
-		
-	    	 try {
-	    		 
-		    	 // Deserializar bytes recibidos en objeto Estadisticas
-		    	 ByteArrayInputStream byteStream = new ByteArrayInputStream(entrada.getData());
-		    	 ObjectInputStream objectStream = new ObjectInputStream(byteStream);
-		    	 this.servidor.setGestionServidor((GestionServidor) objectStream.readObject());
-		    	 //System.out.println("Recibo estadisticas");
-		    	 //gestionServidor.getGdt().mostrarCola();
-		    	 
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	    	 
-			
 		}
 		
 	}
