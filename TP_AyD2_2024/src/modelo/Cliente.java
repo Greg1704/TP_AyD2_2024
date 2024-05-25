@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Objects;
 
 public class Cliente implements Serializable{
 	public String Fecha; //ver si es string
@@ -59,6 +60,22 @@ public class Cliente implements Serializable{
             return -1;
         }
     }
+    
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Cliente cliente = (Cliente) o;
+        return Dni.equals(cliente.Dni); // O cualquier campo que consideres único para la comparación
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(Dni); // O cualquier campo que consideres único para la comparación
+    }
+    
+    
     
     @Override
 	public String toString() {

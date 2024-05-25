@@ -1,6 +1,7 @@
 package persistencia;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -20,7 +21,7 @@ public class PersistenciaJSON implements IPersistencia{
 	
 	
 	
-	private String LOG_FILE_PATH = "TP_AyD2_2024/";
+	private String LOG_FILE_PATH = "TP_AyD2_2024/log/Log_Clientes_JSON.json";
 	private String FILE_PATH = "TP_AyD2_2024/log/DB_Clientes_JSON.json";
 	
 	
@@ -62,7 +63,7 @@ public class PersistenciaJSON implements IPersistencia{
 			System.out.println(client);
 			System.out.println(clientes.toString());
 			
-			if (!clientes.contains(client)) {
+			if (!(clientes.contains(client))) {
 				clientes.add(client);
 				
 				try(FileWriter writer = new FileWriter(FILE_PATH)){ 
