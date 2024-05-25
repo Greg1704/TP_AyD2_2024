@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.Map;
 
 import interfaces.IStateServidor;
@@ -72,6 +73,11 @@ public class Principal implements IStateServidor{
 				ByteArrayInputStream byteStream = new ByteArrayInputStream(entrada.getData());
 		    	ObjectInputStream objectStream = new ObjectInputStream(byteStream);
 		    	Cliente cliente = (Cliente) objectStream.readObject();
+		    	
+		    	this.servidor.getGestionServidor().getPersistencia().saveClientInfo(cliente);
+		    	
+		    	//Nahue gil de mierda.......
+		    	//digodigo aca se deberia usar el template para devolver el cliente con sus datos correctos en caso de que exista en la base de datos
 				
 		    	this.servidor.getGestionServidor().getGdt().añadirTurno(cliente);
 		    	this.servidor.getGestionServidor().getGdt().mostrarCola(); 
@@ -82,6 +88,7 @@ public class Principal implements IStateServidor{
 				buffer = reg.getBytes();
 				salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 				socketUDP.send(salida);
+				
 				
 			}else if(mensaje.equals("Hello there")) {  //Caso reintentos fallidos
 				reg = "Reconectado";
@@ -112,7 +119,15 @@ public class Principal implements IStateServidor{
 				e.agregarTiempos(this.servidor.getTiempoEspera());
 				
 				//Hacer el tema relacionado con la persistencia que nahue dijo con la variable tiempoAtendido
+				ArrayList<String> logClientes = this.servidor.getLogClientes();	
 				
+				for (String log : logClientes) {
+		            System.out.println(log);
+		            this.servidor.getGestionServidor().getPersistencia().saveLog(log);
+		            
+		        }
+				
+				this.servidor.setLogClientes(new ArrayList<String>());
 				
 			}else if(mensaje.equals("Solicito un turno")){ //Caso en el que el operador solicita un nuevo cliente para que vaya al box
 				Thread.sleep(750);
@@ -130,6 +145,8 @@ public class Principal implements IStateServidor{
 					this.servidor.setTiempoAtendido(t.getCronometro().getTiempoAtendido());
 					
 					System.out.println(this.servidor.getTiempoEspera());
+					
+					this.servidor.getLogClientes().add(t.getCliente().getDni() + "    " + t.getCronometro().getTiempoInicio() + "    " + this.servidor.getTiempoAtendido());
 					
 			        t.setNumeroDeBox(String.valueOf(this.servidor.getGestionServidor().getBoxesOcupados().get(puertoEntrada)));
 					

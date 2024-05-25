@@ -13,6 +13,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -27,6 +28,7 @@ public class Servidor {
 	private GestionServidor gestionServidor; 
 	private IStateServidor estado;
 	private int port;
+	private ArrayList<String> LogClientes;
 	
 	
 	public Servidor() {
@@ -74,7 +76,8 @@ public class Servidor {
 			} catch (IOException e) {
 			    e.printStackTrace();
 			}
-			gestionServidor = new GestionServidor(strategy); 
+			gestionServidor = new GestionServidor(strategy,persistencia); 
+			this.LogClientes = new ArrayList<String>();
 			while(true) {
 					byte[] buffer = new byte[5120];		
 					
@@ -171,6 +174,19 @@ public class Servidor {
 	public void setPort(int port) {
 		this.port = port;
 	}
+
+
+	public ArrayList<String> getLogClientes() {
+		return LogClientes;
+	}
+
+
+	public void setLogClientes(ArrayList<String> logClientes) {
+		LogClientes = logClientes;
+	}
+
+
+	
 	
 	
 	
