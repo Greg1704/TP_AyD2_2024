@@ -25,13 +25,13 @@ public class pruebaFalopaGrego {
 	        // Ejemplo de uso
 	        //persistence.saveLog("Este es un log del sistema.");
 	     
-	        Cliente client = new Cliente("Grego", "gold", "17/04/2001");
+	        Cliente client = new Cliente("Gregorio", "gold", "17/04/2001");
 	        // Agregar clientes a la lista
-	        persistence.saveClientInfo(client);
+	        persistence.saveLog(client.toString());
 	    }
 
 	    public static void main(String[] args) {
-	    	IAbstractFactory factory = new AbstractFactoryJSON();
+	    	IAbstractFactory factory = new AbstractFactoryXML();
 	    	pruebaFalopaGrego app = new pruebaFalopaGrego(factory);
 	        app.saveData();
 

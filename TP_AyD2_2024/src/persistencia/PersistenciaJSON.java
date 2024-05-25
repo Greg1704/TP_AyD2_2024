@@ -29,12 +29,16 @@ public class PersistenciaJSON implements IPersistencia{
 	@Override
 	public void saveLog(String log) {
 		List<String> logs = new ArrayList<>();
+		List<String> logsAux = new ArrayList<>();
 		Gson gson = new Gson();
 		
 		try(FileReader reader = new FileReader(LOG_FILE_PATH)){
 			java.lang.reflect.Type logsListType = new TypeToken<List<String>>() {}.getType();
-			logs = gson.fromJson(reader, logsListType);
-			logs.add(log);
+			logsAux = gson.fromJson(reader, logsListType);
+			
+			if (logsAux != null) 
+				logs = logsAux;
+			logs.add(log);	
 			
 			try(FileWriter writer = new FileWriter(LOG_FILE_PATH)){ 
 				gson.toJson(logs,writer);
