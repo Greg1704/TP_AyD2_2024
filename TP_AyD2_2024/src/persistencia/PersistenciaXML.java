@@ -30,40 +30,42 @@ public class PersistenciaXML implements IPersistencia{
 	@Override
 	public void saveLog(String log) {
 		try {
-			File xmlFile = new File(LOG_FILE_PATH);
-	        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-	        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-	        Document doc = dBuilder.parse(xmlFile);
-			
-	        doc.getDocumentElement().normalize();
-	        Element logsElement = (Element) doc.getElementsByTagName("logs").item(0);
-	        
-	        
-	        if (logsElement != null) {
+			 File xmlFile = new File(LOG_FILE_PATH);
+	            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+	            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+	            Document doc = dBuilder.parse(xmlFile);
+
+	            // Normalizar el documento XML
+	            doc.getDocumentElement().normalize();
+
+	            // Obtener el elemento <logs>, o crearlo si no existe
+	            Element logsElement = (Element) doc.getElementsByTagName("logs").item(0);
+	            if (logsElement == null) {
+	                logsElement = doc.createElement("logs");
+	                doc.getDocumentElement().appendChild(logsElement);
+	            }
+
 	            // Crear un nuevo elemento <log> y agregar el nuevo log
 	            Element newLog = doc.createElement("log");
-	            newLog.appendChild(doc.createTextNode("Nuevo log"));
-	            
+	            newLog.appendChild(doc.createTextNode(log));
+
 	            // Agregar el nuevo elemento <log> al elemento <logs>
 	            logsElement.appendChild(newLog);
-	            
+
 	            // Guardar el documento XML modificado
 	            TransformerFactory transformerFactory = TransformerFactory.newInstance();
 	            Transformer transformer = transformerFactory.newTransformer();
 	            DOMSource source = new DOMSource(doc);
 	            StreamResult result = new StreamResult(new File(LOG_FILE_PATH));
 	            transformer.transform(source, result);
-	
-	            System.out.println("Nuevo log agregado y archivo XML guardado correctamente.");
-	        } else {
-	            System.out.println("Elemento <logs> no encontrado en el archivo XML.");
-	        }
 
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    
-	    }
-	}	
+	            System.out.println("Nuevo log agregado y archivo XML guardado correctamente.");
+
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        
+	        }
+		}	
 
 	@Override
 	public void saveClientInfo(Cliente cliente) {
