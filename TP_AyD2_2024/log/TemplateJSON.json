@@ -1,29 +1,27 @@
-{
-    "clientes": [
-        {
-            "DNI": "43456832",
-            "group": "gold",
-            "birthdate": "21/05/2001"
-        },
-        {
-            "DNI": "12345678",
-            "group": "platinum",
-            "birthdate": "15/08/1995"
-        },
-        {
-            "DNI": "87654321",
-            "group": "black",
-            "birthdate": "30/12/1980"
-        },
-        {
-            "DNI": "11223344",
-            "group": "gold",
-            "birthdate": "10/03/1990"
-        },
-        {
-            "DNI": "55667788",
-            "group": "platinum",
-            "birthdate": "25/07/1985"
-        }
-    ]
-}
+[
+    {
+        "Dni": "43456832",
+        "grupo": "gold",
+        "Fecha": "21/05/2001"
+    },
+    {
+        "Dni": "12345678",
+        "grupo": "platinum",
+        "Fecha": "15/08/1995"
+    },
+    {
+        "Dni": "87654321",
+        "grupo": "black",
+        "Fecha": "30/12/1980"
+    },
+    {
+        "Dni": "11223344",
+        "grupo": "gold",
+        "Fecha": "10/03/1990"
+    },
+    {
+        "Dni": "55667788",
+        "grupo": "platinum",
+        "Fecha": "25/07/1985"
+    }
+]

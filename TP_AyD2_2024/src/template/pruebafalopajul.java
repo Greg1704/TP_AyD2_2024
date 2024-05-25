@@ -19,11 +19,11 @@ public class pruebafalopajul {
         }
         */
 	
-		Cliente c = new Cliente("43456832","gold","21/05/2001");
-
+		Cliente c = new Cliente("11223344","gold","10/03/1990");
+		System.out.println("pedro" + c.getDni());
 		String[] filePaths = {
-			    "TP_AyD2_2024/log/TemplateTXT.txt",
-			    "TP_AyD2_2024/log/TemplateXML.xml",
+			    //"TP_AyD2_2024/log/TemplateTXT.txt",
+			    //"TP_AyD2_2024/log/TemplateXML.xml",
 			    "TP_AyD2_2024/log/TemplateJSON.json"
 			};
 		

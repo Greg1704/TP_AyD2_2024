@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import interfaces.IPersistencia;
 import modelo.Cliente;
 
@@ -53,5 +52,4 @@ public class PersistenciaXML implements IPersistencia{
 			e.printStackTrace();
 		}
 	}
-
 }
