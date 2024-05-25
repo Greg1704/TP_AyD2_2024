@@ -13,6 +13,7 @@ abstract  class TemplateMethod {
     }
 
     abstract void openArch(String filePath);
+    
     abstract InfoClienteArch BuscarClienteArch(String filePath,Cliente cliente);
     abstract void closeArch();
     
