@@ -19,6 +19,7 @@ public class StrategyAfinidad implements IStrategyColas,Serializable{
 
 	public StrategyAfinidad() {
 		super();
+		System.out.println("Strategia de Afinidad");
 	}
 
 
