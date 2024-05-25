@@ -19,6 +19,7 @@ public class StrategyLlegada implements IStrategyColas,Serializable{
 	public StrategyLlegada() {
 		super();
 		// TODO Auto-generated constructor stub
+		System.out.println("Strategia de Llegada");
 	}
 
 	@Override

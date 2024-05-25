@@ -19,6 +19,7 @@ public class StrategyRangoEtario implements IStrategyColas,Serializable{
 
 	public StrategyRangoEtario() {
 		super();
+		System.out.println("Strategia de Rango Etario");
 	}
 
 

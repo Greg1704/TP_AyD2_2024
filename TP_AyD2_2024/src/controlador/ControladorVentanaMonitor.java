@@ -82,6 +82,7 @@ public class ControladorVentanaMonitor {
 						}else if(mensaje.equals("reemplazo")) {
 							this.estaVivo = true;
 							this.servidoresDisp.put(puertoServerPrincipal, true);
+							System.out.println(this.servidoresDisp.size());
 							this.vm.actualizaServDisp(servidoresDisp);
 
 						}

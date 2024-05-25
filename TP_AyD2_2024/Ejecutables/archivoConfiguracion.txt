@@ -1,2 +1,2 @@
-Llegada
+RangoEtario
 XML

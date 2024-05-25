@@ -57,7 +57,22 @@ public class Secundario implements IStateServidor{
 		//Monitor: 11000
 		
 		if(puertoEntrada == 11000) {  //Entrada del Monitor
-			if(mensaje.equals("cambio")) { //Caso en el que un servidor secundario pasa a ser el principal
+				if(mensaje.equals("ping")) {  //Caso pingEcho
+					this.servidor.getEstado().principal();
+					reg = "pong";
+					buffer = reg.getBytes();
+					salida = new DatagramPacket(buffer, buffer.length,direccion,this.servidor.getPortMonitor());
+					socketUDP.send(salida);
+					
+				
+					ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+				    ObjectOutputStream objectStream = new ObjectOutputStream(byteStream);
+				    objectStream.writeObject(this.servidor.getGestionServidor());
+			        objectStream.flush();
+			        buffer = byteStream.toByteArray();
+			        
+			        System.out.println("Largo del buffer " + buffer.length);
+				}if(mensaje.equals("cambio")) { //Caso en el que un servidor secundario pasa a ser el principal
 				
 				this.servidor.getEstado().principal();
 				reg = "reemplazo";

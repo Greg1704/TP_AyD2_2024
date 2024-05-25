@@ -25,8 +25,6 @@ public class PersistenciaJSON implements IPersistencia{
 	
 	
 	
-	
-	
 	@Override
 	public void saveLog(String log) {
 		List<String> logs = new ArrayList<>();
