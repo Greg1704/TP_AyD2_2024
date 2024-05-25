@@ -6,7 +6,7 @@ import modelo.Cliente;
 abstract  class TemplateMethod {
 	
 	public final InfoClienteArch readFile(String filePath, Cliente cliente) {
-        openArch(filePath);
+		openArch(filePath);
 		InfoClienteArch info = BuscarClienteArch(filePath,cliente);
         closeArch();
         return info;

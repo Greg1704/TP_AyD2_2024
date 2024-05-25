@@ -48,7 +48,6 @@ class TemplateTXT extends TemplateMethod {
     void closeArch() {
         if (scanner != null) {
             scanner.close();
-            System.out.println("TXT cerradoooo");
         }
     }
 }
