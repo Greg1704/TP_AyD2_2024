@@ -58,4 +58,8 @@ public class PersistenciaTXT implements IPersistencia{
 		
 	}
 	
+	public String getFILE_PATH() {
+		return FILE_PATH;
+	}
+	
 }

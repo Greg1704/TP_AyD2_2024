@@ -81,7 +81,13 @@ public class PersistenciaJSON implements IPersistencia{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public String getFILE_PATH() {
+		return FILE_PATH;
 	} 
+	
+	
 	
 
 }

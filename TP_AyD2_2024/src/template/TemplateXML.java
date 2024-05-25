@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-class TemplateXML extends TemplateMethod {
+public class TemplateXML extends TemplateMethod {
     public InfoClienteArch infoCliente;
 
     @Override

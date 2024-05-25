@@ -7,4 +7,5 @@ import modelo.Cliente;
 public interface IPersistencia {
 	void  saveLog(String log);
     void saveClientInfo(Cliente cliente);
+    String getFILE_PATH();
 }

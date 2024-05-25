@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 import modelo.Cliente;
 
-abstract  class TemplateMethod {
+public abstract  class TemplateMethod {
 	
 	public final InfoClienteArch readFile(String filePath, Cliente cliente) {
 		openArch(filePath);

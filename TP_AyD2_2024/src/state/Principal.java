@@ -17,6 +17,7 @@ import modelo.Estadisticas;
 import modelo.GestionServidor;
 import modelo.Servidor;
 import modelo.Turno;
+import template.InfoClienteArch;
 
 public class Principal implements IStateServidor{
 	
@@ -78,6 +79,12 @@ public class Principal implements IStateServidor{
 		    	
 		    	//Nahue gil de mierda.......
 		    	//digodigo aca se deberia usar el template para devolver el cliente con sus datos correctos en caso de que exista en la base de datos
+		    	
+		    	InfoClienteArch info = this.servidor.getGestionServidor().getTemplate().readFile(this.servidor.getGestionServidor().getPersistencia().getFILE_PATH(), cliente);
+		    	
+		    	if(!cliente.getGrupo().equals(info.getGrupo()))
+		    		cliente.setGrupo(info.getGrupo());
+		    	
 				
 		    	this.servidor.getGestionServidor().getGdt().añadirTurno(cliente);
 		    	this.servidor.getGestionServidor().getGdt().mostrarCola(); 

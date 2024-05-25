@@ -139,4 +139,8 @@ public class PersistenciaXML implements IPersistencia{
     }
 	
 	}
+	
+	public String getFILE_PATH() {
+		return FILE_PATH;
+	}
 }

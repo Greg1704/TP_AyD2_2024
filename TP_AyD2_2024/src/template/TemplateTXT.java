@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-class TemplateTXT extends TemplateMethod {
+public class TemplateTXT extends TemplateMethod {
     private static Scanner scanner;
     public InfoClienteArch infoCliente;
     

@@ -13,6 +13,10 @@ import strategy.FactoryStrategy;
 import strategy.StrategyAfinidad;
 import strategy.StrategyLlegada;
 import strategy.StrategyRangoEtario;
+import template.TemplateJSON;
+import template.TemplateMethod;
+import template.TemplateTXT;
+import template.TemplateXML;
 
 public class GestionServidor implements Serializable{
 	/**
@@ -25,6 +29,7 @@ public class GestionServidor implements Serializable{
 	private ArrayList<Turno> turnosEnPantalla;
 	private Estadisticas estadisticas;
 	private IPersistencia persistencia;
+	private TemplateMethod template;
 
 	
 	
@@ -32,6 +37,7 @@ public class GestionServidor implements Serializable{
 		super();
 		FactoryStrategy fs = new FactoryStrategy();
 		this.persistencia = this.tipoPersistencia(persistencia);
+		this.template = this.tipoTemplate(persistencia);
 		this.estadisticas = new Estadisticas();
 		this.conexiones = new HashMap<>();
 		this.gdt = new GestionDeTurnos(fs.getStrategy(strategy)); //Se podria implementar factory para embellecer esto
@@ -84,6 +90,15 @@ public class GestionServidor implements Serializable{
 		return (IPersistencia) this.tipoFactory(persistencia);
 	}
 	
+	
+	public TemplateMethod getTemplate() {
+		return template;
+	}
+
+	public void setTemplate(TemplateMethod template) {
+		this.template = template;
+	}
+
 	public IAbstractFactory tipoFactory(String persistencia) {
 		if(persistencia.equalsIgnoreCase("TXT")) {
 			return  (AbstractFactoryTXT) new AbstractFactoryTXT();
@@ -91,6 +106,17 @@ public class GestionServidor implements Serializable{
 			return  (AbstractFactoryXML) new AbstractFactoryXML();
 		}else if(persistencia.equalsIgnoreCase("JSON")) {
 			return  (AbstractFactoryJSON) new AbstractFactoryJSON();
+		}
+		return null;
+	}
+	
+	public TemplateMethod tipoTemplate(String persistencia) {
+		if(persistencia.equalsIgnoreCase("TXT")) {
+			return (TemplateTXT) new TemplateTXT();
+		}else if(persistencia.equalsIgnoreCase("XML")) {
+			return (TemplateXML) new TemplateXML();
+		}else if(persistencia.equalsIgnoreCase("JSON")) {
+			return  (TemplateJSON) new TemplateJSON();
 		}
 		return null;
 	}
