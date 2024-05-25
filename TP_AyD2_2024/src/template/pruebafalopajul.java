@@ -19,13 +19,13 @@ public class pruebafalopajul {
         }
         */
 	
-		Cliente c = new Cliente("43456832","joven","21/05/2001");
+		Cliente c = new Cliente("43456832","gold","21/05/2001");
 
 		String[] filePaths = {
-	            "Ejecutables/TemplateTXT.txt",
-	            "Ejecutables/TemplateXML.xml",
-	            "Ejecutables/TemplateJSON.json"
-	        };
+			    "TP_AyD2_2024/log/TemplateTXT.txt",
+			    "TP_AyD2_2024/log/TemplateXML.xml",
+			    "TP_AyD2_2024/log/TemplateJSON.json"
+			};
 		
 		for (String filePath : filePaths) {
             TemplateMethod reader = getFileReader(filePath);
@@ -38,7 +38,7 @@ public class pruebafalopajul {
                     System.out.println("Cliente no encontrado.");
                 }
             } else {
-                System.out.println("No se encontró un lector adecuado para el archivo: " + filePath);
+                System.out.println("no encontro archivo " + filePath);
             }
         }
 	}

@@ -21,8 +21,6 @@ public class PersistenciaJSON implements IPersistencia{
 	private String FILE_PATH = "";
 	
 	
-	
-	
 	@Override
 	public void saveLog(String log) {
 		List<String> logs = new ArrayList<>();

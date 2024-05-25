@@ -5,18 +5,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import interfaces.IPersistencia;
 import modelo.Cliente;
 
 public class PersistenciaXML implements IPersistencia{
 	private static final XmlMapper xmlMapper = new XmlMapper();
-	
-	
-	
+		
 	private String LOG_FILE_PATH = "";
 	private String FILE_PATH = "";
 	
