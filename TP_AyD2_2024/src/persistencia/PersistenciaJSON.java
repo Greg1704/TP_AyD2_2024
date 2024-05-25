@@ -3,22 +3,26 @@ package persistencia;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.awt.Window.Type;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import interfaces.IPersistencia;
 import modelo.Cliente;
 
 public class PersistenciaJSON implements IPersistencia{	
-	private static final ObjectMapper objectMapper = new ObjectMapper();
 	
 	
-	private String LOG_FILE_PATH = "log/DB_Clientes_JSON.json";
-	private String FILE_PATH = "";
+	
+	private String LOG_FILE_PATH = "TP_AyD2_2024/";
+	private String FILE_PATH = "TP_AyD2_2024/log/DB_Clientes_JSON.json";
+	
 	
 	
 	
@@ -26,16 +30,17 @@ public class PersistenciaJSON implements IPersistencia{
 	@Override
 	public void saveLog(String log) {
 		List<String> logs = new ArrayList<>();
-		File file = new File(LOG_FILE_PATH);
+		Gson gson = new Gson();
 		
-		try {
-			logs = objectMapper.readValue(file, new TypeReference<List<String>>() {});
+		try(FileReader reader = new FileReader(LOG_FILE_PATH)){
+			java.lang.reflect.Type logsListType = new TypeToken<List<String>>() {}.getType();
+			logs = gson.fromJson(reader, logsListType);
 			logs.add(log);
-			String jsonLog = objectMapper.writeValueAsString(log);
-			objectMapper.writeValue(file, jsonLog);
 			
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
+			try(FileWriter writer = new FileWriter(LOG_FILE_PATH)){ 
+				gson.toJson(logs,writer);
+			}
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -45,20 +50,36 @@ public class PersistenciaJSON implements IPersistencia{
 	@Override
 	public void saveClientInfo(Cliente client) {
 		List<Cliente> clientes = new ArrayList<>();
-		File file = new File(FILE_PATH);
+		List<Cliente> clientesAux = new ArrayList<>();
+		Gson gson = new Gson();
 		
-		try {
-			clientes = objectMapper.readValue(file, new TypeReference<List<Cliente>>() {});
+		
+		try(FileReader reader = new FileReader(FILE_PATH)) { 
+			java.lang.reflect.Type clienteListType = new TypeToken<List<Cliente>>() {}.getType();
+			
+			clientesAux = gson.fromJson(reader, clienteListType);
+			if (clientesAux != null)
+				clientes = clientesAux;
+			
+			System.out.println(client);
+			System.out.println(clientes.toString());
+			
 			if (!clientes.contains(client)) {
 				clientes.add(client);
-				objectMapper.writeValue(file, clientes);
+				
+				try(FileWriter writer = new FileWriter(FILE_PATH)){ 
+					gson.toJson(clientes,writer);
+				}
 			}
+		} catch (FileNotFoundException e) {
+			System.out.println("Working Directory = " + System.getProperty("user.dir"));
+			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	} 
 	
 
 }
+

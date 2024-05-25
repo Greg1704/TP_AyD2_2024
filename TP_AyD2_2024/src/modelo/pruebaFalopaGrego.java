@@ -24,7 +24,7 @@ public class pruebaFalopaGrego {
 	    	IPersistencia persistence = persistenceFactory.createPersistence();
 	        // Ejemplo de uso
 	        //persistence.saveLog("Este es un log del sistema.");
-	        List<Cliente> clients = new ArrayList<>();
+	     
 	        Cliente client = new Cliente("Grego", "gold", "17/04/2001");
 	        // Agregar clientes a la lista
 	        persistence.saveClientInfo(client);
@@ -35,14 +35,14 @@ public class pruebaFalopaGrego {
 	    	pruebaFalopaGrego app = new pruebaFalopaGrego(factory);
 	        app.saveData();
 
-	        // Puedes cambiar la fábrica según el formato deseado
+	        /*// Puedes cambiar la fábrica según el formato deseado
 	        factory = new AbstractFactoryTXT();
 	        app = new pruebaFalopaGrego(factory);
 	        app.saveData();
 
 	        factory = new AbstractFactoryXML();
 	        app = new pruebaFalopaGrego(factory);
-	        app.saveData();
+	        app.saveData();*/
 	    }
 
 }

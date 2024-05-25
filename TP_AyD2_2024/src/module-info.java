@@ -10,9 +10,8 @@ module TP_AyD2_2024 {
 	exports strategy;
 	exports modelo;
 
-	requires com.fasterxml.jackson.core;
-	requires com.fasterxml.jackson.databind;
-	requires com.fasterxml.jackson.dataformat.xml;
+	
 	requires java.desktop;
 	requires java.xml;
+	requires com.google.gson;
 }

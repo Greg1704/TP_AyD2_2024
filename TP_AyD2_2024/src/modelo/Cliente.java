@@ -1,15 +1,16 @@
 package modelo;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-public class Cliente {
-	private String Fecha; //ver si es string
-	private String RangoEtario;
-	private String Grupo; //Afinidad
-	private String Dni;
+public class Cliente implements Serializable{
+	public String Fecha; //ver si es string
+	public String RangoEtario;
+	public String Grupo; //Afinidad
+	public String Dni;
 	
 	
 	public Cliente(String dni, String grupo, String fecha) {
@@ -18,6 +19,10 @@ public class Cliente {
 		this.RangoEtario = calculoRangoEtario(this.Fecha); 
 		this.Grupo = grupo;
 		this.Dni = dni;
+	}
+	
+	public Cliente() {
+		
 	}
 	
 	private String calculoRangoEtario(String fecha) {
@@ -55,7 +60,12 @@ public class Cliente {
         }
     }
     
-    public void setDni(String Dni) {
+    @Override
+	public String toString() {
+		return "Cliente [Fecha=" + Fecha + ", Grupo=" + Grupo + ", Dni=" + Dni + "]";
+	}
+
+	public void setDni(String Dni) {
     	this.Dni=Dni;
     }
 	
