@@ -27,7 +27,7 @@ public class pruebaFalopaGrego {
 	     
 	        Cliente client = new Cliente("Gregorio", "gold", "17/04/2001");
 	        // Agregar clientes a la lista
-	        persistence.saveLog(client.toString());
+	        persistence.saveClientInfo(client);
 	    }
 
 	    public static void main(String[] args) {
