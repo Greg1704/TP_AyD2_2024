@@ -18,13 +18,13 @@ public class pruebafalopajul {
             System.out.println("Cliente no encontrado.");
         }
         */
-	
-		Cliente c = new Cliente("11223344","gold","10/03/1990");
+
+		Cliente c = new Cliente("perro","black","30/11/2022");
 		System.out.println("pedro" + c.getDni());
 		String[] filePaths = {
 			    //"TP_AyD2_2024/log/TemplateTXT.txt",
-			    //"TP_AyD2_2024/log/TemplateXML.xml",
-			    "TP_AyD2_2024/log/TemplateJSON.json"
+			    "TP_AyD2_2024/log/TemplateXML.xml",
+			    //"TP_AyD2_2024/log/TemplateJSON.json"
 			};
 		
 		for (String filePath : filePaths) {

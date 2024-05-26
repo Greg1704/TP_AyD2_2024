@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<metadata>
+    <clients>
+        <client>
+            <DNI>Gregorio</DNI>
+            <Fecha>17/04/2001</Fecha>
+            <Afinidad>gold</Afinidad>
+        </client>
+        <client>
+            <DNI>Gregoro</DNI>
+            <Fecha>17/04/2001</Fecha>
+            <Afinidad>gold</Afinidad>
+        </client>
+        <client>
+            <DNI>123456789A</DNI>
+            <Fecha>25/05/2024</Fecha>
+            <Afinidad>platinium</Afinidad>
+        </client>
+        <client>
+            <DNI>987654321B</DNI>
+            <Fecha>12/03/2023</Fecha>
+            <Afinidad>gold</Afinidad>
+        </client>
+        <client>
+            <DNI>perro</DNI>
+            <Fecha>30/11/2022</Fecha>
+            <Afinidad>black</Afinidad>
+        </client>
+        <client>
+            <DNI>654321987D</DNI>
+            <Fecha>05/09/2025</Fecha>
+            <Afinidad>platinium</Afinidad>
+        </client>
+    </clients>
+</metadata>
