@@ -1,2 +1,2 @@
 RangoEtario
-XML
+JSON

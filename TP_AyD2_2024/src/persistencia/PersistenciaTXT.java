@@ -3,17 +3,40 @@ package persistencia;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import interfaces.IPersistencia;
 import modelo.Cliente;
 
 public class PersistenciaTXT implements IPersistencia{
-	private String LOG_FILE_PATH = "";
-	private String FILE_PATH = ""; //TODO:acomodar
+	private String LOG_FILE_PATH = "TP_AyD2_2024/log/DB/DB_Clientes_TXT.txt";
+	private String FILE_PATH = "TP_AyD2_2024/log/DB/DB_Clientes_TXT.txt";
+	private String FILE_PATH_Dir = "TP_AyD2_2024/log/DB/";
 	
 
 	@Override
@@ -61,5 +84,127 @@ public class PersistenciaTXT implements IPersistencia{
 	public String getFILE_PATH() {
 		return FILE_PATH;
 	}
+
+
+	@Override
+	public void updateFormato() {
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		
+        String archTipo = buscarTipoArchivo();
+		if (archTipo != "txt") { //txt
+			try {
+				File file = new File(FILE_PATH);
+				//crear el archivo DB 
+				//crear el archivo log
+				
+				if (archTipo == "json") { //!json
+					String pathJson = (FILE_PATH.substring(0, FILE_PATH.length() - 7) + "JSON.json");
+					File fileJson = new File(pathJson);
+					//saco el array de los archivos 
+					try (FileReader reader = new FileReader(pathJson)) {
+			            Gson gson = new Gson();
+			            List<Cliente> clientes = gson.fromJson(reader, new TypeToken<List<Cliente>>() {}.getType());
+			           
+			        } catch (IOException e) {
+			            e.printStackTrace();
+			        }
+					//borro el archivo
+					fileJson.delete();
+					
+				} else if (archTipo == "xml") { //!xml
+					String pathXML = (FILE_PATH.substring(0, FILE_PATH.length() - 9) + "XML.xml");
+					 // Leer y parsear el archivo XML
+			        File xmlFile = new File(FILE_PATH);
+			        DocumentBuilderFactory dbFactory1 = DocumentBuilderFactory.newInstance();
+			        DocumentBuilder dBuilder1 = dbFactory1.newDocumentBuilder();
+			        Document doc1 = dBuilder1.parse(xmlFile);
+			
+			        // Normalizar el documento XML
+			        doc1.getDocumentElement().normalize();
+			
+			        // Obtener el elemento <clients>, o crearlo si no existe
+			        Element clientsElement = (Element) doc1.getElementsByTagName("clients").item(0);
+			        if (clientsElement == null) {
+			            clientsElement = doc1.createElement("clients");
+			            doc1.getDocumentElement().appendChild(clientsElement);
+			        }
+			
+			        // Verificar si el cliente ya existe
+			        NodeList clientList = clientsElement.getElementsByTagName("client");
+			        List<Cliente> clientes = new ArrayList<Cliente>();
+			        
+			        for (int i = 0; i < clientList.getLength(); i++) {
+			            Node clientNode = clientList.item(i);
+			            
+			            Element clientElement = (Element) clientNode;
+		                String dni = clientElement.getElementsByTagName("DNI").item(0).getTextContent();
+		                String grupo = clientElement.getElementsByTagName("Afinidad").item(0).getTextContent();
+		                String fecha = clientElement.getElementsByTagName("Fecha").item(0).getTextContent();
+			            Cliente clienteAux = new Cliente(dni, grupo, fecha);
+			            clientes.add(clienteAux);
+		            }
+			        
+					//borro el archivo
+			        xmlFile.delete();
+					
+				}
+			} catch (ParserConfigurationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SAXException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+				//saveUpdate(Array<String>, Array<Cliente>);
+			
+				
+		}
+	}
+	
+	 public String buscarTipoArchivo() {
+	        StringBuilder resultado = new StringBuilder();
+	        File directorio = new File(FILE_PATH_Dir);
+
+	        // Verifica si el path es un directorio
+	        if (directorio.isDirectory()) {
+	            // Obtiene la lista de archivos en el directorio
+	            File[] archivos = directorio.listFiles();
+	            
+	            // Verifica si hay archivos en el directorio
+	            if (archivos != null) {
+	                for (File archivo : archivos) {
+	                    // Obtiene el nombre del archivo
+	                    String nombreArchivo = archivo.getName();
+	                    // Verifica la extensión del archivo
+	                    if (nombreArchivo.endsWith(".xml")) {
+	                        resultado.append("XML, ");
+	                    } else if (nombreArchivo.endsWith(".json")) {
+	                        resultado.append("JSON, ");
+	                    } else if (nombreArchivo.endsWith(".txt")) {
+	                        resultado.append("TXT, ");
+	                    }
+	                }
+	            }
+
+	            // Elimina la última coma y espacio si hay resultados
+	            if (resultado.length() > 0) {
+	                resultado.setLength(resultado.length() - 2);
+	                return resultado.toString();
+	            } else {
+	                return "No se encontraron archivos XML, JSON o TXT";
+	            }
+	        } else {
+	            return "El path proporcionado no es un directorio";
+	        }
+	    }
+		
+
 	
 }

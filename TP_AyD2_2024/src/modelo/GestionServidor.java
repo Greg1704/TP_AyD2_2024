@@ -30,13 +30,14 @@ public class GestionServidor implements Serializable{
 	private Estadisticas estadisticas;
 	private IPersistencia persistencia;
 	private TemplateMethod template;
-
+	
 	
 	
 	public GestionServidor(String strategy, String persistencia)  {
 		super();
 		FactoryStrategy fs = new FactoryStrategy();
 		this.persistencia = this.tipoPersistencia(persistencia);
+		this.persistencia.updateFormato();
 		this.template = this.tipoTemplate(persistencia);
 		this.estadisticas = new Estadisticas();
 		this.conexiones = new HashMap<>();
