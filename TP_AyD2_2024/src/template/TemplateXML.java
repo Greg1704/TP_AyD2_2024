@@ -12,7 +12,7 @@ import java.io.File;
 public class TemplateXML extends TemplateMethod {
     @Override
     void openArch(String filePath) {
-        System.out.println("XML File abrido: " + filePath);
+        System.out.println("XML File abierto: " + filePath);
     }
 
     @Override

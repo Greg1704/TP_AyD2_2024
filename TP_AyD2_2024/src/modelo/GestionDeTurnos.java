@@ -41,7 +41,7 @@ public class GestionDeTurnos implements Serializable{
     public void mostrarCola() {
         System.out.println("Tamaño de la cola = " + colaDeTurnos.size());
         for (Turno elemento : colaDeTurnos) {
-            System.out.println(elemento.getCliente().getDni() + " " + elemento.getCliente().getGrupo() + " " + elemento.getCliente().getRangoEtario() + elemento.getNumeroDeBox());
+            System.out.println(elemento.getCliente().getDni() + " " + elemento.getCliente().getGrupo() + " " + elemento.getCliente().getRangoEtario() + " " + elemento.getNumeroDeBox());
         }
     }
 
