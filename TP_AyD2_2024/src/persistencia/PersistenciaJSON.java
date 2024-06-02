@@ -71,36 +71,56 @@ public class PersistenciaJSON implements IPersistencia,Serializable{
 
 	@Override
 	public void saveClientInfo(Cliente client) {
-		List<Cliente> clientes = new ArrayList<>();
-		List<Cliente> clientesAux = new ArrayList<>();
-		Gson gson = new Gson();
-		
-		
-		try(FileReader reader = new FileReader(FILE_PATH)) { 
-			java.lang.reflect.Type clienteListType = new TypeToken<List<Cliente>>() {}.getType();
-			
-			clientesAux = gson.fromJson(reader, clienteListType);
-			if (clientesAux != null)
-				clientes = clientesAux;
-			
-			System.out.println(client);
-			System.out.println(clientes.toString());
-			
-			if (!(clientes.contains(client))) {
-				clientes.add(client);
-				
-				try(FileWriter writer = new FileWriter(FILE_PATH)){ 
-					gson.toJson(clientes,writer);
-				}
-			}
-		} catch (FileNotFoundException e) {
-			System.out.println("Working Directory = " + System.getProperty("user.dir"));
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+        List<Cliente> clientes = new ArrayList<>();
+        Gson gson = new Gson();
+
+        // Leer el archivo JSON
+        try (FileReader reader = new FileReader(FILE_PATH)) {
+            java.lang.reflect.Type clienteListType = new TypeToken<List<Cliente>>() {}.getType();
+
+            // Leer y parsear el archivo JSON
+            try {
+                clientes = gson.fromJson(reader, clienteListType);
+            } catch (Exception e) {
+                // Si hay un error al parsear (por ejemplo, si no es un array), inicializar la lista
+                System.err.println("Error parsing JSON file, initializing with an empty list.");
+                clientes = new ArrayList<>();
+            }
+
+            // Asegurarse de que la lista no sea nula
+            if (clientes == null) {
+                clientes = new ArrayList<>();
+            }
+
+            System.out.println(client);
+            System.out.println(clientes.toString());
+
+            // Agregar el nuevo cliente si no está en la lista
+            if (!clientes.contains(client)) {
+                clientes.add(client);
+
+                // Escribir la lista actualizada de nuevo en el archivo
+                try (FileWriter writer = new FileWriter(FILE_PATH)) {
+                    gson.toJson(clientes, writer);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            // Si el archivo no existe, inicializar con una lista vacía y crear el archivo
+            System.out.println("File not found. Creating a new file.");
+            try {
+                clientes = new ArrayList<>();
+                clientes.add(client);
+
+                try (FileWriter writer = new FileWriter(FILE_PATH)) {
+                    gson.toJson(clientes, writer);
+                }
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 	public String getFILE_PATH() {
 		return FILE_PATH;

@@ -151,6 +151,7 @@ public class ControladorVentanaTotem implements ActionListener{
 					envio = false;
 					JOptionPane.showMessageDialog(null, "DNI recibido"); 
 					this.ventanaTotem.setDni("");
+					this.ventanaTotem.setFechaNacimiento();
 					this.reintento = 2;
 
 				}catch (SocketTimeoutException e2) {
