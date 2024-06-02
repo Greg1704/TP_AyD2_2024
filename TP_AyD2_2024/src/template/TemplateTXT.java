@@ -14,7 +14,7 @@ public class TemplateTXT extends TemplateMethod {
     void openArch(String filePath) {
         try {
             scanner = new Scanner(new File(filePath));
-            System.out.println("TXT abrido: " + filePath);
+            System.out.println("TXT abierto: " + filePath);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
