@@ -35,9 +35,9 @@ import interfaces.IPersistencia;
 import modelo.Cliente;
 
 public class PersistenciaTXT implements IPersistencia,Serializable{
-	private String LOG_FILE_PATH = "Ejecutables/log/log/DB_Clientes_TXT.txt";
-	private String FILE_PATH = "Ejecutables/log/DB/DB_Clientes_TXT.txt";
-	private String FILE_PATH_Dir = "Ejecutables/log/DB";
+	private String LOG_FILE_PATH = "log/log/DB_Clientes_TXT.txt";
+	private String FILE_PATH = "log/DB/DB_Clientes_TXT.txt";
+	private String FILE_PATH_Dir = "log/DB";
 	
 
 	@Override

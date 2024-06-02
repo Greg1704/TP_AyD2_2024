@@ -61,7 +61,7 @@ public class Servidor {
 															
 	
 			// Ruta del archivo
-			String rutaArchivo = "Ejecutables/ArchivoConfiguracion.txt";
+			String rutaArchivo = "log/ArchivoConfiguracion.txt";
 			estado = new Secundario(this);
 	
 			// Variables para guardar las palabras
