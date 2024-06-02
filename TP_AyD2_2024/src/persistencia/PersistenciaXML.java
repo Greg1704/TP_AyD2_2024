@@ -44,43 +44,84 @@ public class PersistenciaXML implements IPersistencia,Serializable{
 	
 	@Override
 	public void saveLog(String log) {
-		try {
-			 File xmlFile = new File(LOG_FILE_PATH);
-	            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-	            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-	            Document doc = dBuilder.parse(xmlFile);
+        try {
+            // Crear el archivo si no existe
+            File xmlFile = new File(LOG_FILE_PATH);
+            if (!xmlFile.exists()) {
+                xmlFile.createNewFile();
+                // Si el archivo se acaba de crear, inicializamos la estructura XML
+                initializeXMLStructure(xmlFile);
+            }
 
-	            // Normalizar el documento XML
-	            doc.getDocumentElement().normalize();
+            // Continuar con la lógica para agregar el log al archivo XML...
+            appendLogToXML(log, xmlFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-	            // Obtener el elemento <logs>, o crearlo si no existe
-	            Element logsElement = (Element) doc.getElementsByTagName("logs").item(0);
-	            if (logsElement == null) {
-	                logsElement = doc.createElement("logs");
-	                doc.getDocumentElement().appendChild(logsElement);
-	            }
+    // Método para inicializar la estructura XML si el archivo se acaba de crear
+    private void initializeXMLStructure(File xmlFile) {
+        try {
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.newDocument();
 
-	            // Crear un nuevo elemento <log> y agregar el nuevo log
-	            Element newLog = doc.createElement("log");
-	            newLog.appendChild(doc.createTextNode(log));
+            // Crear el elemento raíz <logs>
+            Element logsElement = doc.createElement("logs");
+            doc.appendChild(logsElement);
 
-	            // Agregar el nuevo elemento <log> al elemento <logs>
-	            logsElement.appendChild(newLog);
+            // Guardar el documento XML
+            saveXMLDocument(doc, xmlFile);
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+    }
 
-	            // Guardar el documento XML modificado
-	            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-	            Transformer transformer = transformerFactory.newTransformer();
-	            DOMSource source = new DOMSource(doc);
-	            StreamResult result = new StreamResult(new File(LOG_FILE_PATH));
-	            transformer.transform(source, result);
+    // Método para guardar el documento XML en el archivo
+    private void saveXMLDocument(Document doc, File xmlFile) {
+        try {
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 
-	            System.out.println("Nuevo log agregado y archivo XML guardado correctamente.");
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(xmlFile);
+            transformer.transform(source, result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        
-	        }
-		}	
+    // Método para agregar el log al archivo XML
+    private void appendLogToXML(String log, File xmlFile) {
+        try {
+            // Cargar el documento XML existente
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(xmlFile);
+
+            // Normalizar el documento XML
+            doc.getDocumentElement().normalize();
+
+            // Obtener el elemento <logs>
+            Element logsElement = doc.getDocumentElement();
+
+            // Crear un nuevo elemento <log> y agregar el log como texto
+            Element newLog = doc.createElement("log");
+            newLog.appendChild(doc.createTextNode(log));
+
+            // Agregar el nuevo elemento <log> al elemento <logs>
+            logsElement.appendChild(newLog);
+
+            // Guardar el documento XML modificado
+            saveXMLDocument(doc, xmlFile);
+
+            System.out.println("Nuevo log agregado al archivo XML correctamente.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }	
 
 	@Override
 	public void saveClientInfo(Cliente cliente) {

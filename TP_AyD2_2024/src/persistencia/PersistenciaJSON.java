@@ -46,28 +46,39 @@ public class PersistenciaJSON implements IPersistencia,Serializable{
 	
 	
 	@Override
-	public void saveLog(String log) {
-		List<String> logs = new ArrayList<>();
-		List<String> logsAux = new ArrayList<>();
-		Gson gson = new Gson();
-		
-		try(FileReader reader = new FileReader(LOG_FILE_PATH)){
-			java.lang.reflect.Type logsListType = new TypeToken<List<String>>() {}.getType();
-			logsAux = gson.fromJson(reader, logsListType);
-			
-			if (logsAux != null) 
-				logs = logsAux;
-			logs.add(log);	
-			
-			try(FileWriter writer = new FileWriter(LOG_FILE_PATH)){ 
-				gson.toJson(logs,writer);
-			}
+	 public void saveLog(String log) {
+        List<String> logs = new ArrayList<>();
+        Gson gson = new Gson();
 
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+        try {
+            // Crear el archivo si no existe
+            File logFile = new File(LOG_FILE_PATH);
+            if (!logFile.exists()) {
+                logFile.createNewFile();
+            }
+
+            // Leer el contenido actual del archivo
+            try (FileReader reader = new FileReader(LOG_FILE_PATH)) {
+                java.lang.reflect.Type logsListType = new TypeToken<List<String>>() {}.getType();
+                List<String> logsAux = gson.fromJson(reader, logsListType);
+                if (logsAux != null) {
+                    logs.addAll(logsAux);
+                }
+            }
+
+            // Agregar el nuevo log a la lista
+            logs.add(log);
+
+            // Escribir la lista actualizada en el archivo
+            try (FileWriter writer = new FileWriter(LOG_FILE_PATH)) {
+                gson.toJson(logs, writer);
+            }
+
+            System.out.println("Log guardado correctamente.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 	@Override
 	public void saveClientInfo(Cliente client) {
