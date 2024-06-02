@@ -26,10 +26,18 @@ public class TemplateTXT extends TemplateMethod {
     	try {
             while (scanner.hasNextLine() && !encontro ) {
                 String line = scanner.nextLine(); 
-                if (line.contains(cliente.getDni()) && line.contains(cliente.getGrupo()) && line.contains(cliente.getFecha())) {
+                if (line.contains(cliente.getDni())) {
                 	System.out.println("Cliente: " + line);
+                	String grupo ="Gold";
+                	if(line.contains("Gold")) {
+                		grupo = "Gold";
+                	}else if(line.contains("Platinum")) {
+                		grupo = "Platinum";
+                	}else if(line.contains("Black")) {
+                		grupo = "Black";
+                	}
                 	encontro = true;
-                	infoCliente = new InfoClienteArch(cliente.getDni(),cliente.getGrupo(), cliente.getFecha());
+                	infoCliente = new InfoClienteArch(cliente.getDni(),grupo, cliente.getFecha());
                 }
             }
             if (!encontro) {
