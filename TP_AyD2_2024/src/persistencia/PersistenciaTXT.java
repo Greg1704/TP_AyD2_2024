@@ -76,7 +76,7 @@ public class PersistenciaTXT implements IPersistencia,Serializable{
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 			System.out.println("El archivo no existe, se creara a continuacion");
 		}
 		return false; 
