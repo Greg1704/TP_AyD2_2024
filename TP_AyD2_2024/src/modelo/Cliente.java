@@ -55,7 +55,7 @@ public class Cliente implements Serializable{
             // Retornar la cantidad de años como la edad
             return age.getYears();
         } catch (DateTimeParseException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             // Retorna -1 en caso de error de parseo
             return -1;
         }

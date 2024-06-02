@@ -53,7 +53,7 @@ public class PersistenciaTXT implements IPersistencia,Serializable{
 
 	@Override
 	public void saveClientInfo(Cliente cliente) {
-		if (!existeDB(cliente.getDni())); { 
+		if (!existeDB(cliente.getDni())) { 
 			try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
 	            bw.write(cliente.getDni() + "," + cliente.getGrupo() + "," + cliente.getFecha());
 	            bw.newLine();
