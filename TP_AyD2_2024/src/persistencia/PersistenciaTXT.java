@@ -35,9 +35,9 @@ import interfaces.IPersistencia;
 import modelo.Cliente;
 
 public class PersistenciaTXT implements IPersistencia,Serializable{
-	private String LOG_FILE_PATH = "Ejecutables/log/DB/DB_Clientes_TXT.txt";
+	private String LOG_FILE_PATH = "Ejecutables/log/log/DB_Clientes_TXT.txt";
 	private String FILE_PATH = "Ejecutables/log/DB/DB_Clientes_TXT.txt";
-	private String FILE_PATH_Dir = "Ejecutables/log/DB/";
+	private String FILE_PATH_Dir = "Ejecutables/log/DB";
 	
 
 	@Override
@@ -92,19 +92,21 @@ public class PersistenciaTXT implements IPersistencia,Serializable{
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		
         String archTipo = buscarTipoArchivo();
-		if (archTipo != "txt") { //txt
+		if (!archTipo.equalsIgnoreCase("txt")) { //txt
 			try {
 				File file = new File(FILE_PATH);
 				//crear el archivo DB 
 				//crear el archivo log
+				List<Cliente> clientes = null;
 				
-				if (archTipo == "json") { //!json
+								
+				if (archTipo.equalsIgnoreCase("json")) { //!json
 					String pathJson = (FILE_PATH.substring(0, FILE_PATH.length() - 7) + "JSON.json");
 					File fileJson = new File(pathJson);
 					//saco el array de los archivos 
 					try (FileReader reader = new FileReader(pathJson)) {
 			            Gson gson = new Gson();
-			            List<Cliente> clientes = gson.fromJson(reader, new TypeToken<List<Cliente>>() {}.getType());
+			            clientes = gson.fromJson(reader, new TypeToken<List<Cliente>>() {}.getType());
 			           
 			        } catch (IOException e) {
 			            e.printStackTrace();
@@ -112,10 +114,11 @@ public class PersistenciaTXT implements IPersistencia,Serializable{
 					//borro el archivo
 					fileJson.delete();
 					
-				} else if (archTipo == "xml") { //!xml
-					String pathXML = (FILE_PATH.substring(0, FILE_PATH.length() - 9) + "XML.xml");
+				} else if (archTipo.equalsIgnoreCase("xml")) { //!xml
+					String pathXML = (FILE_PATH.substring(0, FILE_PATH.length() - 7) + "XML.xml");
 					 // Leer y parsear el archivo XML
-			        File xmlFile = new File(FILE_PATH);
+					System.out.println(pathXML);
+			        File xmlFile = new File(pathXML);
 			        DocumentBuilderFactory dbFactory1 = DocumentBuilderFactory.newInstance();
 			        DocumentBuilder dBuilder1 = dbFactory1.newDocumentBuilder();
 			        Document doc1 = dBuilder1.parse(xmlFile);
@@ -131,8 +134,8 @@ public class PersistenciaTXT implements IPersistencia,Serializable{
 			        }
 			
 			        // Verificar si el cliente ya existe
-			        NodeList clientList = clientsElement.getElementsByTagName("client");
-			        List<Cliente> clientes = new ArrayList<Cliente>();
+			        clientes = new ArrayList<Cliente>();
+			        NodeList clientList = clientsElement.getElementsByTagName("client");			    
 			        
 			        for (int i = 0; i < clientList.getLength(); i++) {
 			            Node clientNode = clientList.item(i);
@@ -149,6 +152,16 @@ public class PersistenciaTXT implements IPersistencia,Serializable{
 			        xmlFile.delete();
 					
 				}
+				
+				for (Cliente cliente : clientes) {
+					try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
+			            bw.write(cliente.getDni() + "," + cliente.getGrupo() + "," + cliente.getFecha());
+			            bw.newLine();
+			        } catch (IOException e) {
+			            e.printStackTrace();
+			        }
+		        }
+				
 			} catch (ParserConfigurationException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

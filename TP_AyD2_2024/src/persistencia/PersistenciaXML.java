@@ -163,8 +163,9 @@ public class PersistenciaXML implements IPersistencia,Serializable{
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		
         String archTipo = buscarTipoArchivo();
-		if (archTipo != "xml") { //XML
+		if (!archTipo.equalsIgnoreCase("xml")) { //XML
 			try {
+				List<Cliente> clientes = null;
 				DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 				Document doc = dBuilder.newDocument();
 				Element rootElement = doc.createElement("Root");
@@ -176,19 +177,19 @@ public class PersistenciaXML implements IPersistencia,Serializable{
 	            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 	            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 	            DOMSource source = new DOMSource(doc);
-	            StreamResult result = new StreamResult(new File("DB_Clientes_XML.xml"));
+	            StreamResult result = new StreamResult(new File(this.FILE_PATH));
 	            
 	            transformer.transform(source, result);
 				//crear el archivo DB 
 				//crear el archivo log
 				
-				if (archTipo == "json") { //!json
+				if (archTipo.equalsIgnoreCase("json")) { //!json
 					String pathJson = (FILE_PATH.substring(0, FILE_PATH.length() - 7) + "JSON.json");
 					File fileJson = new File(pathJson);
 					//saco el array de los archivos 
 					try (FileReader reader = new FileReader(pathJson)) {
 			            Gson gson = new Gson();
-			            List<Cliente> clientes = gson.fromJson(reader, new TypeToken<List<Cliente>>() {}.getType());
+			            clientes = gson.fromJson(reader, new TypeToken<List<Cliente>>() {}.getType());
 			           
 			        } catch (IOException e) {
 			            e.printStackTrace();
@@ -196,10 +197,10 @@ public class PersistenciaXML implements IPersistencia,Serializable{
 					//borro el archivo
 					fileJson.delete();
 					
-				} else if (archTipo == "txt") { //TXT
+				} else if (archTipo.equalsIgnoreCase("txt")) { //TXT
 					String pathTXT = (FILE_PATH.substring(0, FILE_PATH.length() - 7) + "TXT.txt");
 					Scanner scanner = new Scanner(new File(pathTXT));
-					List<Cliente> clientes = new ArrayList<Cliente>();
+					clientes = new ArrayList<Cliente>();
 					while (scanner.hasNextLine()) {
 						String line = scanner.nextLine();
 						String[] partes = line.split(",");
@@ -209,13 +210,26 @@ public class PersistenciaXML implements IPersistencia,Serializable{
 						
 						Cliente clientAux = new Cliente(dni, grupo, fecha);
 						clientes.add(clientAux);
+					}					
+					//Elimina el txt?
+					scanner.close();
+					File txtFile = new File(pathTXT);
+					// Eliminar el archivo de texto
+					if (txtFile.exists()) {
+					    if (txtFile.delete()) {
+					        System.out.println("El archivo TXT ha sido eliminado correctamente.");
+					    } else {
+					        System.out.println("No se pudo eliminar el archivo TXT.");
+					    }
+					} else {
+					    System.out.println("El archivo TXT no existe.");
 					}
 					
-					for (Cliente cliente : clientes) {
-			            saveClientInfo(cliente);
-			        }
-					
+						
 				}
+				for (Cliente cliente : clientes) {
+		            saveClientInfo(cliente);
+		        }
 			} catch (ParserConfigurationException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

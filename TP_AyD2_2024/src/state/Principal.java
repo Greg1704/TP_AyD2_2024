@@ -153,7 +153,7 @@ public class Principal implements IStateServidor{
 					
 					System.out.println(this.servidor.getTiempoEspera());
 					
-					this.servidor.getLogClientes().add(t.getCliente().getDni() + "    " + t.getCronometro().getTiempoInicio() + "    " + this.servidor.getTiempoAtendido());
+					this.servidor.getLogClientes().add(t.getCliente().getDni() + "    " + t.getCronometro().getTiempoRegistro() + "    " + this.servidor.getTiempoAtendido());
 					
 			        t.setNumeroDeBox(String.valueOf(this.servidor.getGestionServidor().getBoxesOcupados().get(puertoEntrada)));
 					

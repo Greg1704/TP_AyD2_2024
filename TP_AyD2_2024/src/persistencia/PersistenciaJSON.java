@@ -39,9 +39,9 @@ public class PersistenciaJSON implements IPersistencia,Serializable{
 	
 	
 	
-	private String LOG_FILE_PATH = "Ejecutables/log/Log_Clientes_JSON.json";
+	private String LOG_FILE_PATH = "Ejecutables/log/log/Log_Clientes_JSON.json";
 	private String FILE_PATH = "Ejecutables/log/DB/DB_Clientes_JSON.json";
-	private String FILE_PATH_Dir = "Ejecutables/log/DB/DB_Clientes_JSON.json";
+	private String FILE_PATH_Dir = "Ejecutables/log/DB";
 	
 	
 	
@@ -132,7 +132,9 @@ public class PersistenciaJSON implements IPersistencia,Serializable{
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		
         String archTipo = buscarTipoArchivo();
-		if (archTipo != "json") { //json
+        System.out.println(archTipo);
+		if (!archTipo.equalsIgnoreCase("json")) { //json
+			System.out.println("ENTRO ACA GREGO AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 			try {
 				FileWriter file = new FileWriter(FILE_PATH);
 				file.write("{}");
@@ -140,11 +142,13 @@ public class PersistenciaJSON implements IPersistencia,Serializable{
 	            
 				//crear el archivo DB 
 				//crear el archivo log
-				
-				if (archTipo == "xml") { //!xml
+	            
+	            
+	            List<Cliente> clientes = new ArrayList<Cliente>();
+				if (archTipo.equalsIgnoreCase("xml")) { //!xml
 					String pathXML = (FILE_PATH.substring(0, FILE_PATH.length() - 9) + "XML.xml");
 					 // Leer y parsear el archivo XML
-			        File xmlFile = new File(FILE_PATH);
+			        File xmlFile = new File(pathXML);
 			        DocumentBuilderFactory dbFactory1 = DocumentBuilderFactory.newInstance();
 			        DocumentBuilder dBuilder = dbFactory1.newDocumentBuilder();
 			        Document doc = dBuilder.parse(xmlFile);
@@ -160,8 +164,7 @@ public class PersistenciaJSON implements IPersistencia,Serializable{
 			        }
 			
 			        // Verificar si el cliente ya existe
-			        NodeList clientList = clientsElement.getElementsByTagName("client");
-			        List<Cliente> clientes = new ArrayList<Cliente>();
+			        NodeList clientList = clientsElement.getElementsByTagName("client");			  
 			        
 			        for (int i = 0; i < clientList.getLength(); i++) {
 			            Node clientNode = clientList.item(i);
@@ -176,14 +179,17 @@ public class PersistenciaJSON implements IPersistencia,Serializable{
 			        
 					//borro el archivo
 			        xmlFile.delete();
+			        System.out.println("ChipaFrito");
 					
-				} else if (archTipo == "txt") { //TXT
-					String pathTXT = (FILE_PATH.substring(0, FILE_PATH.length() - 7) + "TXT.txt");
+				} else if (archTipo.equalsIgnoreCase("txt")) { //TXT
+					String pathTXT = (FILE_PATH.substring(0, FILE_PATH.length() - 9) + "TXT.txt");
 					Scanner scanner = new Scanner(new File(pathTXT));
-					List<Cliente> clientes = new ArrayList<Cliente>();
 					while (scanner.hasNextLine()) {
 						String line = scanner.nextLine();
 						String[] partes = line.split(",");
+						System.out.println(partes[0]);
+						System.out.println(partes[1]);
+						System.out.println(partes[2]);
 						String dni = partes[0];
 	                    String grupo = partes[1];
 	                    String fecha = partes[2];
@@ -192,11 +198,25 @@ public class PersistenciaJSON implements IPersistencia,Serializable{
 						clientes.add(clientAux);
 					}
 					
-					for (Cliente cliente : clientes) {
-			            saveClientInfo(cliente);
-			        }
+					//Elimina el txt?
+					scanner.close();
+					File txtFile = new File(pathTXT);
+					// Eliminar el archivo de texto
+					if (txtFile.exists()) {
+					    if (txtFile.delete()) {
+					        System.out.println("El archivo TXT ha sido eliminado correctamente.");
+					    } else {
+					        System.out.println("No se pudo eliminar el archivo TXT.");
+					    }
+					} else {
+					    System.out.println("El archivo TXT no existe.");
+					}
+					
 					
 				}
+				for (Cliente cliente : clientes) {
+		            saveClientInfo(cliente);
+		        }
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

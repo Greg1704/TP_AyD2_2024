@@ -285,6 +285,7 @@ public class VentanaTotem extends JFrame {
     
     public void setFechaNacimiento() {
         this.formattedTextFieldFechaNac.setText("");;
+        this.formattedTextFieldFechaNac.setValue(null);
     }
 
     public void errorLargoFechaNacimiento() {
