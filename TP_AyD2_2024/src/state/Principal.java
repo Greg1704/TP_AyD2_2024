@@ -68,7 +68,12 @@ public class Principal implements IStateServidor{
 				salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
 				socketUDP.send(salida);
 				
-			}else if (mensaje.matches("\\d+")){ //Caso en el que se este enviando un turno para el subsistema de gestion de turnos
+			}else if(mensaje.equals("Hello there")) {  //Caso reintentos fallidos
+				reg = "Reconectado";
+				buffer = reg.getBytes();
+				salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
+				socketUDP.send(salida);
+			}else{ //Caso en el que se este enviando un turno para el subsistema de gestion de turnos
 				
 				//Extraer de mensaje un objeto Cliente
 				ByteArrayInputStream byteStream = new ByteArrayInputStream(entrada.getData());
@@ -97,11 +102,6 @@ public class Principal implements IStateServidor{
 				socketUDP.send(salida);
 				
 				
-			}else if(mensaje.equals("Hello there")) {  //Caso reintentos fallidos
-				reg = "Reconectado";
-				buffer = reg.getBytes();
-				salida = new DatagramPacket(buffer, buffer.length,direccion,puertoEntrada);
-				socketUDP.send(salida);
 			}
 		}else if(puertoEntrada >= 10300 && puertoEntrada <=10400) { //Entrada de Operadores/Boxs
 			if (!this.servidor.getGestionServidor().getConexiones().containsKey(puertoEntrada)) { //Caso en el que el puerto no sea reconocido por el sistema
