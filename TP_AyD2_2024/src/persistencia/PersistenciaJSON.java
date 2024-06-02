@@ -30,11 +30,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 
 import interfaces.IPersistencia;
 import modelo.Cliente;
 
-public class PersistenciaJSON implements IPersistencia{	
+public class PersistenciaJSON implements IPersistencia,Serializable{	
 	
 	
 	

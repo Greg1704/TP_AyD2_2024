@@ -1,9 +1,10 @@
 package template;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import modelo.Cliente;
 
-public abstract  class TemplateMethod {
+public abstract  class TemplateMethod implements Serializable{
 	
 	public final InfoClienteArch readFile(String filePath, Cliente cliente) {
 		openArch(filePath);

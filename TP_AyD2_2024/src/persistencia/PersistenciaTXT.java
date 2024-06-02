@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -33,7 +34,7 @@ import com.google.gson.reflect.TypeToken;
 import interfaces.IPersistencia;
 import modelo.Cliente;
 
-public class PersistenciaTXT implements IPersistencia{
+public class PersistenciaTXT implements IPersistencia,Serializable{
 	private String LOG_FILE_PATH = "TP_AyD2_2024/log/DB/DB_Clientes_TXT.txt";
 	private String FILE_PATH = "TP_AyD2_2024/log/DB/DB_Clientes_TXT.txt";
 	private String FILE_PATH_Dir = "TP_AyD2_2024/log/DB/";

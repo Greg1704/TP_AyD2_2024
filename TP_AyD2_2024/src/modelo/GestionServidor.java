@@ -100,15 +100,16 @@ public class GestionServidor implements Serializable{
 		this.template = template;
 	}
 
-	public IAbstractFactory tipoFactory(String persistencia) {
+	public IPersistencia tipoFactory(String persistencia) {
+		IAbstractFactory factoryPersistencia = null;
 		if(persistencia.equalsIgnoreCase("TXT")) {
-			return  (AbstractFactoryTXT) new AbstractFactoryTXT();
+			factoryPersistencia =  (AbstractFactoryTXT) new AbstractFactoryTXT();
 		}else if(persistencia.equalsIgnoreCase("XML")) {
-			return  (AbstractFactoryXML) new AbstractFactoryXML();
+			factoryPersistencia =  (AbstractFactoryXML) new AbstractFactoryXML();
 		}else if(persistencia.equalsIgnoreCase("JSON")) {
-			return  (AbstractFactoryJSON) new AbstractFactoryJSON();
+			factoryPersistencia =  (AbstractFactoryJSON) new AbstractFactoryJSON();
 		}
-		return null;
+		return factoryPersistencia.createPersistence();
 	}
 	
 	public TemplateMethod tipoTemplate(String persistencia) {

@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -33,7 +34,7 @@ import com.google.gson.reflect.TypeToken;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-public class PersistenciaXML implements IPersistencia{
+public class PersistenciaXML implements IPersistencia,Serializable{
 		
 	private String LOG_FILE_PATH = "TP_AyD2_2024/log/log/Log_Clientes_XML.xml";
 	private String FILE_PATH = "TP_AyD2_2024/log/DB/DB_Clientes_XML.xml";

@@ -1,6 +1,8 @@
 package template;
 
-public class InfoClienteArch {
+import java.io.Serializable;
+
+public class InfoClienteArch implements Serializable{
     public String dni;
     public String grupo;
     public String fechaNacimiento;
