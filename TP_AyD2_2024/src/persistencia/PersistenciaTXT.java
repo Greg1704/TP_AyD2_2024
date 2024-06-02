@@ -77,6 +77,7 @@ public class PersistenciaTXT implements IPersistencia,Serializable{
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println("El archivo no existe, se creara a continuacion");
 		}
 		return false; 
 		
@@ -113,7 +114,14 @@ public class PersistenciaTXT implements IPersistencia,Serializable{
 			        }
 					//borro el archivo
 					fileJson.delete();
-					
+					for (Cliente cliente : clientes) {
+						try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
+				            bw.write(cliente.getDni() + "," + cliente.getGrupo() + "," + cliente.getFecha());
+				            bw.newLine();
+				        } catch (IOException e) {
+				            e.printStackTrace();
+				        }
+			        }
 				} else if (archTipo.equalsIgnoreCase("xml")) { //!xml
 					String pathXML = (FILE_PATH.substring(0, FILE_PATH.length() - 7) + "XML.xml");
 					 // Leer y parsear el archivo XML
@@ -150,17 +158,15 @@ public class PersistenciaTXT implements IPersistencia,Serializable{
 			        
 					//borro el archivo
 			        xmlFile.delete();
-					
-				}
-				
-				for (Cliente cliente : clientes) {
-					try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
-			            bw.write(cliente.getDni() + "," + cliente.getGrupo() + "," + cliente.getFecha());
-			            bw.newLine();
-			        } catch (IOException e) {
-			            e.printStackTrace();
+			        for (Cliente cliente : clientes) {
+						try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
+				            bw.write(cliente.getDni() + "," + cliente.getGrupo() + "," + cliente.getFecha());
+				            bw.newLine();
+				        } catch (IOException e) {
+				            e.printStackTrace();
+				        }
 			        }
-		        }
+				}				
 				
 			} catch (ParserConfigurationException e) {
 				// TODO Auto-generated catch block

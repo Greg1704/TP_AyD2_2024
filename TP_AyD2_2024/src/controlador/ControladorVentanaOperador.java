@@ -175,8 +175,8 @@ public class ControladorVentanaOperador implements ActionListener{
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}catch (SocketTimeoutException e2) {
-				int result = JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
-				if (result == 0) {
+				//int result = JOptionPane.showOptionDialog(null, "Servidor fuera de línea",null, JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] { "Reintentar conexión" }, "Reintentar conexión");
+				if (this.reintento > 0) {
 					if (this.reintento > 0) {
 						reintento = reintento - 1;
 						envio = false;

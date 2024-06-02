@@ -94,7 +94,7 @@ public class PersistenciaJSON implements IPersistencia,Serializable{
                 clientes = gson.fromJson(reader, clienteListType);
             } catch (Exception e) {
                 // Si hay un error al parsear (por ejemplo, si no es un array), inicializar la lista
-                System.err.println("Error parsing JSON file, initializing with an empty list.");
+                System.out.println("Archivo JSON no encontrado, creando archivo");
                 clientes = new ArrayList<>();
             }
 
@@ -190,8 +190,10 @@ public class PersistenciaJSON implements IPersistencia,Serializable{
 			        
 					//borro el archivo
 			        xmlFile.delete();
-			        System.out.println("ChipaFrito");
-					
+			        System.out.println("Se elimino el xml");
+			        for (Cliente cliente : clientes) {
+			            saveClientInfo(cliente);
+			        }
 				} else if (archTipo.equalsIgnoreCase("txt")) { //TXT
 					String pathTXT = (FILE_PATH.substring(0, FILE_PATH.length() - 9) + "TXT.txt");
 					Scanner scanner = new Scanner(new File(pathTXT));
@@ -223,11 +225,10 @@ public class PersistenciaJSON implements IPersistencia,Serializable{
 					    System.out.println("El archivo TXT no existe.");
 					}
 					
-					
+					for (Cliente cliente : clientes) {
+			            saveClientInfo(cliente);
+			        }
 				}
-				for (Cliente cliente : clientes) {
-		            saveClientInfo(cliente);
-		        }
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

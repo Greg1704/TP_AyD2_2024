@@ -237,6 +237,9 @@ public class PersistenciaXML implements IPersistencia,Serializable{
 			        }
 					//borro el archivo
 					fileJson.delete();
+					for (Cliente cliente : clientes) {
+			            saveClientInfo(cliente);
+			        }
 					
 				} else if (archTipo.equalsIgnoreCase("txt")) { //TXT
 					String pathTXT = (FILE_PATH.substring(0, FILE_PATH.length() - 7) + "TXT.txt");
@@ -266,11 +269,12 @@ public class PersistenciaXML implements IPersistencia,Serializable{
 					    System.out.println("El archivo TXT no existe.");
 					}
 					
+					for (Cliente cliente : clientes) {
+			            saveClientInfo(cliente);
+			        }
 						
 				}
-				for (Cliente cliente : clientes) {
-		            saveClientInfo(cliente);
-		        }
+
 			} catch (ParserConfigurationException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
