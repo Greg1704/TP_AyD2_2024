@@ -39,9 +39,9 @@ public class PersistenciaJSON implements IPersistencia,Serializable{
 	
 	
 	
-	private String LOG_FILE_PATH = "TP_AyD2_2024/log/Log_Clientes_JSON.json";
-	private String FILE_PATH = "TP_AyD2_2024/log/DB/DB_Clientes_JSON.json";
-	private String FILE_PATH_Dir = "TP_AyD2_2024/log/DB/DB_Clientes_JSON.json";
+	private String LOG_FILE_PATH = "Ejecutables/log/Log_Clientes_JSON.json";
+	private String FILE_PATH = "Ejecutables/log/DB/DB_Clientes_JSON.json";
+	private String FILE_PATH_Dir = "Ejecutables/log/DB/DB_Clientes_JSON.json";
 	
 	
 	

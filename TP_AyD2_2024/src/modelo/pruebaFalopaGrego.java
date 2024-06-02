@@ -31,9 +31,9 @@ public class pruebaFalopaGrego {
 	    }
 
 	    public static void main(String[] args) {
-	    	IAbstractFactory factory = new AbstractFactoryXML();
+	    	/**IAbstractFactory factory = new AbstractFactoryXML();
 	    	pruebaFalopaGrego app = new pruebaFalopaGrego(factory);
-	        app.saveData();
+	        app.saveData();**/
 
 	        /*// Puedes cambiar la fábrica según el formato deseado
 	        factory = new AbstractFactoryTXT();
@@ -43,6 +43,8 @@ public class pruebaFalopaGrego {
 	        factory = new AbstractFactoryXML();
 	        app = new pruebaFalopaGrego(factory);
 	        app.saveData();*/
+	    	
+	    	System.out.println("Current working directory: " + System.getProperty("user.dir"));
 	    }
 
 }

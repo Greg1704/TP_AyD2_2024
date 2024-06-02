@@ -36,9 +36,9 @@ import org.w3c.dom.Node;
 
 public class PersistenciaXML implements IPersistencia,Serializable{
 		
-	private String LOG_FILE_PATH = "TP_AyD2_2024/log/log/Log_Clientes_XML.xml";
-	private String FILE_PATH = "TP_AyD2_2024/log/DB/DB_Clientes_XML.xml";
-	private String FILE_PATH_Dir = "TP_AyD2_2024/log/DB"; //poner en diferentes filepath los log y los DB
+	private String LOG_FILE_PATH = "Ejecutables/log/log/Log_Clientes_XML.xml";
+	private String FILE_PATH = "Ejecutables/log/DB/DB_Clientes_XML.xml";
+	private String FILE_PATH_Dir = "Ejecutables/log/DB"; //poner en diferentes filepath los log y los DB
 	
 	
 	
