@@ -76,7 +76,7 @@ public class PersistenciaJSON implements IPersistencia,Serializable{
 
             System.out.println("Log guardado correctamente.");
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 

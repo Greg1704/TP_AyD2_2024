@@ -46,7 +46,7 @@ public class PersistenciaTXT implements IPersistencia,Serializable{
             bw.write(log); //hay que ver donde acomodar el log
             bw.newLine();
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 	}
 
@@ -58,7 +58,7 @@ public class PersistenciaTXT implements IPersistencia,Serializable{
 	            bw.write(cliente.getDni() + "," + cliente.getGrupo() + "," + cliente.getFecha());
 	            bw.newLine();
 	        } catch (IOException e) {
-	            e.printStackTrace();
+	            //e.printStackTrace();
 	        }
 		}
 		

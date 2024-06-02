@@ -56,7 +56,7 @@ public class PersistenciaXML implements IPersistencia,Serializable{
             // Continuar con la lógica para agregar el log al archivo XML...
             appendLogToXML(log, xmlFile);
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
